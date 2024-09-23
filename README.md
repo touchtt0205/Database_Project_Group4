@@ -64,3 +64,49 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## การติดตั้งโปรเจค
+
+### ขั้นตอนการติดตั้ง
+
+1. **เปิด Docker**:
+
+    - รัน MySQL container ที่มี
+
+2. **เปิด Terminal**:
+
+    - รันคำสั่งต่อไปนี้เพื่อติดตั้ง dependencies:
+        ```bash
+        composer install
+        ```
+
+3. **เชื่อมต่อ Database**:
+
+    - สร้าง database ที่ชื่อว่า `ecommerce_db` ใน MySQL container ที่คุณรันอยู่
+
+4. **ปรับไฟล์ `.env`**:
+
+    - แก้ไขค่าการเชื่อมต่อในไฟล์ `.env` ของโปรเจคให้ตรงกับ MySQL:
+
+        ```env
+        APP_KEY=base64:8tglvMG/i0dTSf+jbhK+AXZqnRtGgdXhmxtKyX7GprM=
+
+
+        DB_CONNECTION=mysql
+        DB_HOST=localhost
+        DB_PORT=3306
+        DB_DATABASE=ecommerce_db
+        DB_USERNAME=root
+        DB_PASSWORD=password
+        ```
+
+5. **รัน Migration**:
+    - รันคำสั่งต่อไปนี้เพื่อสร้างตารางในฐานข้อมูล:
+        ```bash
+        php artisan migrate
+        ```
+
+### หมายเหตุ
+
+-   อย่าลืมตรวจสอบว่า Docker และ MySQL รันอยู่และกำลังฟังที่พอร์ต 3306
+
