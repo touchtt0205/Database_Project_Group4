@@ -20,6 +20,18 @@
                 <p class="mt-4 text-lg font-semibold">ราคา: {{ number_format($product->price, 2) }} บาท</p>
                 <p class="mt-2">จำนวน: {{ $product->quantity }}</p>
 
+                <!-- แสดงชื่อผู้ใช้ที่เพิ่มสินค้า -->
+                <div class="mt-4">
+                    <span class="text-gray-600">เพิ่มโดย:</span>
+                    @if ($product->user)
+                    <a href="{{ route('products.user', $product->user_id) }}" class="text-blue-500 hover:underline">
+                        {{ $product->user->name }}
+                    </a>
+                    @else
+                    <span class="text-gray-500">ไม่ทราบชื่อผู้ใช้</span>
+                    @endif
+                </div>
+
                 <div class="mt-4 flex space-x-4">
                     <a href="{{ route('products.index') }}"
                         class="text-blue-500 hover:underline">กลับไปที่รายการสินค้า</a>

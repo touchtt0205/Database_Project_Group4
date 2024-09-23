@@ -4,7 +4,24 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\FavoriteController;
 
+Route::get('/products/my/{userId}', [ProductController::class, 'myProducts'])->name('products.my');
+Route::get('/user/{userId}/products', [ProductController::class, 'showUserProducts'])->name('products.user');
+
+
+Route::get('/', [ProductController::class, 'index'])->name('home');
+
+
+Route::resource('products', ProductController::class);
+
+
+Route::post('/favorites/{productId}', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
+Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+
+
+Route::get('/order-summary', [OrderController::class, 'summary'])->name('order.summary');
 
 // หน้าเพิ่มสินค้า
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -23,9 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/carts/calculate', [CartController::class, 'calculate'])->name('carts.calculate');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');

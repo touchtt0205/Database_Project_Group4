@@ -23,7 +23,7 @@
                         class="w-full h-auto rounded-md">
                     @endif
                     <h2 class="text-lg font-bold mt-2">{{ $product->name }}</h2>
-                    <div class="mt-4 flex justify-between">
+                    <div class="mt-4 flex justify-between items-center">
                         <!-- ไอคอนเพิ่มลงตะกร้า -->
                         <form action="{{ route('carts.store', $product->id) }}" method="POST" style="display: inline;">
                             @csrf
@@ -47,6 +47,20 @@
                                 <i class="fas fa-trash fa-lg"></i>
                             </button>
                         </form>
+
+                        <!-- ปุ่ม Favorite -->
+                        <form action="{{ route('favorites.toggle', $product->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-orange-500 hover:text-orange-700">
+                                @if(Auth::user() && Auth::user()->favorites->where('product_id', $product->id)->count())
+                                <i class="fas fa-heart fa-lg"></i> <!-- ลบจากรายการโปรด -->
+                                @else
+                                <i class="far fa-heart fa-lg"></i> <!-- เพิ่มเข้าสู่รายการโปรด -->
+                                @endif
+                            </button>
+                        </form>
+
+
                     </div>
                 </div>
                 @endforeach

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Product;
 
 class ProfileController extends Controller
 {
@@ -56,5 +57,13 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function show(Product $product)
+    {
+        return view('products.show', [
+            'product' => $product,
+            'user' => $product->user, // สมมติว่ามีความสัมพันธ์ 'user' ในโมเดล Product
+        ]);
     }
 }

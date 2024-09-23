@@ -15,6 +15,18 @@ class Product extends Model
         'price',
         'quantity',
         'image_path',
+        'user_id',
 
     ];
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    // ในไฟล์ app/Models/Product.php
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
