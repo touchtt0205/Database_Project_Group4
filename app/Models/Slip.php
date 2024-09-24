@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Slip extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'quantity',
-        'image_path',
-        'user_id',
+    protected $table = 'slips';
 
+    protected $fillable = [
+        'user_id',
+        'amount',
+        'coins',
+        'slip_path',
+        'status',
+        'admin_note',
     ];
 
-    public function favorites()
-    {
-        return $this->hasMany(Favorite::class);
-    }
-
-    // ในไฟล์ app/Models/Product.php
     public function user()
     {
         return $this->belongsTo(User::class);

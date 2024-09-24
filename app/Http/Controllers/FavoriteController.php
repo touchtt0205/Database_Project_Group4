@@ -1,34 +1,53 @@
 <?php
+// app/Http/Controllers/FavoriteController.php
 
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
-use App\Models\Product;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    public function toggleFavorite($productId)
+    public function store($imageId)
     {
-        $user = Auth::user();
-        $favorite = Favorite::where('user_id', $user->id)->where('product_id', $productId)->first();
+        $favorite = Favorite::create([
+            'user_id' => Auth::id(),
+            'image_id' => $imageId,
+        ]);
 
-        if ($favorite) {
-            $favorite->delete();
-            return back()->with('success', 'ลบออกจากรายการโปรดเรียบร้อย!');
-        } else {
-            Favorite::create([
-                'user_id' => $user->id,
-                'product_id' => $productId,
-            ]);
-            return back()->with('success', 'เพิ่มเข้าสู่รายการโปรดเรียบร้อย!');
+        return redirect()->back()->with('success', 'Image added to favorites!');
+    }
+
+    // public function destroy($imageId)
+    // {
+    //     $favorite = Favorite::where('user_id', Auth::id())->where('image_id', $imageId)->first();
+
+    //     if ($favorite) {
+    //         $favorite->delete();
+    //         return redirect()->back()->with('success', 'Image removed from favorites!');
+    //     }
+
+    //     return redirect()->back()->with('error', 'Favorite not found!');
+    // }
+
+    public function destroy($imageId)
+    {
+        // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่
+        if (Auth::check()) {
+            // ลบ Favorite ของผู้ใช้ที่ล็อกอินอยู่
+            Favorite::where('user_id', Auth::id())->where('image_id', $imageId)->delete();
+            return redirect()->route('images.index')->with('success', 'Image removed from favorites.');
         }
+
+        return redirect()->route('login')->with('error', 'You must be logged in to unfavorite an image.');
     }
 
     public function index()
     {
-        $favorites = Favorite::where('user_id', Auth::id())->with('product')->get();
+        $favorites = Favorite::with('image')->where('user_id', Auth::id())->get();
+
         return view('favorites.index', compact('favorites'));
     }
 }

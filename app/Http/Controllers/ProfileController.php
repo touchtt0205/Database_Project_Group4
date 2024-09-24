@@ -58,12 +58,4 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
-    public function show(Product $product)
-    {
-        return view('products.show', [
-            'product' => $product,
-            'user' => $product->user, // สมมติว่ามีความสัมพันธ์ 'user' ในโมเดล Product
-        ]);
-    }
 }

@@ -2,47 +2,48 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CoinController;
 
-Route::get('/products/my/{userId}', [ProductController::class, 'myProducts'])->name('products.my');
-Route::get('/user/{userId}/products', [ProductController::class, 'showUserProducts'])->name('products.user');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/coins', [CoinController::class, 'index'])->name('coins.index');
+    Route::get('/coins/create', [CoinController::class, 'create'])->name('coins.create');
+    Route::post('/coins', [CoinController::class, 'store'])->name('coins.store');
+});
 
-
-Route::get('/', [ProductController::class, 'index'])->name('home');
-
-
-Route::resource('products', ProductController::class);
-
-
-Route::post('/favorites/{productId}', [FavoriteController::class, 'toggleFavorite'])->name('favorites.toggle');
-Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
-
-
-Route::get('/order-summary', [OrderController::class, 'summary'])->name('order.summary');
-
-// หน้าเพิ่มสินค้า
-Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
-Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('/coins/create', [CoinController::class, 'create'])->name('coins.create');
+Route::post('/coins/store', [CoinController::class, 'store'])->name('coins.store');
+Route::post('/coins/purchase', [CoinController::class, 'purchaseCoins'])->name('coins.purchase');
+Route::get('/coins', [CoinController::class, 'showCoinsPage'])->name('coins.show');
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/carts', [CartController::class, 'index'])->name('carts.index');
-    Route::post('/carts/{productId}', [CartController::class, 'store'])->name('carts.store');
+    Route::post('/carts/add/{imageId}', [CartController::class, 'add'])->name('carts.add');
+    Route::get('/carts', [CartController::class, 'show'])->name('cart.show');
     Route::delete('/carts/{id}', [CartController::class, 'destroy'])->name('carts.destroy');
-    Route::patch('/carts/{cartId}', [CartController::class, 'update'])->name('carts.update');
-    Route::post('/carts/checkout', [CartController::class, 'checkout'])->name('carts.checkout');
-    Route::post('/carts/calculate', [CartController::class, 'calculate'])->name('carts.calculate');
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/favorites/{imageId}', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('/favorites/{imageId}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index'); // Route นี้จะชี้ไปยังหน้า My Favorite
+});
+
+Route::get('/images/create', action: [ImageController::class, 'create'])->middleware('auth'); // แสดงฟอร์ม
+Route::get('/images', action: [ImageController::class, 'index']);
+Route::post('/images', [ImageController::class, 'store'])->middleware('auth'); // อัปโหลดภาพ
+Route::get('/images', [ImageController::class, 'index'])->name('images.index')->middleware('auth'); // แสดงภาพทั้งหมด
+Route::get('/images/upload', [ImageController::class, 'create'])->name('images.create')->middleware('auth');
+Route::post('/images', [ImageController::class, 'store'])->name('images.store')->middleware('auth');
+Route::get('/images/{id}', [ImageController::class, 'show'])->name('images.show');
+
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
