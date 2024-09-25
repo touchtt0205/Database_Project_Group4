@@ -11,6 +11,8 @@ class CoinTransaction extends Model
 
     // Specify the table if it does not follow the convention (optional)
     protected $table = 'coin_transactions';
+    // public $timestamps = false;
+
 
     // Define fillable attributes
     protected $fillable = [
@@ -18,9 +20,12 @@ class CoinTransaction extends Model
         'amount',
         'transaction_type',
         'description',
+        'status',
+        'created_at',
+
     ];
 
-    // Define relationships if needed
+    // ความสัมพันธ์กับ User
     public function user()
     {
         return $this->belongsTo(User::class);

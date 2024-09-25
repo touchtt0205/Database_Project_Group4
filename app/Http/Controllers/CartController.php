@@ -14,7 +14,6 @@ class CartController extends Controller
     {
         $image = Image::findOrFail($imageId);
 
-        // ตรวจสอบว่าผู้ใช้ไม่สามารถเพิ่มสินค้าของตัวเองในตะกร้าได้
         if ($image->user_id === Auth::id()) {
             return redirect()->back()->with('error', 'You cannot add your own image to the cart.');
         }

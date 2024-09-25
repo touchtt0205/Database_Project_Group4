@@ -6,18 +6,23 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CoinController;
+use App\Http\Controllers\SlipController;
+use App\Http\Controllers\AdminCoinController;
+use App\Http\Controllers\AdminDashboardController;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/coins', [CoinController::class, 'index'])->name('coins.index');
-    Route::get('/coins/create', [CoinController::class, 'create'])->name('coins.create');
-    Route::post('/coins', [CoinController::class, 'store'])->name('coins.store');
+Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/slips', [AdminCoinController::class, 'index'])->name('admin.slips.index');
+    Route::post('/slips/{id}/approve', [AdminCoinController::class, 'approveSlip'])->name('admin.slips.approve');
+    Route::post('/slips/{id}/reject', [AdminCoinController::class, 'rejectSlip'])->name('admin.slips.reject');
 });
 
-Route::get('/coins/create', [CoinController::class, 'create'])->name('coins.create');
-Route::post('/coins/store', [CoinController::class, 'store'])->name('coins.store');
-Route::post('/coins/purchase', [CoinController::class, 'purchaseCoins'])->name('coins.purchase');
-Route::get('/coins', [CoinController::class, 'showCoinsPage'])->name('coins.show');
-
+Route::post('/slips', [SlipController::class, 'store'])->name('slips.store');
+Route::get('/coins', [CoinController::class, 'showCoinPackages'])->name('coins.index');
+Route::post('/coins', [CoinController::class, 'store'])->name('coins.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/carts/add/{imageId}', [CartController::class, 'add'])->name('carts.add');

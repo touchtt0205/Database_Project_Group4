@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // สร้าง foreign key
             $table->integer('amount')->notNull();
             $table->string('transaction_type', 50)->notNull();
-            $table->timestamp('created_at')->useCurrent();
+            $table->string('status')->default('pending');
+            $table->timestamps();
             $table->text('description')->nullable();
         });
     }

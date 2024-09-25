@@ -17,7 +17,7 @@ class ImageController extends Controller
 
     public function create()
     {
-        return view('images.create'); // ส่งไปยัง view สำหรับการอัปโหลด
+        return view('images.create');
     }
 
     public function store(Request $request)
@@ -26,17 +26,16 @@ class ImageController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|integer|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // ตรวจสอบไฟล์อัปโหลด
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'max_sales' => 'required|integer',
         ]);
 
-        // อัปโหลดไฟล์
         $path = $request->file('image')->store('images', 'public');
 
         // สร้างบันทึกในฐานข้อมูล
         Image::create([
             'path' => $path,
-            'user_id' => Auth::id(), // ใช้ ID ของผู้ใช้ที่ล็อกอิน
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
@@ -48,9 +47,8 @@ class ImageController extends Controller
 
     public function show($id)
     {
-        $image = Image::with('user')->findOrFail($id); // ใช้ with() เพื่อโหลดความสัมพันธ์
+        $image = Image::with('user')->findOrFail($id);
 
-        // ส่งข้อมูลไปยัง view
         return view('images.show', compact('image'));
     }
 }

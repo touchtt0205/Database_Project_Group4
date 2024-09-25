@@ -10,6 +10,7 @@ class Slip extends Model
     use HasFactory;
 
     protected $table = 'slips';
+    protected $primaryKey = 'slip_id'; // เพิ่มบรรทัดนี้
 
     protected $fillable = [
         'user_id',

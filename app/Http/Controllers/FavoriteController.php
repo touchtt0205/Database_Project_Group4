@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/FavoriteController.php
 
 namespace App\Http\Controllers;
 
@@ -20,23 +19,12 @@ class FavoriteController extends Controller
         return redirect()->back()->with('success', 'Image added to favorites!');
     }
 
-    // public function destroy($imageId)
-    // {
-    //     $favorite = Favorite::where('user_id', Auth::id())->where('image_id', $imageId)->first();
 
-    //     if ($favorite) {
-    //         $favorite->delete();
-    //         return redirect()->back()->with('success', 'Image removed from favorites!');
-    //     }
-
-    //     return redirect()->back()->with('error', 'Favorite not found!');
-    // }
 
     public function destroy($imageId)
     {
         // ตรวจสอบว่าผู้ใช้ล็อกอินอยู่
         if (Auth::check()) {
-            // ลบ Favorite ของผู้ใช้ที่ล็อกอินอยู่
             Favorite::where('user_id', Auth::id())->where('image_id', $imageId)->delete();
             return redirect()->route('images.index')->with('success', 'Image removed from favorites.');
         }
