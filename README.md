@@ -109,7 +109,4 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ### หมายเหตุ
 
 -   อย่าลืมตรวจสอบว่า Docker และ MySQL รันอยู่และกำลังฟังที่พอร์ต 3306
-<<<<<<< HEAD
-=======
 
->>>>>>> 8898639aa0d2cb258a313a1e64b586f4bab92bb3
