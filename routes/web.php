@@ -9,6 +9,7 @@ use App\Http\Controllers\CoinController;
 use App\Http\Controllers\SlipController;
 use App\Http\Controllers\AdminCoinController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -45,6 +46,13 @@ Route::get('/images', [ImageController::class, 'index'])->name('images.index')->
 Route::get('/images/upload', [ImageController::class, 'create'])->name('images.create')->middleware('auth');
 Route::post('/images', [ImageController::class, 'store'])->name('images.store')->middleware('auth');
 Route::get('/images/{id}', [ImageController::class, 'show'])->name('images.show');
+Route::post('/images/{image}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');

@@ -35,10 +35,13 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $isAdmin = str_ends_with($request->email, '@admin.com') ? true : false;
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'isAdmin' => $isAdmin,
         ]);
 
         event(new Registered($user));

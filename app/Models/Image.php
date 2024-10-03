@@ -29,4 +29,11 @@ class Image extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, 'photo_id');
+    }
+
+    
 }

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'coins',
+        'isAdmin',
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function cartItemsCount()
     {
         return $this->hasMany(Cart::class)->count();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
     }
 }
