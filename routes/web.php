@@ -11,15 +11,17 @@ use App\Http\Controllers\AdminCoinController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CommentController;
 
-Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/slips', [AdminCoinController::class, 'index'])->name('admin.slips.index');
     Route::post('/slips/{id}/approve', [AdminCoinController::class, 'approveSlip'])->name('admin.slips.approve');
     Route::post('/slips/{id}/reject', [AdminCoinController::class, 'rejectSlip'])->name('admin.slips.reject');
 });
+
 
 Route::post('/slips', [SlipController::class, 'store'])->name('slips.store');
 Route::get('/coins', [CoinController::class, 'showCoinPackages'])->name('coins.index');
