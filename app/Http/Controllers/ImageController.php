@@ -60,6 +60,30 @@ class ImageController extends Controller
         return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
     }
 
+    public function destroy($id)
+    {
+        // ค้นหารูปภาพตาม ID
+        $image = Image::findOrFail($id);
+
+        // ตรวจสอบว่าผู้ใช้เป็นเจ้าของรูปหรือไม่
+        if (Auth::id() !== $image->user_id) {
+            return redirect()->route('images.index')->with('error', 'You are not authorized to delete this image.');
+        }
+
+        // ตรวจสอบว่าไฟล์มีอยู่จริงหรือไม่
+        $filePath = storage_path('app/public/' . $image->path);
+        if (file_exists($filePath)) {
+            // ลบไฟล์จาก storage
+            Storage::delete('public/' . $image->path);
+        }
+
+        // ลบข้อมูลรูปจากฐานข้อมูล
+        $image->delete();
+
+        return redirect()->route('images.index')->with('success', 'Image deleted successfully.');
+    }
+
+
 
 
     public function show($id)

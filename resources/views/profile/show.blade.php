@@ -17,12 +17,17 @@
             @endif
 
             <!-- ปุ่ม Edit Profile -->
-            <div class="flex justify-center">
+            <div class="flex justify-center space-x-4">
                 <a href="{{ route('profile.edit') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
                     Edit Profile
                 </a>
+                <a href="{{ route('purchased-images') }}"
+                    class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
+                    View purchased photos
+                </a>
             </div>
+
         </div>
     </x-slot>
 
@@ -47,8 +52,18 @@
                                             d="M12 4.5C6.75 4.5 3 12 3 12s3.75 7.5 9 7.5 9-7.5 9-7.5-3.75-7.5-9-7.5zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
                                     </svg>
                                 </a>
+                                @if (Auth::id() === $image->user_id)
+                                <form action="{{ route('images.destroy', $image->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                @endif
                             </div>
                         </div>
+
+
                         @empty
                         <p class="text-gray-500">{{ __('No images uploaded.') }}</p>
                         @endforelse
@@ -58,3 +73,5 @@
         </div>
     </div>
 </x-app-layout>
+
+<!--  -->

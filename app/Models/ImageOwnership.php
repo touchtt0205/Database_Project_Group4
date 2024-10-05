@@ -10,7 +10,7 @@ class ImageOwnership extends Model
     use HasFactory;
 
     protected $table = 'image_ownerships'; // The table name
-    protected $fillable = ['user_id', 'image_id', 'path', 'purchased_at']; // Fillable fields
+    protected $fillable = ['user_id', 'image_id', 'path', 'purchased_at', 'price']; // Fillable fields
 
     // Define relationship with User
     public function user()

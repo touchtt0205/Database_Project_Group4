@@ -11,6 +11,11 @@ use App\Http\Controllers\AdminCoinController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminOrderHistoryController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PurchasedImagesController;
+
+Route::get('/purchased-images', [PurchasedImagesController::class, 'index'])->name('purchased-images');
+
 
 Route::get('/admin/oder-history', [AdminOrderHistoryController::class, 'index'])->name('admin.orderHistory.index');
 Route::get('/admin/order-history/user/{userId}', [AdminOrderHistoryController::class, 'showUserOrderHistory'])->name('admin.order.history.user');
@@ -55,10 +60,14 @@ Route::post('/images', [ImageController::class, 'store'])->middleware('auth'); /
 Route::get('/images', [ImageController::class, 'index'])->name('images.index')->middleware('auth'); // แสดงภาพทั้งหมด
 Route::get('/images/upload', [ImageController::class, 'create'])->name('images.create')->middleware('auth');
 Route::post('/images', [ImageController::class, 'store'])->name('images.store')->middleware('auth');
+Route::delete('/images/{id}', [ImageController::class, 'destroy'])->name('images.destroy');
 Route::get('/images/{id}', [ImageController::class, 'show'])->name('images.show');
 Route::post('/images/{image}/purchase', [ImageController::class, 'purchase'])->name('images.purchase');
 Route::get('/images/download/{id}', [ImageController::class, 'download'])->name('images.download');
 Route::post('/images/buy/{id}', [ImageController::class, 'buy'])->name('images.buy');
+Route::post('/images/{image}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
+
 
 Route::get('/', function () {
     return view('welcome');

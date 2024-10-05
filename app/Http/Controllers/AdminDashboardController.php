@@ -19,6 +19,8 @@ class AdminDashboardController extends Controller
         // ดึงข้อมูลยอดรวมที่ใช้ในการซื้อขาย
         $totalSpent = OrderHistory::sum('price');
 
+        // ดึงข้อมูลยอดรวมที่ใช้ในการซื้อขาย
+        $totalSpent = OrderHistory::sum('price');
         return view('admin.dashboard', compact('userCount', 'totalSpent'));
         if (!Auth::user()->isAdmin) {
             return redirect('/dashboard'); // redirect หากไม่ใช่ admin

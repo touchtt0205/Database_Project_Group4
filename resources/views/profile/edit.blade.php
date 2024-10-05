@@ -13,7 +13,7 @@
                 </div>
             </div>
             {{-- Add these lines --}}
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-full">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow ">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-photo-form')
                 </div>

@@ -77,7 +77,7 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($user->profile_photo);
             }
 
-            $fileName = time().'_'.$request->file('profile_photo')->getClientOriginalName();
+            $fileName = time() . '_' . $request->file('profile_photo')->getClientOriginalName();
             $filePath = $request->file('profile_photo')->storeAs('uploads/profile_photos', $fileName, 'public');
 
             $user->profile_photo = $filePath;
@@ -88,15 +88,14 @@ class ProfileController extends Controller
     }
 
     public function showProfile($userId)
-{
-    // ค้นหาผู้ใช้จาก user_id
-    $user = User::where('id', $userId)->firstOrFail();
+    {
+        // ค้นหาผู้ใช้จาก user_id
+        $user = User::where('id', $userId)->firstOrFail();
 
-    // ดึงรูปทั้งหมดที่ user เป็นเจ้าของ
-    $images = Image::where('user_id', $user->id)->get();
+        // ดึงรูปทั้งหมดที่ user เป็นเจ้าของ
+        $images = Image::where('user_id', $user->id)->get();
 
-    // ส่งข้อมูลไปยัง view
-    return view('profile.show', compact('user', 'images'));
-}
-
+        // ส่งข้อมูลไปยัง view
+        return view('profile.show', compact('user', 'images'));
+    }
 }

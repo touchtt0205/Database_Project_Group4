@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('isAdmin')->default(false);
+            $table->string('profile_photo')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
