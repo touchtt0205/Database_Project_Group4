@@ -21,12 +21,13 @@ class AdminDashboardController extends Controller
 
         // ดึงข้อมูลยอดรวมที่ใช้ในการซื้อขาย
         $totalSpent = OrderHistory::sum('price');
-        return view('admin.dashboard', compact('userCount', 'totalSpent'));
         if (!Auth::user()->isAdmin) {
             return redirect('/dashboard'); // redirect หากไม่ใช่ admin
         }
 
+        return view('admin.dashboard', compact('userCount', 'totalSpent'));
+
         // แสดงหน้า dashboard สำหรับ admin
-        return view('admin.dashboard');
+        // return view('admin.dashboard');
     }
 }

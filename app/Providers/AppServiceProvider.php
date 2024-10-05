@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use App\Models\Image;
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,12 +17,14 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    public function boot()
+{
+    Blade::directive('images', function () {
+        return '<?php echo json_encode(\App\Models\Image::all()); ?>';
+});
+}
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
-    }
+/**
+* Bootstrap any application services.
+*/
 }

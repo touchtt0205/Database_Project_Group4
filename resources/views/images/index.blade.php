@@ -14,7 +14,7 @@
                         @foreach ($images as $image)
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
                             <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
-                                class="w-full h-48 object-cover mb-2"> <!-- ปรับให้เต็ม card -->
+                                class="w-full h-auto object-cover mb-2"> <!-- ปรับให้เต็ม card -->
                             <div class="p-4">
                                 <!-- แยกเนื้อหาออกจากภาพ -->
                                 <h4 class="font-semibold text-md">{{ $image->title }}</h4>

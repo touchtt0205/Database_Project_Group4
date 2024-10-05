@@ -61,6 +61,7 @@
                                 d="M12 17.27L18.18 21 16.54 13.97 22 9.24 14.81 8.63 12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21 12 17.27z" />
                         </svg>
                     </x-nav-link>
+
                 </div>
             </div>
 
@@ -69,6 +70,18 @@
                     <x-slot name="trigger">
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+
+                            <!-- Profile Photo -->
+                            <div class="flex items-center">
+                                @if(Auth::user()->profile_photo)
+                                <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Photo"
+                                    class="h-8 w-8 rounded-full border-2 border-gray-300 shadow-lg mr-2">
+                                @else
+                                <div class="h-8 w-8 bg-gray-300 rounded-full border-2 border-gray-300 shadow-lg mr-2">
+                                </div> <!-- Placeholder if no photo -->
+                                @endif
+                            </div>
+
                             <div>{{ Auth::user()->name }}</div>
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -114,57 +127,57 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @if(Auth::user()->isAdmin)
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            @else
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @endif
+
             <x-responsive-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
                 {{ __('Upload Image') }}
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
                 {{ __('Show Images') }}
             </x-responsive-nav-link>
-            <!-- Coins Icon in Mobile -->
-            <x-responsive-nav-link :href="route('coins.index')" :active="request()->routeIs('coins.index')">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
 
-                <span class="text-gray-800 dark:text-gray-200 text-sm font-bold ml-2 mt-1">
-                    {{ Auth::user()->coins }}
-                </span>
+            <x-responsive-nav-link :href="route('coins.index')" :active="request()->routeIs('coins.index')">
+                {{ __('Coins') }}
             </x-responsive-nav-link>
-            <!-- Cart Icon in Mobile -->
+
             <x-responsive-nav-link :href="route('cart.show')" :active="request()->routeIs('cart.show')">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2z" />
-                </svg>
+                {{ __('Cart') }}
             </x-responsive-nav-link>
-            <!-- Favorite Icon as Star in Mobile -->
+
             <x-responsive-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.index')">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 17.27L18.18 21 16.54 13.97 22 9.24 14.81 8.63 12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21 12 17.27z" />
-                </svg>
+                {{ __('Favorites') }}
             </x-responsive-nav-link>
         </div>
 
-        <div class="mt-3 space-y-1">
-            <x-responsive-nav-link :href="route('profile.show', Auth::user()->id)">
-                {{ __('Profile') }}
-            </x-responsive-nav-link>
+        <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                <!-- <div class="font-medium text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div> -->
+            </div>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                    {{ __('Log Out') }}
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('profile.show', Auth::user()->id)">
+                    {{ __('Profile') }}
                 </x-responsive-nav-link>
-            </form>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>
         </div>
     </div>
+
 </nav>

@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminOrderHistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchasedImagesController;
 
+
 Route::get('/purchased-images', [PurchasedImagesController::class, 'index'])->name('purchased-images');
 
 
@@ -67,11 +68,18 @@ Route::get('/images/download/{id}', [ImageController::class, 'download'])->name(
 Route::post('/images/buy/{id}', [ImageController::class, 'buy'])->name('images.buy');
 Route::post('/images/{image}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
+Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home'); // หน้าแรก
+})->middleware('guest'); // เพิ่ม middleware ที่สร้าง
+
+
+
+// Route::get('/', function () {
+//     return view('home');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
