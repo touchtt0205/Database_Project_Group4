@@ -80,7 +80,7 @@ class ImageController extends Controller
         // ลบข้อมูลรูปจากฐานข้อมูล
         $image->delete();
 
-        return redirect()->route('images.index')->with('success', 'Image deleted successfully.');
+        return response()->json(['success' => 'Image deleted successfully.']);
     }
 
 
