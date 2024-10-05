@@ -25,7 +25,7 @@
                     <div class="mt-4">
                         <span class="text-gray-600">Uploaded by:</span>
                         @if ($image->user)
-                        <a href="#" class="text-blue-500 hover:underline">
+                        <a href="{{ route('profile.show', $image->user->id) }}" class="text-blue-500 hover:underline">
                             {{ $image->user->name }}
                         </a>
                         @else

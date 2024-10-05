@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Image;
+
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage; //add this line
 
 class ProfileController extends Controller
 {
@@ -58,4 +62,41 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function updateProfilePhoto(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        if ($request->file('profile_photo')) {
+            // Delete old photo if exists
+            if ($user->profile_photo) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+
+            $fileName = time().'_'.$request->file('profile_photo')->getClientOriginalName();
+            $filePath = $request->file('profile_photo')->storeAs('uploads/profile_photos', $fileName, 'public');
+
+            $user->profile_photo = $filePath;
+            $user->save();
+        }
+
+        return redirect()->route('profile.edit')->with('status', 'profile-photo-updated');
+    }
+
+    public function showProfile($userId)
+{
+    // ค้นหาผู้ใช้จาก user_id
+    $user = User::where('id', $userId)->firstOrFail();
+
+    // ดึงรูปทั้งหมดที่ user เป็นเจ้าของ
+    $images = Image::where('user_id', $user->id)->get();
+
+    // ส่งข้อมูลไปยัง view
+    return view('profile.show', compact('user', 'images'));
+}
+
 }
