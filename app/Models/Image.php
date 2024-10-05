@@ -34,6 +34,4 @@ class Image extends Model
     {
         return $this->hasMany(Comments::class, 'photo_id');
     }
-
-    
 }

@@ -6,6 +6,13 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Favorite;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Order;
+use App\Models\OrderHistory;
+use App\Models\ImageOwnership;
+
+
+
 
 class ImageController extends Controller
 {
@@ -22,14 +29,22 @@ class ImageController extends Controller
 
     public function store(Request $request)
     {
+        // ตรวจสอบเงื่อนไขการตรวจสอบฟอร์มทั่วไป
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|integer|min:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'max_sales' => 'required|integer',
         ]);
 
+        // ถ้ารูปภาพไม่ฟรี ต้องตรวจสอบฟิลด์ราคาและ max_sales
+        if (!$request->has('free')) {
+            $request->validate([
+                'price' => 'required|integer|min:0',
+                'max_sales' => 'nullable|integer|min:1', // max_sales ไม่จำเป็นต้องกรอก
+            ]);
+        }
+
+        // จัดเก็บไฟล์รูปภาพ
         $path = $request->file('image')->store('images', 'public');
 
         // สร้างบันทึกในฐานข้อมูล
@@ -38,17 +53,168 @@ class ImageController extends Controller
             'user_id' => Auth::id(),
             'title' => $request->title,
             'description' => $request->description,
-            'price' => $request->price,
-            'max_sales' => $request->max_sales,
+            'price' => $request->has('free') ? 0 : $request->price,
+            'max_sales' => $request->has('free') || !$request->filled('max_sales') ? null : $request->max_sales,
         ]);
 
-        return redirect()->route('images.index')->with('success', 'Image uploaded successfully.'); // เปลี่ยนเส้นทางหลังจากอัปโหลดเสร็จ
+        return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
     }
+
+
 
     public function show($id)
     {
         $image = Image::with('user')->findOrFail($id);
 
-        return view('images.show', compact('image'));
+        // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
+        $hasPurchased = false;
+        if (Auth::check()) {
+            $userId = Auth::id();
+            // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
+            $hasPurchased = ImageOwnership::where('user_id', $userId)
+                ->where('image_id', $id)
+                ->exists();
+        }
+
+        // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
+        return view('images.show', compact('image', 'hasPurchased'));
+    }
+
+
+    // public function download($id)
+    // {
+    //     // ค้นหารูปภาพตาม ID
+    //     $image = Image::findOrFail($id);
+
+    //     // ตรวจสอบว่าผู้ใช้สามารถดาวน์โหลดได้หรือไม่
+    //     if ($image->price > 0) {
+    //         return redirect()->route('images.show', $id)->with('error', 'This image is not free to download.');
+    //     }
+
+    //     // กำหนดเส้นทางไฟล์ต้นฉบับ
+    //     $filePath = storage_path('app/public/' . $image->path);
+
+    //     // ตรวจสอบว่าไฟล์มีอยู่จริง
+    //     if (!file_exists($filePath)) {
+    //         return redirect()->route('images.show', $id)->with('error', 'File not found.');
+    //     }
+
+    //     // สร้างชื่อไฟล์ใหม่จาก title
+    //     $fileName = $image->title . '.' . pathinfo($filePath, PATHINFO_EXTENSION); // ใช้ชื่อ title ของภาพและเพิ่มนามสกุล
+
+    //     // ส่งไฟล์ให้ผู้ใช้ดาวน์โหลด
+    //     return response()->download($filePath, $fileName);
+    // }
+
+    public function download($id)
+    {
+        // ค้นหารูปภาพตาม ID
+        $image = Image::findOrFail($id);
+
+        // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You need to log in to download images.');
+        }
+
+        $user = Auth::user();
+
+        // ตรวจสอบว่าผู้ใช้ได้ซื้อภาพนี้ไปแล้วหรือไม่
+        $ownershipExists = ImageOwnership::where('user_id', $user->id)
+            ->where('image_id', $image->id)
+            ->exists();
+
+        if (!$ownershipExists && $image->price > 0) {
+            return redirect()->route('images.show', $id)->with('error', 'You have not purchased this image.');
+        }
+
+        // กำหนดเส้นทางไฟล์ต้นฉบับ
+        $filePath = storage_path('app/public/' . $image->path);
+
+        // ตรวจสอบว่าไฟล์มีอยู่จริง
+        if (!file_exists($filePath)) {
+            return redirect()->route('images.show', $id)->with('error', 'File not found.');
+        }
+
+        // สร้างชื่อไฟล์ใหม่จาก title
+        $fileName = $image->title . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
+
+        // ส่งไฟล์ให้ผู้ใช้ดาวน์โหลด
+        return response()->download($filePath, $fileName);
+    }
+
+
+    public function buy($id)
+    {
+        // ค้นหารูปภาพตาม ID
+        $image = Image::findOrFail($id);
+
+        // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You need to log in to purchase images.');
+        }
+
+        // ค้นหาผู้ใช้ที่เข้าสู่ระบบ
+        $user = Auth::user();
+
+        // ตรวจสอบว่าเงินของผู้ใช้เพียงพอหรือไม่
+        if ($user->coins < $image->price) {
+            return redirect()->route('images.show', $id)->with('error', 'Insufficient balance to purchase this image.');
+        }
+
+        // ตรวจสอบว่าผู้ใช้ได้ซื้อภาพนี้ไปแล้วหรือไม่
+        $ownershipExists = ImageOwnership::where('user_id', $user->id)
+            ->where('image_id', $image->id)
+            ->exists();
+
+        if ($ownershipExists) {
+            return redirect()->route('images.show', $id)->with('error', 'You already own this image.');
+        }
+
+        // ตรวจสอบ max_sales หากเป็น 0 ก็ไม่สามารถซื้อได้
+        if ($image->max_sales !== null && $image->max_sales <= 0) {
+            return redirect()->route('images.show', $id)->with('error', 'This image is no longer available for purchase.');
+        }
+
+        // หักเงินจากผู้ใช้
+        $user->coins -= $image->price;
+        $user->save(); // บันทึกการเปลี่ยนแปลง
+
+        // บันทึกการซื้อในตาราง orders
+        $order = new Order();
+        $order->user_id = $user->id;
+        $order->price = $image->price;
+        $order->quantity = 1;
+        $order->status = 'completed';
+        $order->created_at = now();
+        $order->save();
+
+        // เพิ่มเงินที่ได้จากการขายให้กับผู้ขาย
+        $image->user->coins += $image->price;
+        $image->user->save();
+
+        // Log the order history
+        $orderHistory = new OrderHistory();
+        $orderHistory->user_id = $user->id;
+        $orderHistory->order_id = $order->id;
+        $orderHistory->price = $image->price;
+        $orderHistory->status = 'completed';
+        $orderHistory->created_at = now();
+        $orderHistory->save();
+
+        // บันทึกการเป็นเจ้าของรูป
+        ImageOwnership::create([
+            'user_id' => $user->id,
+            'image_id' => $image->id,
+            'path' => $image->path,
+            'purchased_at' => now(),
+        ]);
+
+        // ลดค่า max_sales ลง 1
+        if ($image->max_sales !== null && $image->max_sales > 0) {
+            $image->max_sales -= 1;
+            $image->save(); // บันทึกการเปลี่ยนแปลง
+        }
+
+        return redirect()->route('images.show', $id)->with('success', 'Image purchased successfully!');
     }
 }

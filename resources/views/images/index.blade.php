@@ -70,15 +70,27 @@
                                         @csrf
                                         <button type="submit" class="text-gray-500 hover:text-blue-500"
                                             title="Add to Cart">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 3h2l.4 2h12.8l.4-2h2M3 3h18M3 7h18M6 21c-1.1 0-2-.9-2-2s.9-2 2-2h12c1.1 0 2 .9 2 2s-.9 2-2 2H6zm0 0c-1.1 0-2-.9-2-2s.9-2 2-2h12c1.1 0 2 .9 2 2s-.9 2-2 2H6z" />
+                                                    d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2z" />
                                             </svg>
                                         </button>
                                     </form>
                                     @else
-                                    <span class="text-gray-400">You cannot add your own image to the cart.</span>
+                                    <button class="text-gray-500 hover:text-blue-500" title="No Shoppig">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z" />
+                                            <!-- Adding a diagonal line across the shopping cart -->
+                                            <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" />
+                                        </svg>
+
+                                    </button>
                                     @endif
                                 </div>
                             </div>
