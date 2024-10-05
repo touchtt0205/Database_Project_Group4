@@ -17,8 +17,10 @@ Route::get('/admin/order-history/user/{userId}', [AdminOrderHistoryController::c
 
 Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
 
+Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/slips', [AdminCoinController::class, 'index'])->name('admin.slips.index');

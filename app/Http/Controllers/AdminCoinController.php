@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\CoinTransaction;
 
 use App\Models\Slip;
@@ -9,7 +9,11 @@ use App\Models\Slip;
 class AdminCoinController extends Controller
 {
     public function index()
+    
     {
+        if (!Auth::user()->isAdmin) {
+            return redirect('/dashboard'); // redirect หากไม่ใช่ admin
+        }
         $slips = Slip::all();
         return view('admin.coins.index', compact('slips'));
     }
