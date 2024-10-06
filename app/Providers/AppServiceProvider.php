@@ -18,9 +18,9 @@ class AppServiceProvider extends ServiceProvider
         //
     }
     public function boot()
-{
-    Blade::directive('images', function () {
-        return '<?php echo json_encode(\App\Models\Image::all()); ?>';
+    {
+        Blade::directive('images', function () {
+            return '<?php echo json_encode(\App\Models\Image::all()); ?>';
 });
 }
 

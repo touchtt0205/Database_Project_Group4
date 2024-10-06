@@ -16,6 +16,7 @@ class SlipController extends Controller
             'quantity' => 'required|numeric',
         ]);
 
+
         $path = $request->file('slip_path')->store('slips', 'public');
 
         // บันทึกข้อมูลสลิป

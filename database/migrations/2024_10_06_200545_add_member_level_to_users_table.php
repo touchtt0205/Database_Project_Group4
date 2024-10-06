@@ -9,17 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('coins')->default(0); // เพิ่มฟิลด์ coins
+            $table->string('member_level')->nullable(); // เพิ่มฟิลด์ member_level
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('coins'); // ลบฟิลด์ coins
+            //
         });
     }
 };

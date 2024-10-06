@@ -13,6 +13,51 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminOrderHistoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchasedImagesController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MemberSlipController;
+use App\Http\Controllers\AdminMemberController;
+
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/member', [AdminMemberController::class, 'index'])->name('admin.membership.index');
+    Route::post('/member/{id}/approve', [AdminMemberController::class, 'approveSlip'])->name('admin.membership.approve');
+    Route::post('/member/{id}/reject', [AdminMemberController::class, 'rejectSlip'])->name('admin.membership.reject');
+});
+
+Route::post('/membership/slips', [MemberSlipController::class, 'store'])->name('member.slips.store');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/memberships', [MembershipController::class, 'showMembershipPackages'])->name('memberships.index');
+    Route::post('/memberships/store', [MembershipController::class, 'store'])->name('memberships.store');
+});
+
+
+
+// Route สำหรับการจัดการสมาชิกใน admin
+// Route::middleware(['auth', 'admin'])->group(function () { // Middleware เพื่อให้แน่ใจว่าเฉพาะผู้ดูแลระบบเข้าถึงได้
+//     Route::get('/admin/memberships', [AdminMembershipController::class, 'index'])->name('admin.memberships.index');
+//     Route::post('/admin/memberships/{id}/approve', [AdminMembershipController::class, 'approve'])->name('admin.memberships.approve');
+//     Route::post('/admin/memberships/{id}/reject', [AdminMembershipController::class, 'reject'])->name('admin.memberships.reject');
+// });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/memberships', [MembershipController::class, 'index'])->name('memberships.index');
+    Route::post('/memberships/purchase/{membership}', [MembershipController::class, 'purchase'])->name('memberships.purchase');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/slips/store', [MembershipController::class, 'storeSlip'])->name('slips.store');
+});
+
+
+
+// Route::prefix('admin')->middleware('auth')->group(function () {
+//     Route::get('/memberships', [AdminMembershipController::class, 'index'])->name('admin.membership.index');
+//     Route::post('/memberships/approve/{userId}', [AdminMembershipController::class, 'approveMembership'])->name('admin.membership.approve');
+//     Route::post('/memberships/reject/{userId}', [AdminMembershipController::class, 'rejectMembership'])->name('admin.membership.reject');
+// });
+
 
 
 Route::get('/purchased-images', [PurchasedImagesController::class, 'index'])->name('purchased-images');

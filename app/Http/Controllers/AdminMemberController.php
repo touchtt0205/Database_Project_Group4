@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\CoinTransaction;
-use App\Models\Membership;
+use App\Models\MemberTransaction;
 
+use App\Models\MembershipSlip;
 
-use App\Models\Slip;
-
-class AdminCoinController extends Controller
+class AdminMemberController extends Controller
 {
     public function index()
 
@@ -17,18 +15,20 @@ class AdminCoinController extends Controller
         if (!Auth::user()->isAdmin) {
             return redirect('/dashboard'); // redirect หากไม่ใช่ admin
         }
-        $slips = Slip::all();
-        return view('admin.coins.index', compact('slips'));
+        $slips = MembershipSlip::all();
+        return view('admin.membership.index', compact('slips'));
     }
     public function approveSlip($slip_id)
     {
-        $slip = Slip::findOrFail($slip_id);
-
+        $slip = MembershipSlip::findOrFail($slip_id);
+        // dd($slip);
         $user = $slip->user;
-        $user->coins = $slip->coins;
+        $user->member_level = $slip->benefits;
         $user->save();
 
-        CoinTransaction::create([
+
+
+        MemberTransaction::create([
             'user_id' => $user->id,
             'amount' => $slip->amount,
             'transaction_type' => 'credit',
@@ -40,14 +40,14 @@ class AdminCoinController extends Controller
         $slip->save();
         $slip->delete();
 
-        return redirect()->route('admin.slips.index')->with('success', 'Slip approved and coins credited successfully!');
+        return redirect()->route('admin.membership.index')->with('success', 'Slip approved and membership credited successfully!');
     }
 
     public function rejectSlip($slip_id)
     {
-        $slip = Slip::findOrFail($slip_id);
+        $slip = MembershipSlip::findOrFail($slip_id);
         $user = $slip->user;
-        CoinTransaction::create([
+        MemberTransaction::create([
             'user_id' => $user->id,
             'amount' => $slip->amount,
             'transaction_type' => 'credit',

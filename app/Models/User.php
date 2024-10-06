@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comments::class);
     }
+
+    public function membershipLevel()
+    {
+        return $this->belongsTo(MembershipLevel::class);
+    }
 }

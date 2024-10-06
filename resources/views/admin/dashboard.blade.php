@@ -22,6 +22,13 @@
                                 </svg>
                                 Manage Slips
                             </a>
+                            <a href="{{ route('admin.membership.index') }}"
+                                class="flex items-center p-6 bg-purple-500 text-white rounded-lg hover:bg-purple-700 mb-4 transition duration-300">
+                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="..."></path> <!-- Replace with appropriate SVG path -->
+                                </svg>
+                                Manage Memberships
+                            </a>
                             <a href="{{ route('admin.users.index') }}"
                                 class="flex items-center p-6 bg-green-500 text-white rounded-lg hover:bg-green-700 mb-4 transition duration-300">
                                 <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -36,6 +43,7 @@
                                 </svg>
                                 View Order History
                             </a>
+
                             <a href="#"
                                 class="flex items-center p-6 bg-red-500 text-white rounded-lg hover:bg-red-700 mb-4 transition duration-300">
                                 <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
