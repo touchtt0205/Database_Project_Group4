@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('isAdmin')->default(false);
+            $table->string('profile_photo')->nullable();
             $table->integer('coins')->default(0); // เพิ่มฟิลด์ coins
 
         });
