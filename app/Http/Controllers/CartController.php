@@ -88,26 +88,50 @@ class CartController extends Controller
             return redirect()->route('cart.show')->with('error', 'Your cart is empty.');
         }
 
+        // กำหนดระดับสมาชิกและส่วนลด
+        $memberLevel = $user->member_level ?? null;
+        $discountRate = 0;
+
+        if ($memberLevel === "Bronze") {
+            $discountRate = 0.10;
+        } elseif ($memberLevel === "Silver") {
+            $discountRate = 0.20;
+        } elseif ($memberLevel === "Gold") {
+            $discountRate = 0.30;
+        } elseif ($memberLevel === "Platinum") {
+            $discountRate = 0.40;
+        } elseif ($memberLevel === "Diamond") {
+            $discountRate = 0.50;
+        } elseif ($memberLevel === "Ultimate") {
+            $discountRate = 0.60;
+        }
+
         $totalPrice = 0;
+        $discountedTotalPrice = 0;
 
         // ตรวจสอบราคาสินค้าทั้งหมดและยอดเงินของผู้ใช้
         foreach ($carts as $cart) {
             $image = $cart->image;
 
+            // ตรวจสอบว่าภาพนี้หมดจำนวนขายหรือไม่
             if ($image->max_sales !== null && $image->max_sales <= 0) {
                 return redirect()->route('cart.show')->with('error', 'The image "' . $image->title . '" is no longer available.');
             }
 
+            // รวมราคาของแต่ละภาพ
             $totalPrice += $image->price;
         }
 
+        // คำนวณราคาหลังหักส่วนลด (ถ้ามี)
+        $discountedTotalPrice = $totalPrice - ($totalPrice * $discountRate);
+
         // ตรวจสอบยอดเงินของผู้ใช้เพียงพอหรือไม่
-        if ($user->coins < $totalPrice) {
+        if ($user->coins < $discountedTotalPrice) {  // ใช้ราคาแบบลดแล้ว
             return redirect()->route('cart.show')->with('error', 'Insufficient balance to complete the purchase.');
         }
 
-        // หักเงินจากผู้ใช้
-        $user->coins -= $totalPrice;
+        // หักเงินจากผู้ใช้ (ตามราคาหลังหักส่วนลด)
+        $user->coins -= $discountedTotalPrice;
         $user->save();
 
         // สร้าง order สำหรับการซื้อสินค้าแต่ละชิ้น
@@ -126,7 +150,7 @@ class CartController extends Controller
             // สร้าง order ใหม่
             $order = new Order();
             $order->user_id = $user->id;
-            $order->price = $image->price;
+            $order->price = $image->price; // ราคาของภาพแต่ละชิ้น (สามารถเพิ่มข้อมูลส่วนลดได้ถ้าจำเป็น)
             $order->quantity = 1;
             $order->status = 'completed';
             $order->created_at = now();
@@ -136,7 +160,7 @@ class CartController extends Controller
             $orderHistory = new OrderHistory();
             $orderHistory->user_id = $user->id;
             $orderHistory->order_id = $order->id;
-            $orderHistory->price = $image->price;
+            $orderHistory->price = $image->price; // บันทึกราคาของภาพ
             $orderHistory->status = 'completed';
             $orderHistory->created_at = now();
             $orderHistory->save();
@@ -150,7 +174,7 @@ class CartController extends Controller
             ]);
 
             // เพิ่มเงินที่ได้จากการขายให้กับผู้ขาย
-            $image->user->coins += $image->price;
+            $image->user->coins += $image->price;  // ผู้ขายจะได้รับราคาปกติ
             $image->user->save();
 
             // ลดค่า max_sales ลง 1 ถ้ามี

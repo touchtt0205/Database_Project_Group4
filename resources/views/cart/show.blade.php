@@ -55,8 +55,52 @@
 
                     <!-- Display Total Price -->
                     <div class="mt-6 text-lg">
-                        <strong>Total Price: ${{ number_format($totalPrice, 2) }}</strong>
+                        @php
+                        // ดึงระดับสมาชิกของผู้ใช้
+                        $memberLevel = Auth::user()->member_level ?? null;
+                        $discountRate = 0;
+
+                        // กำหนดส่วนลดตามระดับสมาชิก
+                        if ($memberLevel === "Bronze") {
+                        $discountRate = 0.10;
+                        } elseif ($memberLevel === "Silver") {
+                        $discountRate = 0.20;
+                        } elseif ($memberLevel === "Gold") {
+                        $discountRate = 0.30;
+                        } elseif ($memberLevel === "Platinum") {
+                        $discountRate = 0.40;
+                        } elseif ($memberLevel === "Diamond") {
+                        $discountRate = 0.50;
+                        } elseif ($memberLevel === "Ultimate") {
+                        $discountRate = 0.60; // Semicolon added here
+                        }
+
+                        // คำนวณราคาหลังหักส่วนลด
+                        $discountedPrice = $totalPrice - ($totalPrice * $discountRate);
+                        @endphp
+
+
+                        <!-- แสดงราคาขีดค่าเมื่อมีส่วนลด -->
+                        @if ($discountRate > 0)
+                        <p>
+                            <strong>Total Price (Before Discount): </strong>
+                            <span style="text-decoration: line-through;">
+                                ${{ number_format($totalPrice, 2) }}
+                            </span>
+                        </p>
+                        <p>
+                            <strong>Total Price for {{ Auth::user()->name }} (After {{ $discountRate * 100 }}%
+                                Discount): </strong>
+                            <span style="color: red;">
+                                ${{ number_format($discountedPrice, 2) }}
+                            </span>
+                        </p>
+                        @else
+                        <!-- กรณีไม่มีส่วนลด -->
+                        <strong>Total Price for {{ Auth::user()->name }}: ${{ number_format($totalPrice, 2) }}</strong>
+                        @endif
                     </div>
+
 
                     <!-- Checkout Button -->
                     <div class="mt-4">
