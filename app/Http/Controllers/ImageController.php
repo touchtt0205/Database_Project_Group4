@@ -80,7 +80,7 @@ class ImageController extends Controller
         // ลบข้อมูลรูปจากฐานข้อมูล
         $image->delete();
 
-        return response()->json(['success' => 'Image deleted successfully.']);
+        return redirect()->route('profile.show', ['userId' => Auth::id()]);
     }
 
 

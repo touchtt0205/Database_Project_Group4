@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\Album;
+use App\Models\Image;
+use App\Models\User;
+class AlbumController extends Controller
+{
+
+    use AuthorizesRequests;
+    public function index()
+{
+    $user = Auth::user();
+    $albums = Album::where('user_id', $user->id)->with('images')->get(); // ดึงอัลบั้มพร้อมกับรูปภาพ
+    $images = Image::where('user_id', $user->id)->get(); // ดึงรูปภาพทั้งหมดของผู้ใช้ (ถ้ามี)
+    return view('profile', compact('user', 'albums', 'images')); // ส่งข้อมูลไปยัง view profile
+}
+
+
+    public function create()
+    {
+        return view('albums.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        Album::create([
+            'title' => $request->title,
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('profile.show', ['userId' => Auth::id()]); // Redirect to the profile of the logged-in user
+    }
+
+    public function destroy($id)
+{
+    // Find the album by ID
+    $album = Album::findOrFail($id);
+
+    // Check if the authenticated user is the owner of the album
+    if ($album->user_id !== Auth::id()) {
+        return redirect()->route('albums.index')->with('error', 'Unauthorized action.');
+    }
+
+    // Delete the album
+    $album->delete();
+
+    // Redirect to the albums index or another page
+    return redirect()->route('profile.show', ['userId' => Auth::id()]); 
+}
+
+    public function show(Album $album)
+    {
+        $this->authorize('view', $album);
+        $images = $album->images; // ดึงรูปภาพทั้งหมดในอัลบั้ม
+        return view('albums.show', compact('album', 'images'));
+    }
+
+    public function addPhoto()
+{
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Fetch all albums for the authenticated user
+    $albums = Album::where('user_id', $user->id)->get();
+
+    // Pass the albums to the view
+    return view('albums.add-photo', compact('albums'));
+}
+
+    public function showProfile($userId)
+{
+    $user = User::findOrFail($userId); // Get user by ID
+    $albums = Album::where('user_id', $user->id)->with('images')->get(); // Get albums for the user
+    $images = Image::where('user_id', $user->id)->get(); // Get images for the user
+
+    return view('profile', compact('user', 'albums', 'images')); // Pass variables to the view
+}
+}

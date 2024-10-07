@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
 //     Route::post('/memberships/reject/{userId}', [AdminMembershipController::class, 'rejectMembership'])->name('admin.membership.reject');
 // });
 
-
+use App\Http\Controllers\AlbumController;
 
 Route::get('/purchased-images', [PurchasedImagesController::class, 'index'])->name('purchased-images');
 
@@ -115,6 +115,12 @@ Route::post('/images/{image}/comments', [CommentController::class, 'store'])->na
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
 Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 
+Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
+Route::resource('albums', AlbumController::class);
+Route::get('/albums/add-photo', [AlbumController::class, 'addPhoto'])->name('albums.add-photo');
+Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
+
+
 
 Route::get('/', function () {
     return view('home'); // หน้าแรก
@@ -138,6 +144,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profileedit', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/edit/photo/update', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');
     Route::get('/profile/{userId}', [ProfileController::class, 'showProfile'])->name('profile.show');
+    
 });
 
 

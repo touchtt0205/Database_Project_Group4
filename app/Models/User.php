@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(MembershipLevel::class);
     }
+
+    public function albums()
+    {
+        return $this->hasMany(Album::class);  // One user can have many albums
+    }
 }

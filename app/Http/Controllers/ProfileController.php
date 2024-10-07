@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Image;
+use App\Models\Album;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage; //add this line
@@ -88,14 +89,16 @@ class ProfileController extends Controller
     }
 
     public function showProfile($userId)
-    {
-        // ค้นหาผู้ใช้จาก user_id
-        $user = User::where('id', $userId)->firstOrFail();
+{
+    // ค้นหาผู้ใช้จาก user_id
+    $user = User::where('id', $userId)->firstOrFail();
 
-        // ดึงรูปทั้งหมดที่ user เป็นเจ้าของ
-        $images = Image::where('user_id', $user->id)->get();
+    // ดึงรูปทั้งหมดที่ user เป็นเจ้าของ
+    $images = Image::where('user_id', $user->id)->get();
+    $albums = Album::where('user_id', $user->id)->with('images')->get(); // Ensure you use 'photos' to match your Album model relationship
 
-        // ส่งข้อมูลไปยัง view
-        return view('profile.show', compact('user', 'images'));
-    }
+    // ส่งข้อมูลไปยัง view
+    return view('profile.show', compact('user', 'images', 'albums')); // Include 'albums' here
+}
+
 }
