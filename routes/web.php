@@ -121,6 +121,12 @@ Route::get('/albums/add-photo', [AlbumController::class, 'addPhoto'])->name('alb
 Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
 
 
+Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
+Route::resource('albums', AlbumController::class);
+Route::get('/albums/add-photo', [AlbumController::class, 'addPhoto'])->name('albums.add-photo');
+Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
+
+
 
 Route::get('/', function () {
     return view('home'); // หน้าแรก
@@ -144,6 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profileedit', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/edit/photo/update', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');
     Route::get('/profile/{userId}', [ProfileController::class, 'showProfile'])->name('profile.show');
+    
     
 });
 
