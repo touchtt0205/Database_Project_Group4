@@ -36,6 +36,14 @@
                                 </svg>
                                 Manage Users
                             </a>
+                            <a href="{{ route('admin.tags.index') }}"
+                                class="flex items-center p-6 bg-green-500 text-white rounded-lg hover:bg-green-700 mb-4 transition duration-300">
+                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="..."></path>
+                                </svg>
+                                Manage Tags
+                            </a>
+
                             <a href="{{ route('admin.orderHistory.index') }}"
                                 class="flex items-center p-6 bg-yellow-500 text-white rounded-lg hover:bg-yellow-700 mb-4 transition duration-300">
                                 <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">

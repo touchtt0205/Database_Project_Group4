@@ -59,6 +59,17 @@
                             <img id="imagePreview" class="mt-2" style="max-width: 300px; display: none;" />
                         </div>
 
+                        <!-- Tag Selection -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Tags</label>
+                            @foreach($tags as $tag)
+                            <label class="inline-flex items-center mr-4">
+                                <input type="checkbox" name="tags[]" value="{{ $tag->tags_id }}" class="form-checkbox">
+                                <span class="ml-2">{{ $tag->name }}</span>
+                            </label>
+                            @endforeach
+                        </div>
+
                         <div>
                             <button type="submit"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -73,50 +84,50 @@
 
     <!-- Script to Preview Image and Toggle Price Fields -->
     <script>
-        function previewImage(event) {
-            const input = event.target;
-            const reader = new FileReader();
+    function previewImage(event) {
+        const input = event.target;
+        const reader = new FileReader();
 
-            reader.onload = function() {
-                const imagePreview = document.getElementById('imagePreview');
-                imagePreview.src = reader.result;
-                imagePreview.style.display = 'block';
-            };
+        reader.onload = function() {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = reader.result;
+            imagePreview.style.display = 'block';
+        };
 
-            if (input.files && input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
-            }
+        if (input.files && input.files[0]) {
+            reader.readAsDataURL(input.files[0]);
         }
+    }
 
-        // Toggle price and max sales fields based on free image checkbox
-        function togglePriceFields(event) {
-            const isFree = event.target.checked;
-            const priceSection = document.getElementById('price-section');
-            const maxSalesSection = document.getElementById('max-sales-section');
-            const priceInput = document.getElementById('price');
-            const maxSalesInput = document.getElementById('max_sales');
+    // Toggle price and max sales fields based on free image checkbox
+    function togglePriceFields(event) {
+        const isFree = event.target.checked;
+        const priceSection = document.getElementById('price-section');
+        const maxSalesSection = document.getElementById('max-sales-section');
+        const priceInput = document.getElementById('price');
+        const maxSalesInput = document.getElementById('max_sales');
 
-            if (isFree) {
-                priceSection.style.display = 'none';
-                maxSalesSection.style.display = 'none';
-                priceInput.removeAttribute('required');
-                maxSalesInput.removeAttribute('required');
-                priceInput.value = '';
-                maxSalesInput.value = '';
-            } else {
-                priceSection.style.display = 'block';
-                maxSalesSection.style.display = 'block';
-                priceInput.setAttribute('required', 'required');
-            }
+        if (isFree) {
+            priceSection.style.display = 'none';
+            maxSalesSection.style.display = 'none';
+            priceInput.removeAttribute('required');
+            maxSalesInput.removeAttribute('required');
+            priceInput.value = '';
+            maxSalesInput.value = '';
+        } else {
+            priceSection.style.display = 'block';
+            maxSalesSection.style.display = 'block';
+            priceInput.setAttribute('required', 'required');
         }
+    }
 
-        // Initialize fields on page load (hide price and max sales if free is checked)
-        document.addEventListener('DOMContentLoaded', function() {
-            togglePriceFields({
-                target: {
-                    checked: true
-                }
-            });
+    // Initialize fields on page load (hide price and max sales if free is checked)
+    document.addEventListener('DOMContentLoaded', function() {
+        togglePriceFields({
+            target: {
+                checked: true
+            }
         });
+    });
     </script>
 </x-app-layout>

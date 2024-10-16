@@ -93,6 +93,18 @@
                         </form>
                         <p class="mt-2 text-gray-600">{{ $image->likes()->count() }} Like(s)</p>
                     </div>
+                    <div class="mt-4">
+                        <h4 class="text-lg font-semibold">Tags</h4>
+                        @if ($image->tags->count() > 0)
+                        <ul class="list-disc pl-5">
+                            @foreach ($image->tags as $photoTag)
+                            <li>{{ $photoTag->tag->name }}</li> {{-- Assuming the Tag model has a 'name' field --}}
+                            @endforeach
+                        </ul>
+                        @else
+                        <p class="text-gray-500">No tags available for this image.</p>
+                        @endif
+                    </div>
 
 
                     <!-- ฟอร์มสำหรับเพิ่มความคิดเห็น -->

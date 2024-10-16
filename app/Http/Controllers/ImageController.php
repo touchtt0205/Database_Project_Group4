@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
+use App\Models\PhotoTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Favorite;
@@ -28,37 +29,48 @@ class ImageController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // ตรวจสอบเงื่อนไขการตรวจสอบฟอร์มทั่วไป
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    // ตรวจสอบเงื่อนไขการตรวจสอบฟอร์มทั่วไป
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // ถ้ารูปภาพไม่ฟรี ต้องตรวจสอบฟิลด์ราคาและ max_sales
-        if (!$request->has('free')) {
-            $request->validate([
-                'price' => 'required|integer|min:0',
-                'max_sales' => 'nullable|integer|min:1', // max_sales ไม่จำเป็นต้องกรอก
+    // ถ้ารูปภาพไม่ฟรี ต้องตรวจสอบฟิลด์ราคาและ max_sales
+    if (!$request->has('free')) {
+        $request->validate([
+            'price' => 'required|integer|min:0',
+            'max_sales' => 'nullable|integer|min:1', // max_sales ไม่จำเป็นต้องกรอก
+        ]);
+    }
+
+    // จัดเก็บไฟล์รูปภาพ
+    $path = $request->file('image')->store('images', 'public');
+
+    // สร้างบันทึกในฐานข้อมูลและเก็บไว้ในตัวแปร $image
+    $image = Image::create([
+        'path' => $path,
+        'user_id' => Auth::id(),
+        'title' => $request->title,
+        'description' => $request->description,
+        'price' => $request->has('free') ? 0 : $request->price,
+        'max_sales' => $request->has('free') || !$request->filled('max_sales') ? null : $request->max_sales,
+    ]);
+
+    // ตรวจสอบและบันทึกแท็ก
+    if ($request->has('tags')) {
+        foreach ($request->tags as $tagId) {
+            PhotoTag::create([
+                'photo_id' => $image->id,  // ใช้ตัวแปร $image ที่ได้จากการสร้างบันทึก
+                'tags_id' => $tagId,
             ]);
         }
-
-        // จัดเก็บไฟล์รูปภาพ
-        $path = $request->file('image')->store('images', 'public');
-
-        // สร้างบันทึกในฐานข้อมูล
-        Image::create([
-            'path' => $path,
-            'user_id' => Auth::id(),
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->has('free') ? 0 : $request->price,
-            'max_sales' => $request->has('free') || !$request->filled('max_sales') ? null : $request->max_sales,
-        ]);
-
-        return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
     }
+
+    return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
+}
+
 
     public function destroy($id)
     {
@@ -86,23 +98,25 @@ class ImageController extends Controller
 
 
 
+    
     public function show($id)
-    {
-        $image = Image::with('user')->findOrFail($id);
+{
+    $image = Image::with(['user', 'tags.tag'])->findOrFail($id); // Load tags with related tags
 
-        // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
-        $hasPurchased = false;
-        if (Auth::check()) {
-            $userId = Auth::id();
-            // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
-            $hasPurchased = ImageOwnership::where('user_id', $userId)
-                ->where('image_id', $id)
-                ->exists();
-        }
-
-        // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
-        return view('images.show', compact('image', 'hasPurchased'));
+    // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
+    $hasPurchased = false;
+    if (Auth::check()) {
+        $userId = Auth::id();
+        // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
+        $hasPurchased = ImageOwnership::where('user_id', $userId)
+            ->where('image_id', $id)
+            ->exists();
     }
+
+    // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
+    return view('images.show', compact('image', 'hasPurchased'));
+}
+
 
 
     // public function download($id)

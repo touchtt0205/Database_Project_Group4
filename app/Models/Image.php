@@ -52,4 +52,12 @@ public function isLikedBy($user)
     return $this->likes()->where('user_id', $user->id)->exists();
 }
     
+
+// In your Image model
+public function tags()
+{
+    return $this->hasMany(PhotoTag::class, 'photo_id', 'id')
+                ->with('tag'); // Load the related Tag model
+}
+
 }

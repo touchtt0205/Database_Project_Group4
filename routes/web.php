@@ -17,12 +17,16 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MemberSlipController;
 use App\Http\Controllers\AdminMemberController;
 use App\Http\Controllers\LikeController;
-
+use App\Http\Controllers\TagController;
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/member', [AdminMemberController::class, 'index'])->name('admin.membership.index');
     Route::post('/member/{id}/approve', [AdminMemberController::class, 'approveSlip'])->name('admin.membership.approve');
     Route::post('/member/{id}/reject', [AdminMemberController::class, 'rejectSlip'])->name('admin.membership.reject');
+   
+Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
+Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+Route::get('/tags', [TagController::class, 'index'])->name('admin.tags.index');
 });
 
 Route::post('/membership/slips', [MemberSlipController::class, 'store'])->name('member.slips.store');
@@ -115,6 +119,8 @@ Route::post('/images/buy/{id}', [ImageController::class, 'buy'])->name('images.b
 Route::post('/images/{image}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
 Route::get('/images', [ImageController::class, 'index'])->name('images.index');
+
+Route::get('/images/upload', [TagController::class, 'showUploadForm'])->name('images.create')->middleware('auth');
 
 Route::post('/images/{image}/like', [LikeController::class, 'like'])->name('images.like');
 Route::delete('/images/{image}/unlike', [LikeController::class, 'unlike'])->name('images.unlike');
