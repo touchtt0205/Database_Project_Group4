@@ -35,8 +35,11 @@ class Image extends Model
         return $this->hasMany(Comments::class, 'photo_id');
     }
 
+
     public function albums()
-    {
-        return $this->belongsToMany(Album::class, 'album_image', 'image_id', 'album_id'); 
-    }
+{
+    return $this->belongsToMany(Album::class, 'album_image', 'image_id', 'album_id');
+}
+
+    
 }

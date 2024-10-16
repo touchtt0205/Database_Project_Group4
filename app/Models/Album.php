@@ -16,12 +16,14 @@ class Album extends Model
     ];
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class);
+}
+
 
     public function images()
 {
-    return $this->belongsToMany(Image::class, 'album_image', 'album_id', 'image_id'); 
+    return $this->belongsToMany(Image::class, 'album_image', 'album_id', 'image_id');
 }
+
 }

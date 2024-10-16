@@ -130,6 +130,35 @@ class ImageController extends Controller
     //     return response()->download($filePath, $fileName);
     // }
 
+
+    public function addToAlbum(Request $request, $imageId)
+{
+    // ค้นหารูปภาพตาม ID
+    $image = Image::findOrFail($imageId);
+
+    // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You need to log in to add images to an album.');
+    }
+
+    // ตรวจสอบว่าอัลบั้มมีอยู่หรือไม่
+    $album = Auth::user()->albums()->find($request->album_id);
+    if (!$album) {
+        return redirect()->back()->with('error', 'Album not found.');
+    }
+
+    // ตรวจสอบว่ารูปภาพนี้ถูกเพิ่มในอัลบั้มนี้แล้วหรือไม่
+    if ($album->images()->where('image_id', $image->id)->exists()) {
+        return redirect()->back()->with('error', 'Image is already in this album.');
+    }
+
+    // เพิ่มรูปภาพลงในอัลบั้ม
+    $album->images()->attach($imageId);
+
+    return redirect()->back()->with('success', 'Image added to album successfully.');
+}
+
+
     public function download($id)
     {
         // ค้นหารูปภาพตาม ID

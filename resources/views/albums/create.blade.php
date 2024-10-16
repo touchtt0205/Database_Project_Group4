@@ -17,6 +17,12 @@
                                 class="block text-sm font-medium text-gray-700">{{ __('Album Title') }}</label>
                             <input type="text" name="title" id="title" class="mt-1 block w-full" required>
                         </div>
+                        <div class="mb-4">
+                            <label for="description"
+                                class="block text-sm font-medium text-gray-700">{{ __('Album Description') }}</label>
+                            <input type="text" name="description" id="description" class="mt-1 block w-full" required>
+                        </div>
+
 
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

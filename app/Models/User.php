@@ -64,7 +64,8 @@ class User extends Authenticatable
     }
 
     public function albums()
-    {
-        return $this->hasMany(Album::class);  // One user can have many albums
-    }
+{
+    return $this->hasMany(Album::class);
+}
+
 }

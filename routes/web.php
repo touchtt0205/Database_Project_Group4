@@ -117,16 +117,9 @@ Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 
 Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
 Route::resource('albums', AlbumController::class);
-Route::get('/albums/add-photo', [AlbumController::class, 'addPhoto'])->name('albums.add-photo');
+Route::post('/albums/{imageId}/add', [ImageController::class, 'addToAlbum'])->name('albums.add')->middleware('auth');
 Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
-
-
-Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
-Route::resource('albums', AlbumController::class);
-Route::get('/albums/add-photo', [AlbumController::class, 'addPhoto'])->name('albums.add-photo');
-Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
-
-
+Route::get('/albums/{album}', [AlbumController::class, 'show'])->name('albums.show');
 
 Route::get('/', function () {
     return view('home'); // หน้าแรก

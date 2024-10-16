@@ -20,6 +20,8 @@ class AlbumController extends Controller
 }
 
 
+
+
     public function create()
     {
         return view('albums.create');
@@ -29,11 +31,13 @@ class AlbumController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
         ]);
 
         Album::create([
             'title' => $request->title,
             'user_id' => auth()->id(),
+            'description' => $request->description,
         ]);
 
         return redirect()->route('profile.show', ['userId' => Auth::id()]); // Redirect to the profile of the logged-in user
@@ -56,24 +60,15 @@ class AlbumController extends Controller
     return redirect()->route('profile.show', ['userId' => Auth::id()]); 
 }
 
-    public function show(Album $album)
-    {
-        $this->authorize('view', $album);
-        $images = $album->images; // ดึงรูปภาพทั้งหมดในอัลบั้ม
-        return view('albums.show', compact('album', 'images'));
-    }
-
-    public function addPhoto()
+public function show(Album $album)
 {
-    // Get the authenticated user
-    $user = Auth::user();
-
-    // Fetch all albums for the authenticated user
-    $albums = Album::where('user_id', $user->id)->get();
-
-    // Pass the albums to the view
-    return view('albums.add-photo', compact('albums'));
+    // Ensure the album is correctly resolved
+// This should be fine if the policy is working
+    $images = $album->images; // Get the images associated with the album
+    return view('albums.show', compact('album', 'images')); // Pass the album and images to the view
 }
+
+
 
     public function showProfile($userId)
 {
