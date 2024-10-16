@@ -16,6 +16,7 @@ use App\Http\Controllers\PurchasedImagesController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MemberSlipController;
 use App\Http\Controllers\AdminMemberController;
+use App\Http\Controllers\LikeController;
 
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -114,6 +115,9 @@ Route::post('/images/buy/{id}', [ImageController::class, 'buy'])->name('images.b
 Route::post('/images/{image}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');
 Route::get('/images', [ImageController::class, 'index'])->name('images.index');
+
+Route::post('/images/{image}/like', [LikeController::class, 'like'])->name('images.like');
+Route::delete('/images/{image}/unlike', [LikeController::class, 'unlike'])->name('images.unlike');
 
 Route::get('/albums/create', [AlbumController::class, 'create'])->name('albums.create');
 Route::resource('albums', AlbumController::class);

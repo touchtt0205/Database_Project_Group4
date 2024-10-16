@@ -73,6 +73,28 @@
                         @endif
                     </div>
 
+                    <div class="mt-4">
+                        <form
+                            action="{{ $image->isLikedBy(auth()->user()) ? route('images.unlike', $image->id) : route('images.like', $image->id) }}"
+                            method="POST">
+                            @csrf
+                            @if ($image->isLikedBy(auth()->user()))
+                            @method('DELETE')
+                            <button type="submit"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Unlike
+                            </button>
+                            @else
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Like
+                            </button>
+                            @endif
+                        </form>
+                        <p class="mt-2 text-gray-600">{{ $image->likes()->count() }} Like(s)</p>
+                    </div>
+
+
                     <!-- ฟอร์มสำหรับเพิ่มความคิดเห็น -->
                     <div class="mt-8">
                         <h4 class="text-lg font-semibold">Add a Comment</h4>
@@ -88,6 +110,7 @@
                             </button>
                         </form>
                     </div>
+
                     <!-- แสดงรายการความคิดเห็น -->
                     <div class="mt-8">
                         <h4 class="text-lg font-semibold">Comments</h4>

@@ -41,5 +41,15 @@ class Image extends Model
     return $this->belongsToMany(Album::class, 'album_image', 'image_id', 'album_id');
 }
 
+
+public function likes()
+{
+    return $this->hasMany(Like::class, 'photo_id');
+}
+
+public function isLikedBy($user)
+{
+    return $this->likes()->where('user_id', $user->id)->exists();
+}
     
 }
