@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200  leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Image Store') }}
         </h2>
     </x-slot>
@@ -9,14 +9,45 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <!-- Tag Filter -->
+                    @if(isset($tags) && !empty($tags))
+                    <h3 class="font-semibold text-lg">Filter by Tag:</h3>
+                    <div class="flex flex-wrap">
+                        @foreach ($tags as $tag)
+                        <a href="{{ route('images.filterByTag', $tag->name) }}"
+                            class="tag-filter py-2 px-4 rounded mr-2 mb-2 border-2 border-gray-400 bg-transparent text-gray-700 hover:bg-gray-200 transition duration-300 {{ isset($selectedTag) && $selectedTag === $tag->name ? 'active' : '' }}"
+                            data-tag="{{ $tag->name }}">
+                            {{ $tag->name }}
+                        </a>
+                        @endforeach
+                    </div>
+                    @endif
+                    <a href="{{ route('images.index') }}" class="text-gray-100 hover:text-gray-700">Reset</a>
+
+
+
+                    <!-- Filter Form -->
+                    <form method="GET" action="{{ route('images.index') }}" class="mb-4">
+                        <label for="sort" class="mr-2">Sort by:</label>
+                        <select id="sort" name="sort" onchange="this.form.submit()">
+                            <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest Uploaded
+                            </option>
+                            <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest Uploaded
+                            </option>
+                            <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price: Low
+                                to High</option>
+                            <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price:
+                                High to Low</option>
+                        </select>
+                    </form>
+
                     <h3 class="font-semibold text-lg">Available Images</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
                         @foreach ($images as $image)
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
                             <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
-                                class="w-full h-auto object-cover mb-2"> <!-- ปรับให้เต็ม card -->
+                                class="w-full h-auto object-cover mb-2">
                             <div class="p-4">
-                                <!-- แยกเนื้อหาออกจากภาพ -->
                                 <h4 class="font-semibold text-md">{{ $image->title }}</h4>
                                 <p class="text-gray-500">Price: ${{ $image->price }}</p>
                                 <div class="mt-2 flex justify-between items-center">
@@ -65,7 +96,6 @@
 
                                     <!-- Shopping Cart Icon for Add to Cart -->
                                     @if (Auth::user()->id !== $image->user_id)
-                                    <!-- Check if user is not the owner -->
                                     <form action="{{ route('carts.add', $image->id) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="text-gray-500 hover:text-blue-500"
@@ -79,17 +109,15 @@
                                         </button>
                                     </form>
                                     @else
-                                    <button class="text-gray-500 hover:text-blue-500" title="No Shoppig">
+                                    <button class="text-gray-500 hover:text-blue-500" title="No Shopping">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z" />
-                                            <!-- Adding a diagonal line across the shopping cart -->
+                                                d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2z" />
                                             <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" />
                                         </svg>
-
                                     </button>
                                     @endif
                                 </div>
@@ -97,11 +125,76 @@
                         </div>
                         @endforeach
                     </div>
+
+                    <!-- No Images Message -->
                     @if ($images->isEmpty())
-                    <p class="text-gray-500">{{ __('No images available.') }}</p>
+                    <p class="text-gray-500 font-semibold">{{ __('No images available.') }}</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .tag-filter {
+            background-color: transparent;
+            /* Transparent background */
+            border: 2px dashed gray;
+            /* Dashed gray border */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            /* Smooth transition */
+        }
+
+        .tag-filter:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            /* Slightly dark background on hover */
+            border-color: gray;
+            /* Keep border color gray on hover */
+        }
+
+        .tag-filter.active {
+            background-color: gray;
+            /* Solid gray background when selected */
+            border: 2px solid gray;
+            /* Solid gray border when selected */
+            color: white;
+            /* Text color white when selected */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedTag = urlParams.get('tag'); // Get the tag from the URL
+
+            const tags = document.querySelectorAll('.tag-filter');
+
+            if (selectedTag) {
+                const activeTag = document.querySelector(`.tag-filter[data-tag="${selectedTag}"]`);
+                if (activeTag) {
+                    activeTag.classList.add('active'); // Add active class to selected tag
+                }
+            }
+
+            tags.forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default link behavior
+
+                    // If the clicked tag is already active, clear the selection
+                    if (this.classList.contains('active')) {
+                        // Redirect to the index route without any filter
+                        window.location.href = "{{ route('images.index') }}";
+                    } else {
+                        // Remove active class from all tags
+                        tags.forEach(t => t.classList.remove('active'));
+                        // Add active class to clicked tag
+                        this.classList.add('active');
+                        // Navigate to the clicked tag's link
+                        window.location.href = this.href;
+                    }
+                });
+            });
+        });
+    </script>
+
 </x-app-layout>

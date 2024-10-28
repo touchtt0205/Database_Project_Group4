@@ -37,27 +37,26 @@ class Image extends Model
 
 
     public function albums()
-{
-    return $this->belongsToMany(Album::class, 'album_image', 'image_id', 'album_id');
-}
+    {
+        return $this->belongsToMany(Album::class, 'album_image', 'image_id', 'album_id');
+    }
 
 
-public function likes()
-{
-    return $this->hasMany(Like::class, 'photo_id');
-}
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'photo_id');
+    }
 
-public function isLikedBy($user)
-{
-    return $this->likes()->where('user_id', $user->id)->exists();
-}
-    
+    public function isLikedBy($user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
 
-// In your Image model
-public function tags()
-{
-    return $this->hasMany(PhotoTag::class, 'photo_id', 'id')
-                ->with('tag'); // Load the related Tag model
-}
 
+    // In your Image model
+    public function tags()
+    {
+        return $this->hasMany(PhotoTag::class, 'photo_id', 'id')
+            ->with('tag'); // Load the related Tag model
+    }
 }

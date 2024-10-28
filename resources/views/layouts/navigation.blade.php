@@ -76,6 +76,13 @@
 
                         {{ __('Join Membership') }}
                     </x-nav-link>
+                    <div class="mt-3">
+                        <input type="text" id="search" placeholder="Search images or users..."
+                            class="w-full p-2 border rounded">
+                        <div id="search-results" class="absolute bg-white border rounded mt-1 w-full"></div>
+
+                    </div>
+
 
 
                 </div>
@@ -378,7 +385,6 @@
                                 </g>
                             </svg>';
                             }
-
                             @endphp
                             <!-- Profile Photo -->
                             <div class="flex items-center">
@@ -390,6 +396,7 @@
                                 </div> <!-- Placeholder if no photo -->
                                 @endif
                             </div>
+
 
                             <div>{{ Auth::user()->name }}</div>
                             <div class="ms-1">
@@ -487,6 +494,74 @@
                 </form>
             </div>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                let query = $(this).val();
+
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "{{ route('search') }}",
+                        type: "GET",
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            let results = '';
+
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    console.log("AJAX Response:", data);
+                                    let link; // Declare link here
+                                    let icon; // Declare icon variable
+
+                                    if (item.type === 'image') {
+                                        link =
+                                        `/images/${item.id}`; // Assign link for images
+                                        icon =
+                                        '<i class="fas fa-image"></i>'; // Font Awesome image icon
+                                    } else {
+                                        link =
+                                        `/profile/${item.id}`; // Assign link for users
+                                        icon =
+                                        '<i class="fas fa-user"></i>'; // Font Awesome user icon
+                                    }
+
+                                    let title = item.type === 'image' ? item.title :
+                                        item.name;
+
+                                    results += `
+                                    <div class="p-2 hover:bg-gray-200 cursor-pointer">
+                                        <a href="${link}" class="block text-black">${icon} ${title}</a>
+                                    </div>
+                                `;
+                                });
+                            } else {
+                                results =
+                                    `<p class="p-2 text-gray-500">No results found</p>`;
+                            }
+
+                            $('#search-results').html(results).show();
+                        }
+                    });
+                } else {
+                    $('#search-results').hide();
+                }
+            });
+
+            // Hide results when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#search').length) {
+                    $('#search-results').hide();
+                }
+            });
+        });
+        </script>
+
+
+
     </div>
 
 </nav>

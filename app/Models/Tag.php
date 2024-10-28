@@ -12,6 +12,7 @@ class Tag extends Model
     protected $table = 'tags'; // Table name if different from the default plural form
     protected $primaryKey = 'tags_id'; // Primary key if different from the default 'id'
 
+
     protected $fillable = [
         'name',
     ];
@@ -22,7 +23,7 @@ class Tag extends Model
     }
 
     public function images()
-{
-    return $this->belongsToMany(Image::class, 'photo_tags', 'tags_id', 'photo_id');
-}
+    {
+        return $this->belongsToMany(Image::class, 'photo_tags', 'tags_id', 'photo_id');
+    }
 }

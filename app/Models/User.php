@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Favorite;
 
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -64,8 +65,7 @@ class User extends Authenticatable
     }
 
     public function albums()
-{
-    return $this->hasMany(Album::class);
-}
-
+    {
+        return $this->hasMany(Album::class);
+    }
 }

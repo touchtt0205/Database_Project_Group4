@@ -9,9 +9,8 @@ class PhotoTag extends Model
 {
     use HasFactory;
 
-
-    protected $table = 'Photo_tags'; // Table name if different from the default plural form
-    public $timestamps = false; // Set to true if you want to use timestamps
+    protected $table = 'Photo_tags'; // ชื่อของตารางในฐานข้อมูล
+    public $timestamps = false; // ตั้งเป็น false หากคุณไม่ต้องการใช้ timestamps
 
     protected $fillable = [
         'photo_id',
@@ -20,11 +19,11 @@ class PhotoTag extends Model
 
     public function image()
     {
-        return $this->belongsTo(Image::class, 'photo_id', 'id'); // Assuming you have an Image model
+        return $this->belongsTo(Image::class, 'photo_id', 'id'); // ความสัมพันธ์กับโมเดล Image
     }
 
     public function tag()
     {
-        return $this->belongsTo(Tag::class, 'tags_id', 'tags_id');
+        return $this->belongsTo(Tag::class, 'tags_id', 'tags_id'); // ความสัมพันธ์กับโมเดล Tag
     }
 }

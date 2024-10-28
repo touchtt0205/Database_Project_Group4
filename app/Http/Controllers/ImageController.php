@@ -11,17 +11,74 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Order;
 use App\Models\OrderHistory;
 use App\Models\ImageOwnership;
-
+use App\Models\Tag;
 
 
 
 class ImageController extends Controller
 {
-    public function index()
+
+    public function filterByTag($tagName)
     {
-        $images = Image::all();
-        return view('images.index', compact('images'));
+        // Fetch images that have the specified tag name
+        $images = Image::whereHas('tags.tag', function ($query) use ($tagName) {
+            $query->where('name', $tagName); // Reference the 'name' column in the 'tags' table
+        })->with('tags.tag')->get();
+
+        // Check if images are found
+        $message = $images->isEmpty() ? "No images available for this tag." : null;
+
+        // Return the view with filtered images and message
+        return view('images.index', compact('images', 'message'));
     }
+
+    public function index(Request $request)
+    {
+        $query = Image::query();
+
+        // Check if there's a sort parameter
+        if ($request->has('sort')) {
+            $sort = $request->get('sort');
+
+            if ($sort === 'latest') {
+                $query->orderBy('created_at', 'desc'); // Sort by latest
+            } elseif ($sort === 'oldest') {
+                $query->orderBy('created_at', 'asc'); // Sort by oldest
+            } elseif ($sort === 'price_asc') {
+                $query->orderBy('price', 'asc'); // Sort price low to high
+            } elseif ($sort === 'price_desc') {
+                $query->orderBy('price', 'desc'); // Sort price high to low
+            }
+        } else {
+            $query->orderBy('created_at', 'desc'); // Default sort by latest
+        }
+
+        // ดึงข้อมูลรูปภาพตาม Tag ถ้ามีการกรอง
+        $tagName = $request->input('tag');
+
+        // Fetch images based on the tag if exists
+        if ($tagName) {
+            $images = $query->whereHas('tags', function ($query) use ($tagName) {
+                $query->where('name', $tagName);
+            })->get(); // Fetch images with the specified tag
+        } else {
+            $images = $query->get(); // Fetch all images
+        }
+
+        // Fetch all tags
+        $tags = Tag::all();
+        if ($request->has('tag')) {
+            $images->whereHas('tags', function ($query) use ($request) {
+                $query->where('name', $request->input('tag'));
+            });
+            $selectedTag = $request->input('tag'); // รับค่าแท็กที่เลือก
+        } else {
+            $selectedTag = null; // ไม่มีการเลือกแท็ก
+        }
+
+        return view('images.index', compact('images', 'tags'));
+    }
+
 
     public function create()
     {
@@ -29,47 +86,47 @@ class ImageController extends Controller
     }
 
     public function store(Request $request)
-{
-    // ตรวจสอบเงื่อนไขการตรวจสอบฟอร์มทั่วไป
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    // ถ้ารูปภาพไม่ฟรี ต้องตรวจสอบฟิลด์ราคาและ max_sales
-    if (!$request->has('free')) {
+    {
+        // ตรวจสอบเงื่อนไขการตรวจสอบฟอร์มทั่วไป
         $request->validate([
-            'price' => 'required|integer|min:0',
-            'max_sales' => 'nullable|integer|min:1', // max_sales ไม่จำเป็นต้องกรอก
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    }
 
-    // จัดเก็บไฟล์รูปภาพ
-    $path = $request->file('image')->store('images', 'public');
-
-    // สร้างบันทึกในฐานข้อมูลและเก็บไว้ในตัวแปร $image
-    $image = Image::create([
-        'path' => $path,
-        'user_id' => Auth::id(),
-        'title' => $request->title,
-        'description' => $request->description,
-        'price' => $request->has('free') ? 0 : $request->price,
-        'max_sales' => $request->has('free') || !$request->filled('max_sales') ? null : $request->max_sales,
-    ]);
-
-    // ตรวจสอบและบันทึกแท็ก
-    if ($request->has('tags')) {
-        foreach ($request->tags as $tagId) {
-            PhotoTag::create([
-                'photo_id' => $image->id,  // ใช้ตัวแปร $image ที่ได้จากการสร้างบันทึก
-                'tags_id' => $tagId,
+        // ถ้ารูปภาพไม่ฟรี ต้องตรวจสอบฟิลด์ราคาและ max_sales
+        if (!$request->has('free')) {
+            $request->validate([
+                'price' => 'required|integer|min:0',
+                'max_sales' => 'nullable|integer|min:1', // max_sales ไม่จำเป็นต้องกรอก
             ]);
         }
-    }
 
-    return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
-}
+        // จัดเก็บไฟล์รูปภาพ
+        $path = $request->file('image')->store('images', 'public');
+
+        // สร้างบันทึกในฐานข้อมูลและเก็บไว้ในตัวแปร $image
+        $image = Image::create([
+            'path' => $path,
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->has('free') ? 0 : $request->price,
+            'max_sales' => $request->has('free') || !$request->filled('max_sales') ? null : $request->max_sales,
+        ]);
+
+        // ตรวจสอบและบันทึกแท็ก
+        if ($request->has('tags')) {
+            foreach ($request->tags as $tagId) {
+                PhotoTag::create([
+                    'photo_id' => $image->id,  // ใช้ตัวแปร $image ที่ได้จากการสร้างบันทึก
+                    'tags_id' => $tagId,
+                ]);
+            }
+        }
+
+        return redirect()->route('images.index')->with('success', 'Image uploaded successfully.');
+    }
 
 
     public function destroy($id)
@@ -98,24 +155,24 @@ class ImageController extends Controller
 
 
 
-    
+
     public function show($id)
-{
-    $image = Image::with(['user', 'tags.tag'])->findOrFail($id); // Load tags with related tags
+    {
+        $image = Image::with(['user', 'tags.tag'])->findOrFail($id); // Load tags with related tags
 
-    // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
-    $hasPurchased = false;
-    if (Auth::check()) {
-        $userId = Auth::id();
-        // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
-        $hasPurchased = ImageOwnership::where('user_id', $userId)
-            ->where('image_id', $id)
-            ->exists();
+        // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
+        $hasPurchased = false;
+        if (Auth::check()) {
+            $userId = Auth::id();
+            // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
+            $hasPurchased = ImageOwnership::where('user_id', $userId)
+                ->where('image_id', $id)
+                ->exists();
+        }
+
+        // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
+        return view('images.show', compact('image', 'hasPurchased'));
     }
-
-    // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
-    return view('images.show', compact('image', 'hasPurchased'));
-}
 
 
 
@@ -146,31 +203,31 @@ class ImageController extends Controller
 
 
     public function addToAlbum(Request $request, $imageId)
-{
-    // ค้นหารูปภาพตาม ID
-    $image = Image::findOrFail($imageId);
+    {
+        // ค้นหารูปภาพตาม ID
+        $image = Image::findOrFail($imageId);
 
-    // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'You need to log in to add images to an album.');
+        // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You need to log in to add images to an album.');
+        }
+
+        // ตรวจสอบว่าอัลบั้มมีอยู่หรือไม่
+        $album = Auth::user()->albums()->find($request->album_id);
+        if (!$album) {
+            return redirect()->back()->with('error', 'Album not found.');
+        }
+
+        // ตรวจสอบว่ารูปภาพนี้ถูกเพิ่มในอัลบั้มนี้แล้วหรือไม่
+        if ($album->images()->where('image_id', $image->id)->exists()) {
+            return redirect()->back()->with('error', 'Image is already in this album.');
+        }
+
+        // เพิ่มรูปภาพลงในอัลบั้ม
+        $album->images()->attach($imageId);
+
+        return redirect()->back()->with('success', 'Image added to album successfully.');
     }
-
-    // ตรวจสอบว่าอัลบั้มมีอยู่หรือไม่
-    $album = Auth::user()->albums()->find($request->album_id);
-    if (!$album) {
-        return redirect()->back()->with('error', 'Album not found.');
-    }
-
-    // ตรวจสอบว่ารูปภาพนี้ถูกเพิ่มในอัลบั้มนี้แล้วหรือไม่
-    if ($album->images()->where('image_id', $image->id)->exists()) {
-        return redirect()->back()->with('error', 'Image is already in this album.');
-    }
-
-    // เพิ่มรูปภาพลงในอัลบั้ม
-    $album->images()->attach($imageId);
-
-    return redirect()->back()->with('success', 'Image added to album successfully.');
-}
 
 
     public function download($id)

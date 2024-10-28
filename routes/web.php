@@ -18,15 +18,24 @@ use App\Http\Controllers\MemberSlipController;
 use App\Http\Controllers\AdminMemberController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\SearchController;
+
+Route::get('/images', [ImageController::class, 'index'])->name('images.index');
+
+
+Route::get('/images/tag/{tagName}', [ImageController::class, 'filterByTag'])->name('images.filterByTag');
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/member', [AdminMemberController::class, 'index'])->name('admin.membership.index');
     Route::post('/member/{id}/approve', [AdminMemberController::class, 'approveSlip'])->name('admin.membership.approve');
     Route::post('/member/{id}/reject', [AdminMemberController::class, 'rejectSlip'])->name('admin.membership.reject');
-   
-Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
-Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
-Route::get('/tags', [TagController::class, 'index'])->name('admin.tags.index');
+
+    Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
+    Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+    Route::get('/tags', [TagController::class, 'index'])->name('admin.tags.index');
 });
 
 Route::post('/membership/slips', [MemberSlipController::class, 'store'])->name('member.slips.store');
@@ -152,9 +161,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/edit', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profileedit', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/edit/photo/update', [ProfileController::class, 'updateProfilePhoto'])->name('profile.photo.update');
-    Route::get('/profile/{userId}', [ProfileController::class, 'showProfile'])->name('profile.show');
-    
-    
+    Route::get('/profile/{id}', [ProfileController::class, 'showProfile'])->name('profile.show');
 });
 
 
