@@ -22,19 +22,7 @@
                         @endif
                         <a href="{{ route('images.index') }}" class="text-gray-100 hover:text-gray-700">Reset</a>
 
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-semibold text-lg">Available Images</h3>
-                            <!-- Filter Form -->
-                            <form method="GET" action="{{ route('images.index') }}" class="flex items-center">
-                                <label for="sort" class="mr-2">Sort by:</label>
-                                <select id="sort" name="sort" onchange="this.form.submit()" class="border rounded text-blue-800 bg-blue-100">
-                                    <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest Uploaded</option>
-                                    <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest Uploaded</option>
-                                    <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-                                    <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-                                </select>
-                            </form>
-                        </div>
+
 
 
                         <!-- Filter Form -->
@@ -152,65 +140,65 @@
         </div>
 
         <style>
-            .tag-filter {
-                background-color: transparent;
-                /* Transparent background */
-                border: 2px dashed gray;
-                /* Dashed gray border */
-                transition: background-color 0.3s ease, border-color 0.3s ease;
-                /* Smooth transition */
-            }
+        .tag-filter {
+            background-color: transparent;
+            /* Transparent background */
+            border: 2px dashed gray;
+            /* Dashed gray border */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            /* Smooth transition */
+        }
 
-            .tag-filter:hover {
-                background-color: rgba(0, 0, 0, 0.1);
-                /* Slightly dark background on hover */
-                border-color: gray;
-                /* Keep border color gray on hover */
-            }
+        .tag-filter:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            /* Slightly dark background on hover */
+            border-color: gray;
+            /* Keep border color gray on hover */
+        }
 
-            .tag-filter.active {
-                background-color: gray;
-                /* Solid gray background when selected */
-                border: 2px solid gray;
-                /* Solid gray border when selected */
-                color: white;
-                /* Text color white when selected */
-            }
+        .tag-filter.active {
+            background-color: gray;
+            /* Solid gray background when selected */
+            border: 2px solid gray;
+            /* Solid gray border when selected */
+            color: white;
+            /* Text color white when selected */
+        }
         </style>
 
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const selectedTag = urlParams.get('tag'); // Get the tag from the URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedTag = urlParams.get('tag'); // Get the tag from the URL
 
-                const tags = document.querySelectorAll('.tag-filter');
+            const tags = document.querySelectorAll('.tag-filter');
 
-                if (selectedTag) {
-                    const activeTag = document.querySelector(`.tag-filter[data-tag="${selectedTag}"]`);
-                    if (activeTag) {
-                        activeTag.classList.add('active'); // Add active class to selected tag
-                    }
+            if (selectedTag) {
+                const activeTag = document.querySelector(`.tag-filter[data-tag="${selectedTag}"]`);
+                if (activeTag) {
+                    activeTag.classList.add('active'); // Add active class to selected tag
                 }
+            }
 
-                tags.forEach(tag => {
-                    tag.addEventListener('click', function(e) {
-                        e.preventDefault(); // Prevent default link behavior
+            tags.forEach(tag => {
+                tag.addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent default link behavior
 
-                        // If the clicked tag is already active, clear the selection
-                        if (this.classList.contains('active')) {
-                            // Redirect to the index route without any filter
-                            window.location.href = "{{ route('images.index') }}";
-                        } else {
-                            // Remove active class from all tags
-                            tags.forEach(t => t.classList.remove('active'));
-                            // Add active class to clicked tag
-                            this.classList.add('active');
-                            // Navigate to the clicked tag's link
-                            window.location.href = this.href;
-                        }
-                    });
+                    // If the clicked tag is already active, clear the selection
+                    if (this.classList.contains('active')) {
+                        // Redirect to the index route without any filter
+                        window.location.href = "{{ route('images.index') }}";
+                    } else {
+                        // Remove active class from all tags
+                        tags.forEach(t => t.classList.remove('active'));
+                        // Add active class to clicked tag
+                        this.classList.add('active');
+                        // Navigate to the clicked tag's link
+                        window.location.href = this.href;
+                    }
                 });
             });
+        });
         </script>
 
     </x-slot>

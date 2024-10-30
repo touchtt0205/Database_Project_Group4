@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-[#3d4d6a] border-b border-[#3d4d6a]">
+<nav x-data="{ open: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -28,11 +28,6 @@
                     <x-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
                         {{ __('Upload') }}
                     </x-nav-link>
-
-
-
-
-
 
 
                     <!-- Join Membership Button -->
@@ -74,12 +69,10 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             @php
                             // ดึงระดับสมาชิกของผู้ใช้
                             $memberLevel = Auth::user()->member_level ?? null;
-
-
                             // กำหนดส่วนลดตามระดับสมาชิก
                             if ($memberLevel === "Bronze") {
                             echo '<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300.439 300.439"
