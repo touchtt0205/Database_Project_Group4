@@ -115,54 +115,53 @@
                     </div>
 
                     <!-- ฟอร์มสำหรับเพิ่มความคิดเห็น -->
-<div class="mt-8">
-    <h4 class="text-lg font-semibold">Add a Comment</h4>
-    <form method="POST" action="{{ route('comments.store', $image->id) }}" class="flex flex-col">
-        @csrf
-        <div class="mb-4">
-            <textarea name="content" rows="3"
-                class="w-full rounded border-gray-300 focus:border-blue-950 focus:ring focus:ring-blue-800"
-                placeholder="Write your comment here..."
-                style="color: #1E40AF; caret-color: #1E40AF;"></textarea>
-        </div>
-        <div class="flex justify-end">
-            <button type="submit"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Submit
-            </button>
-        </div>
-    </form>
-</div>
+                    <div class="mt-8">
+                        <h4 class="text-lg font-semibold">Add a Comment</h4>
+                        <form method="POST" action="{{ route('comments.store', $image->id) }}" class="flex flex-col">
+                            @csrf
+                            <div class="mb-4">
+                                <textarea name="content" rows="3"
+                                    class="w-full rounded border-gray-300 focus:border-blue-950 focus:ring focus:ring-blue-800"
+                                    placeholder="Write your comment here..."
+                                    style="color: #1E40AF; caret-color: #1E40AF;"></textarea>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
 
 
                     <!-- แสดงรายการความคิดเห็น -->
-<div class="mt-8">
-    <h4 class="text-lg font-semibold">Comments</h4>
-    @if ($image->comments->count() > 0)
-        @foreach ($image->comments as $comment)
-            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded shadow">
-                <p class="text-gray-900 dark:text-gray-200">{{ $comment->content }}</p>
-                <span class="text-sm text-gray-500">- {{ $comment->user->name }},
-                    {{ $comment->created_at->diffForHumans() }}</span>
-                @if ($comment->user_id === auth()->id())
-                    <!-- Check if the authenticated user is the owner -->
-                    <form method="POST" action="{{ route('comments.destroy', $comment->comment_id) }}"
-                          class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:text-red-700 mt-2">
-                            Delete
-                        </button>
-                    </form>
-                @endif
-            </div>
-        @endforeach
-    @else
-        <p class="text-gray-500">No comments yet.</p>
-    @endif
-</div>
-
+                    <div class="mt-8">
+                        <h4 class="text-lg font-semibold">Comments</h4>
+                        @if ($image->comments->count() > 0)
+                            @foreach ($image->comments as $comment)
+                                <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded shadow">
+                                    <p class="text-gray-900 dark:text-gray-200">{{ $comment->content }}</p>
+                                    <span class="text-sm text-gray-500">- {{ $comment->user->name }},
+                                        {{ $comment->created_at->diffForHumans() }}</span>
+                                    @if ($comment->user_id === auth()->id())
+                                        <!-- Check if the authenticated user is the owner -->
+                                        <form method="POST" action="{{ route('comments.destroy', $comment->comment_id) }}"
+                                            class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700 mt-2">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <p class="text-gray-500">No comments yet.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

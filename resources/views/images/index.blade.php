@@ -24,27 +24,27 @@
                     @endif
                     <a href="{{ route('images.index') }}" class="text-gray-100 hover:text-gray-700">Reset</a>
 
-                    <!-- Filter Form -->
-<form method="GET" action="{{ route('images.index') }}" class="mb-4 flex justify-end items-center">
-    <label for="sort" class="mr-2">Sort by:</label>
-    <select id="sort" name="sort" onchange="this.form.submit()">
-        <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest Uploaded</option>
-        <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest Uploaded</option>
-        <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
-        <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-    </select>
-</form>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-lg">Available Images</h3>
+                        <!-- Filter Form -->
+                        <form method="GET" action="{{ route('images.index') }}" class="flex items-center">
+                            <label for="sort" class="mr-2">Sort by:</label>
+                            <select id="sort" name="sort" onchange="this.form.submit()" class="border rounded text-blue-800 bg-blue-100">
+                                <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest Uploaded</option>
+                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest Uploaded</option>
+                                <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                            </select>
+                        </form>
+                    </div>
 
-
-
-                    <h3 class="font-semibold text-lg">Available Images</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
                         @foreach ($images as $image)
                         <div class="bg-white rounded-lg shadow-md overflow-hidden">
                             <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
                                 class="w-full h-auto object-cover mb-2">
                             <div class="p-4">
-                                <h4 class="font-semibold text-md">{{ $image->title }}</h4>
+                            <h4 class="font-semibold text-md" style="color: #008B8B;">{{ $image->title }}</h4>
                                 <p class="text-gray-500">Price: ${{ $image->price }}</p>
                                 <div class="mt-2 flex justify-between items-center">
                                     <!-- Eye Icon for View Details -->
