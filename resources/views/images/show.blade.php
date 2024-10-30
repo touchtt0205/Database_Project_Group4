@@ -7,10 +7,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100 text-center">
+                    <h3 class="text-3xl font-bold">{{ $image->title }}</h3>
+                </div>
+            </div>
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-bold">{{ $image->title }}</h3>
-                    <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}" class="mt-4 mb-4">
+                    <div class="flex justify-center mt-4 mb-4">
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}" class="max-w-md h-auto"> <!-- ปรับขนาดรูปภาพที่นี่ -->
+                    </div>
+
                     <p><strong>Description:</strong> {{ $image->description }}</p>
                     <p><strong>Price:</strong> ${{ $image->price }}</p>
                     <p><strong>Max Sales:</strong>
@@ -106,52 +114,54 @@
                         @endif
                     </div>
 
-
                     <!-- ฟอร์มสำหรับเพิ่มความคิดเห็น -->
-                    <div class="mt-8">
-                        <h4 class="text-lg font-semibold">Add a Comment</h4>
-                        <form method="POST" action="{{ route('comments.store', $image->id) }}">
-                            @csrf
-                            <div class="mb-4">
-                                <textarea name="content" rows="3" class="w-full rounded border-gray-300"
-                                    placeholder="Write your comment here..."></textarea>
-                            </div>
-                            <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Submit
-                            </button>
-                        </form>
-                    </div>
+<div class="mt-8">
+    <h4 class="text-lg font-semibold">Add a Comment</h4>
+    <form method="POST" action="{{ route('comments.store', $image->id) }}" class="flex flex-col">
+        @csrf
+        <div class="mb-4">
+            <textarea name="content" rows="3"
+                class="w-full rounded border-gray-300 focus:border-blue-950 focus:ring focus:ring-blue-800"
+                placeholder="Write your comment here..."
+                style="color: #1E40AF; caret-color: #1E40AF;"></textarea>
+        </div>
+        <div class="flex justify-end">
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+
+
 
                     <!-- แสดงรายการความคิดเห็น -->
-                    <div class="mt-8">
-                        <h4 class="text-lg font-semibold">Comments</h4>
-                        @if ($image->comments->count() > 0)
-                        @foreach ($image->comments as $comment)
-                        <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded">
-                            <p>{{ $comment->content }}</p>
-                            <span class="text-sm text-gray-500">- {{ $comment->user->name }},
-                                {{ $comment->created_at->diffForHumans() }}</span>
-                            @if ($comment->user_id === auth()->id())
-                            <!-- Check if the authenticated user is the owner -->
-                            <form method="POST" action="{{ route('comments.destroy', $comment->comment_id) }}"
-                                class="inline-block">
-                                <p>Comment ID: {{ $comment->comment_id }}</p>
-                                <!-- Check if this outputs the correct ID -->
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700">
-                                    Delete
-                                </button>
-                            </form>
-                            @endif
-                        </div>
-                        @endforeach
-                        @else
-                        <p class="text-gray-500">No comments yet.</p>
-                        @endif
-                    </div>
-
+<div class="mt-8">
+    <h4 class="text-lg font-semibold">Comments</h4>
+    @if ($image->comments->count() > 0)
+        @foreach ($image->comments as $comment)
+            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded shadow">
+                <p class="text-gray-900 dark:text-gray-200">{{ $comment->content }}</p>
+                <span class="text-sm text-gray-500">- {{ $comment->user->name }},
+                    {{ $comment->created_at->diffForHumans() }}</span>
+                @if ($comment->user_id === auth()->id())
+                    <!-- Check if the authenticated user is the owner -->
+                    <form method="POST" action="{{ route('comments.destroy', $comment->comment_id) }}"
+                          class="inline-block">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500 hover:text-red-700 mt-2">
+                            Delete
+                        </button>
+                    </form>
+                @endif
+            </div>
+        @endforeach
+    @else
+        <p class="text-gray-500">No comments yet.</p>
+    @endif
+</div>
 
                 </div>
             </div>

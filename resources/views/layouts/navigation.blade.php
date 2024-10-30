@@ -1,11 +1,11 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 ">
+<nav x-data="{ open: false }" class="bg-[#3d4d6a] border-b border-[#3d4d6a]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     @if(Auth::user()->isAdmin)
                     <a href="{{ route('admin.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                     @else
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -17,7 +17,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-4 sm:flex">
                     <!-- Dashboard Link -->
                     @if(Auth::user()->isAdmin)
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    <x-nav-link :href=" route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @else
@@ -40,13 +40,13 @@
                                 d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
 
-                        <span class="text-gray-800 dark:text-gray-200 text-sm font-bold ml-2 mt-1">
+                        <span class="text-gray-100 text-sm font-thin ml-2 mt-1  " ;>
                             {{ Auth::user()->coins }}
                         </span>
                     </x-nav-link>
 
                     <!-- Cart Icon -->
-                    <x-nav-link :href="route('cart.show')" :active="request()->routeIs('cart.show')">
+                    <x-nav-link :href=" route('cart.show')" :active="request()->routeIs('cart.show')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -79,7 +79,7 @@
                     <div class="mt-3">
                         <input type="text" id="search" placeholder="Search images or users..."
                             class="w-full p-2 border rounded">
-                        <div id="search-results" class="absolute bg-white border rounded mt-1 w-full"></div>
+
 
                     </div>
 
@@ -519,14 +519,14 @@
 
                                     if (item.type === 'image') {
                                         link =
-                                        `/images/${item.id}`; // Assign link for images
+                                            `/images/${item.id}`; // Assign link for images
                                         icon =
-                                        '<i class="fas fa-image"></i>'; // Font Awesome image icon
+                                            '<i class="fas fa-image"></i>'; // Font Awesome image icon
                                     } else {
                                         link =
-                                        `/profile/${item.id}`; // Assign link for users
+                                            `/profile/${item.id}`; // Assign link for users
                                         icon =
-                                        '<i class="fas fa-user"></i>'; // Font Awesome user icon
+                                            '<i class="fas fa-user"></i>'; // Font Awesome user icon
                                     }
 
                                     let title = item.type === 'image' ? item.title :

@@ -345,17 +345,17 @@
     </x-slot>
 
     <div class="py-12">
-        <!-- ปุ่ม Create Album -->
-        <a href="{{ route('albums.create') }}"
-            class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
-            Create Album
-        </a>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <!-- แสดงอัลบั้มที่ผู้ใช้สร้าง -->
-                    <h3 class="font-semibold text-lg mb-4">Your Albums</h3>
+                <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Your Albums</h3>
+                    <a href="{{ route('albums.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
+                        Create Album
+                    </a>
+                </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @forelse($albums as $album)
                         <div id="album-card-{{ $album->id }}"
@@ -401,7 +401,13 @@
                     </div>
 
                     <!-- แสดงภาพที่ผู้ใช้อัปโหลด (ถ้ามี) -->
-                    <h3 class="font-semibold text-lg mt-6 mb-4">Uploaded Images</h3>
+                    <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-lg">Uploaded Images</h3>
+                        <a href="{{ route('images.create') }}"
+                            class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
+                            Upload Image
+                        </a>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @forelse($images as $image)
                         <div id="image-card-{{ $image->id }}"

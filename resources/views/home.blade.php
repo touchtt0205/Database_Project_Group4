@@ -28,11 +28,13 @@
                     </div>
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ml-5">
-                        <!-- Gallery Link -->
-                        <x-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
+                        <!-- Gallery Button for Refresh -->
+                        <button @click="location.reload()"
+                            class="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none">
                             {{ __('Gallery') }}
-                        </x-nav-link>
+                        </button>
                     </div>
+
                 </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
