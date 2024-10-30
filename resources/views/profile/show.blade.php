@@ -342,174 +342,169 @@
                 </a>
             </div>
         </div>
-    </x-slot>
+        <div class="py-12">
+            <!-- ปุ่ม Create Album -->
+            <a href="{{ route('albums.create') }}"
+                class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
+                Create Album
+            </a>
 
-    <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <!-- แสดงอัลบั้มที่ผู้ใช้สร้าง -->
+                        <h3 class="font-semibold text-lg mb-4">Your Albums</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            @forelse($albums as $album)
+                            <div id="album-card-{{ $album->id }}"
+                                class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-md mb-2">{{ $album->title }}</h4>
+                                    <p>{{ $album->images->count() }} images</p> <!-- แสดงจำนวนรูปในอัลบั้ม -->
+                                </div>
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                <div class="flex justify-between items-center mb-4">
-                <h3 class="font-semibold text-lg">Your Albums</h3>
-                    <a href="{{ route('albums.create') }}"
-                        class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
-                        Create Album
-                    </a>
-                </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        @forelse($albums as $album)
-                        <div id="album-card-{{ $album->id }}"
-                            class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
-                            <div class="p-4">
-                                <h4 class="font-semibold text-md mb-2">{{ $album->title }}</h4>
-                                <p>{{ $album->images->count() }} images</p> <!-- แสดงจำนวนรูปในอัลบั้ม -->
-                            </div>
-
-                            <!-- ไอคอน View และ Delete -->
-                            <div
-                                class="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 bg-gray-900 bg-opacity-50 transition-opacity">
-                                <!-- ปุ่ม View Album -->
-                                <a href="{{ route('albums.show', $album->id) }}"
-                                    class="inline-flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 mb-2 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4.5C6.75 4.5 3 12 3 12s3.75 7.5 9 7.5 9-7.5 9-7.5-3.75-7.5-9-7.5zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
-                                    </svg>
-                                </a>
-
-                                <!-- ปุ่ม Delete Album -->
-                                <form action="{{ route('albums.destroy', $album->id) }}" method="POST"
-                                    class="inline-block delete-album-form" data-album-id="{{ $album->id }}"
-                                    onsubmit="return confirm('Are you sure you want to delete this album?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="inline-flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                <!-- ไอคอน View และ Delete -->
+                                <div
+                                    class="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 bg-gray-900 bg-opacity-50 transition-opacity">
+                                    <!-- ปุ่ม View Album -->
+                                    <a href="{{ route('albums.show', $album->id) }}"
+                                        class="inline-flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 mb-2 transition">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
+                                                d="M12 4.5C6.75 4.5 3 12 3 12s3.75 7.5 9 7.5 9-7.5 9-7.5-3.75-7.5-9-7.5zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
                                         </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        @empty
-                        <p class="text-gray-500">{{ __('No albums created yet.') }}</p>
-                        @endforelse
-                    </div>
+                                    </a>
 
-                    <!-- แสดงภาพที่ผู้ใช้อัปโหลด (ถ้ามี) -->
-                    <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-semibold text-lg">Uploaded Images</h3>
-                        <a href="{{ route('images.create') }}"
-                            class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
-                            Upload Image
-                        </a>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        @forelse($images as $image)
-                        <div id="image-card-{{ $image->id }}"
-                            class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
-                                class="w-full h-48 object-cover mb-2">
-                            <div class="p-4">
-                                <h4 class="font-semibold text-md mb-2">{{ $image->title }}</h4>
-                            </div>
-
-                            <div
-                                class="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 bg-gray-900 bg-opacity-50 transition-opacity">
-                                <!-- View Image Button -->
-                                <a href="{{ route('images.show', $image->id) }}"
-                                    class="inline-flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 mb-2 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4.5C6.75 4.5 3 12 3 12s3.75 7.5 9 7.5 9-7.5 9-7.5-3.75-7.5-9-7.5zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
-                                    </svg>
-                                </a>
-
-                                <!-- Button to trigger the modal -->
-                                <button
-                                    class="open-album-modal inline-flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 mb-2 transition"
-                                    data-image-id="{{ $image->id }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4v16m8-8H4" />
-                                    </svg>
-                                </button>
-
-                                <!-- Button for deleting image -->
-                                <form action="{{ route('images.destroy', $image->id) }}" method="POST"
-                                    class="inline-block delete-image-form" data-image-id="{{ $image->id }}"
-                                    onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="inline-flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        @empty
-                        <p class="text-gray-500">{{ __('No images uploaded yet.') }}</p>
-                        @endforelse
-
-                        <!-- Modal for selecting an album -->
-                        <div id="album-modal"
-                            class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                            <div class="bg-white rounded-lg p-6">
-                                <h3 class="font-semibold text-lg mb-4">Select an Album</h3>
-                                <form id="album-form" method="POST">
-                                    @csrf
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        @foreach($albums as $album)
-                                        <button type="submit" name="album_id" value="{{ $album->id }}"
-                                            class="block p-4 bg-gray-200 rounded hover:bg-gray-300 album-button"
-                                            data-album-id="{{ $album->id }}">
-                                            {{ $album->title }}
+                                    <!-- ปุ่ม Delete Album -->
+                                    <form action="{{ route('albums.destroy', $album->id) }}" method="POST"
+                                        class="inline-block delete-album-form" data-album-id="{{ $album->id }}"
+                                        onsubmit="return confirm('Are you sure you want to delete this album?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
                                         </button>
-                                        @endforeach
-                                    </div>
-                                </form>
-                                <button id="close-album-modal"
-                                    class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
+                                    </form>
+                                </div>
+                            </div>
+                            @empty
+                            <p class="text-gray-500">{{ __('No albums created yet.') }}</p>
+                            @endforelse
+                        </div>
+
+                        <!-- แสดงภาพที่ผู้ใช้อัปโหลด (ถ้ามี) -->
+                        <h3 class="font-semibold text-lg mt-6 mb-4">Uploaded Images</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            @forelse($images as $image)
+                            <div id="image-card-{{ $image->id }}"
+                                class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
+                                <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
+                                    class="w-full h-48 object-cover mb-2">
+                                <div class="p-4">
+                                    <h4 class="font-semibold text-md mb-2">{{ $image->title }}</h4>
+                                </div>
+
+                                <div
+                                    class="absolute inset-0 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 bg-gray-900 bg-opacity-50 transition-opacity">
+                                    <!-- View Image Button -->
+                                    <a href="{{ route('images.show', $image->id) }}"
+                                        class="inline-flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 mb-2 transition">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4.5C6.75 4.5 3 12 3 12s3.75 7.5 9 7.5 9-7.5 9-7.5-3.75-7.5-9-7.5zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z" />
+                                        </svg>
+                                    </a>
+
+                                    <!-- Button to trigger the modal -->
+                                    <button
+                                        class="open-album-modal inline-flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 mb-2 transition"
+                                        data-image-id="{{ $image->id }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Button for deleting image -->
+                                    <form action="{{ route('images.destroy', $image->id) }}" method="POST"
+                                        class="inline-block delete-image-form" data-image-id="{{ $image->id }}"
+                                        onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            @empty
+                            <p class="text-gray-500">{{ __('No images uploaded yet.') }}</p>
+                            @endforelse
+
+                            <!-- Modal for selecting an album -->
+                            <div id="album-modal"
+                                class="hidden fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                <div class="bg-white rounded-lg p-6">
+                                    <h3 class="font-semibold text-lg mb-4">Select an Album</h3>
+                                    <form id="album-form" method="POST">
+                                        @csrf
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            @foreach($albums as $album)
+                                            <button type="submit" name="album_id" value="{{ $album->id }}"
+                                                class="block p-4 bg-gray-200 rounded hover:bg-gray-300 album-button"
+                                                data-album-id="{{ $album->id }}">
+                                                {{ $album->title }}
+                                            </button>
+                                            @endforeach
+                                        </div>
+                                    </form>
+                                    <button id="close-album-modal"
+                                        class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Open the modal when clicking the open album modal button
-        document.querySelectorAll('.open-album-modal').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const imageId = this.getAttribute('data-image-id');
-                const albumForm = document.getElementById('album-form');
-                // Update the action URL of the form with the selected image ID
-                albumForm.action =
-                    `/albums/${imageId}/add`; // Change this to your actual route
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Open the modal when clicking the open album modal button
+                document.querySelectorAll('.open-album-modal').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const imageId = this.getAttribute('data-image-id');
+                        const albumForm = document.getElementById('album-form');
+                        // Update the action URL of the form with the selected image ID
+                        albumForm.action =
+                            `/albums/${imageId}/add`; // Change this to your actual route
 
-                // Show the modal
-                document.getElementById('album-modal').classList.remove('hidden');
+                        // Show the modal
+                        document.getElementById('album-modal').classList.remove('hidden');
+                    });
+                });
+
+                // Close the modal
+                document.getElementById('close-album-modal').addEventListener('click', function() {
+                    document.getElementById('album-modal').classList.add('hidden');
+                });
             });
-        });
+        </script>
+    </x-slot>
 
-        // Close the modal
-        document.getElementById('close-album-modal').addEventListener('click', function() {
-            document.getElementById('album-modal').classList.add('hidden');
-        });
-    });
-    </script>
+
 
 
 </x-app-layout>

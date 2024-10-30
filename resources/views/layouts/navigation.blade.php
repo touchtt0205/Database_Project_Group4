@@ -8,8 +8,8 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                     @else
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        <img src="{{ asset('storage/images/Logodata.png') }}" alt="Logo" class="block h-14 w-auto">
+                    <x-nav-link :href="route('images.index')" :active="request()->routeIs('dashboard')">
+                        <img src="{{ asset('storage/images/NewLogo.png') }}" alt="Logo" class="block h-6 w-auto">
                     </x-nav-link>
                     @endif
                 </div>
@@ -20,47 +20,20 @@
                     <x-nav-link :href=" route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @else
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+
                     @endif
-                    <x-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
-                        {{ __('Upload Image') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
-                        {{ __('Show Images') }}
+                        {{ __('Gallery') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
+                        {{ __('Upload') }}
                     </x-nav-link>
 
-                    <!-- Coins Icon with Count -->
-                    <x-nav-link :href="route('coins.index')" :active="request()->routeIs('coins.index')">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
 
-                        <span class="text-gray-100 text-sm font-thin ml-2 mt-1  " ;>
-                            {{ Auth::user()->coins }}
-                        </span>
-                    </x-nav-link>
 
-                    <!-- Cart Icon -->
-                    <x-nav-link :href=" route('cart.show')" :active="request()->routeIs('cart.show')">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 3h2l.6 2.3m1.6 6.7H17.4l1.3-5.7H8.6M16 17c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2zm-6 0c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2z" />
-                        </svg>
-                    </x-nav-link>
-                    <!-- Favorite Icon as Star -->
-                    <x-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.index')">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 17.27L18.18 21 16.54 13.97 22 9.24 14.81 8.63 12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21 12 17.27z" />
-                        </svg>
-                    </x-nav-link>
+
+
+
 
                     <!-- Join Membership Button -->
                     <x-nav-link :href="route('memberships.index')" :active="request()->routeIs('membership.index')">
@@ -82,13 +55,22 @@
 
 
                     </div>
-
-
-
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <!-- Coins Icon with Count -->
+                <x-nav-link :href="route('coins.index')" :active="request()->routeIs('coins.index')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                    <span class="text-gray-800 dark:text-gray-200 text-sm font-bold ml-2 mt-1 mb-1">
+                        {{ Auth::user()->coins }}
+                    </span>
+                </x-nav-link>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -414,6 +396,13 @@
                         <x-dropdown-link :href="route('profile.show', Auth::user()->id)">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('cart.show')" :active="request()->routeIs('cart.show')">
+                            {{ __('Cart') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('favorites.index')"
+                            :active="request()->routeIs('favorites.index')">{{ __('Favorite') }}
+
+                        </x-dropdown-link>
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -497,67 +486,67 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-        $(document).ready(function() {
-            $('#search').on('input', function() {
-                let query = $(this).val();
+            $(document).ready(function() {
+                $('#search').on('input', function() {
+                    let query = $(this).val();
 
-                if (query.length > 0) {
-                    $.ajax({
-                        url: "{{ route('search') }}",
-                        type: "GET",
-                        data: {
-                            query: query
-                        },
-                        success: function(data) {
-                            let results = '';
+                    if (query.length > 0) {
+                        $.ajax({
+                            url: "{{ route('search') }}",
+                            type: "GET",
+                            data: {
+                                query: query
+                            },
+                            success: function(data) {
+                                let results = '';
 
-                            if (data.length > 0) {
-                                data.forEach(function(item) {
-                                    console.log("AJAX Response:", data);
-                                    let link; // Declare link here
-                                    let icon; // Declare icon variable
+                                if (data.length > 0) {
+                                    data.forEach(function(item) {
+                                        console.log("AJAX Response:", data);
+                                        let link; // Declare link here
+                                        let icon; // Declare icon variable
 
-                                    if (item.type === 'image') {
-                                        link =
-                                            `/images/${item.id}`; // Assign link for images
-                                        icon =
-                                            '<i class="fas fa-image"></i>'; // Font Awesome image icon
-                                    } else {
-                                        link =
-                                            `/profile/${item.id}`; // Assign link for users
-                                        icon =
-                                            '<i class="fas fa-user"></i>'; // Font Awesome user icon
-                                    }
+                                        if (item.type === 'image') {
+                                            link =
+                                                `/images/${item.id}`; // Assign link for images
+                                            icon =
+                                                '<i class="fas fa-image"></i>'; // Font Awesome image icon
+                                        } else {
+                                            link =
+                                                `/profile/${item.id}`; // Assign link for users
+                                            icon =
+                                                '<i class="fas fa-user"></i>'; // Font Awesome user icon
+                                        }
 
-                                    let title = item.type === 'image' ? item.title :
-                                        item.name;
+                                        let title = item.type === 'image' ? item.title :
+                                            item.name;
 
-                                    results += `
+                                        results += `
                                     <div class="p-2 hover:bg-gray-200 cursor-pointer">
                                         <a href="${link}" class="block text-black">${icon} ${title}</a>
                                     </div>
                                 `;
-                                });
-                            } else {
-                                results =
-                                    `<p class="p-2 text-gray-500">No results found</p>`;
+                                    });
+                                } else {
+                                    results =
+                                        `<p class="p-2 text-gray-500">No results found</p>`;
+                                }
+
+                                $('#search-results').html(results).show();
                             }
+                        });
+                    } else {
+                        $('#search-results').hide();
+                    }
+                });
 
-                            $('#search-results').html(results).show();
-                        }
-                    });
-                } else {
-                    $('#search-results').hide();
-                }
+                // Hide results when clicking outside
+                $(document).click(function(event) {
+                    if (!$(event.target).closest('#search').length) {
+                        $('#search-results').hide();
+                    }
+                });
             });
-
-            // Hide results when clicking outside
-            $(document).click(function(event) {
-                if (!$(event.target).closest('#search').length) {
-                    $('#search-results').hide();
-                }
-            });
-        });
         </script>
 
 

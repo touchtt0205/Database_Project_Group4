@@ -26,6 +26,7 @@ class SearchController extends Controller
 
         // Search users by name
         $users = User::where('name', 'LIKE', "%{$query}%")
+            ->where('email', 'NOT LIKE', '%@admin.com') // Exclude admin users
             ->take(5)
             ->get()
             ->map(function ($user) {

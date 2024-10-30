@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f8fafc;
-        color: #333;
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -24,7 +24,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="shrink-0 flex items-center">
-                        <img src="{{ asset('storage/images/Logodata.png') }}" alt="Logo" class="block h-9 w-auto">
+                        <img src="{{ asset('storage/images/NewLogo.png') }}" alt="Logo" class="block h-6 w-auto">
                     </div>
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ml-5">
@@ -114,16 +114,18 @@
                             @if ($image->path)
                             <img class="w-full h-auto object-cover" src="{{ asset('storage/' . $image->path) }}"
                                 alt="{{ $image->name }}">
+
                             @else
                             <img class="w-full h-auto object-cover"
                                 src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image">
                             @endif
                             <div class="p-4">
-                                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ $image->name }}
+                                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ $image->title }}
                                 </h2>
                                 <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $image->description }}</p>
                                 <p class="text-green-500 font-bold mt-2">ราคา: {{ number_format($image->price, 2) }} บาท
                                 </p>
+                                <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $image->description }}</p>
                             </div>
                         </div>
                         @endforeach
