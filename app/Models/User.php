@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Favorite;
+use App\Models\Membership;
 
 
 
@@ -59,9 +60,9 @@ class User extends Authenticatable
         return $this->hasMany(Comments::class);
     }
 
-    public function membershipLevel()
+    public function membership()
     {
-        return $this->belongsTo(MembershipLevel::class);
+        return $this->belongsTo(Membership::class);
     }
 
     public function albums()
