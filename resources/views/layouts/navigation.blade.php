@@ -424,26 +424,33 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <!-- Search Bar Above the Gallery Link -->
+            <div class="relative w-full mb-4">
+                <input type="text" id="responsive-search" placeholder="Search images or users..."
+                    class="w-full p-2 border rounded">
+                <div id="responsive-search-results"
+                    class="absolute bg-white border rounded mt-1 w-full max-h-60 overflow-auto hidden"></div>
+            </div>
             @if(Auth::user()->isAdmin)
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            @else
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
             @endif
 
-            <x-responsive-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
-                {{ __('Upload Image') }}
-            </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
-                {{ __('Show Images') }}
+                {{ __('GALLERY') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('images.create')" :active="request()->routeIs('images.create')">
+                {{ __('UPLOAD') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('coins.index')" :active="request()->routeIs('coins.index')">
                 {{ __('Coins') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('memberships.index')" :active="request()->routeIs('membership.index')">
+                {{ __('Join Membership') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('cart.show')" :active="request()->routeIs('cart.show')">
@@ -478,67 +485,116 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            $(document).ready(function() {
-                $('#search').on('input', function() {
-                    let query = $(this).val();
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                let query = $(this).val();
 
-                    if (query.length > 0) {
-                        $.ajax({
-                            url: "{{ route('search') }}",
-                            type: "GET",
-                            data: {
-                                query: query
-                            },
-                            success: function(data) {
-                                let results = '';
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "{{ route('search') }}",
+                        type: "GET",
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            let results = '';
 
-                                if (data.length > 0) {
-                                    data.forEach(function(item) {
-                                        console.log("AJAX Response:", data);
-                                        let link; // Declare link here
-                                        let icon; // Declare icon variable
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    console.log("AJAX Response:", data);
+                                    let link; // Declare link here
+                                    let icon; // Declare icon variable
 
-                                        if (item.type === 'image') {
-                                            link =
-                                                `/images/${item.id}`; // Assign link for images
-                                            icon =
-                                                '<i class="fas fa-image"></i>'; // Font Awesome image icon
-                                        } else {
-                                            link =
-                                                `/profile/${item.id}`; // Assign link for users
-                                            icon =
-                                                '<i class="fas fa-user"></i>'; // Font Awesome user icon
-                                        }
+                                    if (item.type === 'image') {
+                                        link =
+                                            `/images/${item.id}`; // Assign link for images
+                                        icon =
+                                            '<i class="fas fa-image"></i>'; // Font Awesome image icon
+                                    } else {
+                                        link =
+                                            `/profile/${item.id}`; // Assign link for users
+                                        icon =
+                                            '<i class="fas fa-user"></i>'; // Font Awesome user icon
+                                    }
 
-                                        let title = item.type === 'image' ? item.title :
-                                            item.name;
+                                    let title = item.type === 'image' ? item.title :
+                                        item.name;
 
-                                        results += `
+                                    results += `
                                     <div class="p-2 hover:bg-gray-200 cursor-pointer">
                                         <a href="${link}" class="block text-black">${icon} ${title}</a>
                                     </div>
                                 `;
-                                    });
-                                } else {
-                                    results =
-                                        `<p class="p-2 text-gray-500">No results found</p>`;
-                                }
-
-                                $('#search-results').html(results).show();
+                                });
+                            } else {
+                                results =
+                                    `<p class="p-2 text-gray-500">No results found</p>`;
                             }
-                        });
-                    } else {
-                        $('#search-results').hide();
-                    }
-                });
 
-                // Hide results when clicking outside
-                $(document).click(function(event) {
-                    if (!$(event.target).closest('#search').length) {
-                        $('#search-results').hide();
-                    }
-                });
+                            $('#search-results').html(results).show();
+                        }
+                    });
+                } else {
+                    $('#search-results').hide();
+                }
             });
+
+            // For responsive search bar
+            $('#responsive-search').on('input', function() {
+                let query = $(this).val();
+
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "{{ route('search') }}",
+                        type: "GET",
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            let results = '';
+
+                            if (data.length > 0) {
+                                data.forEach(function(item) {
+                                    let link;
+                                    let icon;
+
+                                    if (item.type === 'image') {
+                                        link = `/images/${item.id}`;
+                                        icon = '<i class="fas fa-image"></i>';
+                                    } else {
+                                        link = `/profile/${item.id}`;
+                                        icon = '<i class="fas fa-user"></i>';
+                                    }
+
+                                    let title = item.type === 'image' ? item.title :
+                                        item.name;
+
+                                    results += `
+                                    <div class="p-2 hover:bg-gray-200 cursor-pointer">
+                                        <a href="${link}" class="block text-black">${icon} ${title}</a>
+                                    </div>
+                                `;
+                                });
+                            } else {
+                                results =
+                                    `<p class="p-2 text-gray-500">No results found</p>`;
+                            }
+
+                            $('#responsive-search-results').html(results).show();
+                        }
+                    });
+                } else {
+                    $('#responsive-search-results').hide();
+                }
+            });
+
+            // Hide results when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest('#search').length) {
+                    $('#search-results').hide();
+                }
+            });
+        });
         </script>
 
 

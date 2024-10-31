@@ -26,7 +26,7 @@ Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 Route::get('/images/tag/{tagName}', [ImageController::class, 'filterByTag'])->name('images.filterByTag');
 
 
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name(name: 'search');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/member', [AdminMemberController::class, 'index'])->name('admin.membership.index');
