@@ -355,13 +355,15 @@
 
                         <div class=" mb-4 flex justify-between items-center">
                             <h3 class="font-semibold text-xl">Your Albums</h3>
-                                <!-- ปุ่ม Create Album -->
+                            <!-- ปุ่ม Create Album -->
                             <a href="{{ route('albums.create') }}"
                                 class=" flex gap-2 items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-</svg>
- Create Album
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                                Create Album
                             </a>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -369,8 +371,10 @@
                             <div id="album-card-{{ $album->id }}"
                                 class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
                                 <div class="p-6">
-                                    <h4 class="text-gray-700 font-semibold text-md mb-2">Album : {{ $album->title }}</h4>
-                                    <p class="text-gray-500 font-normal text-md mb-2">{{ $album->images->count() }} images</p> <!-- แสดงจำนวนรูปในอัลบั้ม -->
+                                    <h4 class="text-gray-700 font-semibold text-md mb-2">Album : {{ $album->title }}
+                                    </h4>
+                                    <p class="text-gray-500 font-normal text-md mb-2">{{ $album->images->count() }}
+                                        images</p> <!-- แสดงจำนวนรูปในอัลบั้ม -->
                                 </div>
 
                                 <!-- ไอคอน View และ Delete -->
@@ -387,6 +391,7 @@
                                     </a>
 
                                     <!-- ปุ่ม Delete Album -->
+                                    @if(Auth::user() && Auth::user()->id === $user->id)
                                     <form action="{{ route('albums.destroy', $album->id) }}" method="POST"
                                         class="inline-block delete-album-form" data-album-id="{{ $album->id }}"
                                         onsubmit="return confirm('Are you sure you want to delete this album?');">
@@ -401,6 +406,7 @@
                                             </svg>
                                         </button>
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                             @empty
@@ -471,7 +477,8 @@
                             <div id="album-modal"
                                 class=" hidden fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50">
                                 <div class="bg-white rounded-lg p-6">
-                                    <h3 class="font-semibold text-lg mb-4 text-gray-800 text-center">Select an Album</h3>
+                                    <h3 class="font-semibold text-lg mb-4 text-gray-800 text-center">Select an Album
+                                    </h3>
                                     <form id="album-form" method="POST">
                                         @csrf
                                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -485,8 +492,8 @@
                                         </div>
                                     </form>
                                     <div class="flex justify-end">
-                                    <button id="close-album-modal"
-                                    class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
+                                        <button id="close-album-modal"
+                                            class="mt-4 px-4 py-2 bg-red-500 text-white rounded">Close</button>
                                     </div>
                                 </div>
                             </div>
