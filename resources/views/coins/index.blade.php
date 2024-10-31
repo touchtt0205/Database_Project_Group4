@@ -1,16 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-<<<<<<< Updated upstream
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
-            {{ __('BUY COINS') }}
-        </h2>
-        <div class="py-5">
-=======
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight text-center">
             {{ __('BUY COINS') }}
         </h2>
         <div class="py-5 min-h-[550px]">
->>>>>>> Stashed changes
+
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -153,32 +147,21 @@
         <!-- QR Code Modal -->
         <div id="qrModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
             <div class="bg-black bg-opacity-50 absolute inset-0"></div>
-<<<<<<< Updated upstream
-            <div class="bg-white rounded-lg p-6 z-10 w-full max-w-md shadow-xl">
-                <h3 class="text-xl font-bold text-center text-gray-800 dark:text-white mb-4">Scan to Pay</h3>
-                <div class="flex justify-center mb-2">
-                    <img src="https://secure1.zimple.cloud/images/thai_qr_payment.png" alt="PromptPay Logo"
-                        class="h-20 w-100">
-=======
+
             <div class="bg-white rounded-lg p-4 z-10 w-full max-w-md shadow-xl max-h-[800px]">
                 <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Scan to Pay</h3>
                 <div class="flex justify-center mb-2">
                     <img src="https://secure1.zimple.cloud/images/thai_qr_payment.png" alt="PromptPay Logo"
                         class="h-[70px]">
->>>>>>> Stashed changes
                 </div>
                 <div class="flex justify-center mb-4">
                     <img id="qrImage" class="w-48 h-48 rounded-lg shadow-md" src="" alt="QR Code" />
                 </div>
                 <span class="flex justify-center text-[#4fbeae]">สแกน QR เพื่อโอนเงินเข้าบัญชี</span>
                 <span class="flex justify-center mr-auto ml-auto">ชื่อ: นาย สิปปกร คำมีสว่าง</span>
-<<<<<<< Updated upstream
-                <hr class="m-2 border-t-2 border-[#23a15d]" />
-                <div class="flex justify-center text-lg text-gray-700 mt-2">
-=======
                 <hr class="m-2 border-t-1 border-[#23a15d]" />
                 <div class="flex justify-center text-lg text-red-800 mt-2">
->>>>>>> Stashed changes
+
                     ยอดที่ต้องชำระ: <span id="amountDisplay" class="mr-1 ml-1"></span> ฿
                 </div>
                 <div class="text-center text-gray-700 mb-4" id="modalContent"></div>
@@ -192,16 +175,7 @@
                     <label class="block text-sm font-medium text-gray-700">Upload Payment Slip</label>
                     <input type="file" name="slip_path" accept="image/*" required
                         class="mt-2 mb-4 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-<<<<<<< Updated upstream
-                    <button type="submit"
-                        class="w-full py-1 mb-2 text-lg font-semibold text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-md">
-                        Upload Slip
-                    </button>
-                </form>
 
-                <button onclick="closeModal()"
-                    class="w-full py-1 text-lg font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-md">
-=======
                         <button type="submit"
                         class="w-full py-2 mb-3 text-md font-normal text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-md">
                         Upload Slip
@@ -209,7 +183,7 @@
                 </form>
                 <button onclick="closeModal()"
                     class="w-full py-2 mb-3 text-md font-normal text-white bg-red-600 hover:bg-red-700 rounded-lg shadow-md">
->>>>>>> Stashed changes
+
                     Close
                 </button>
             </div>
@@ -234,8 +208,6 @@
             }
         </script>
     </x-slot>
-<<<<<<< Updated upstream
+
 </x-app-layout>
-=======
-</x-app-layout>
->>>>>>> Stashed changes
+

@@ -344,29 +344,15 @@
                 @endif
             </div>
         </div>
-<<<<<<< Updated upstream
-        <div class="py-12">
-            <!-- ปุ่ม Create Album -->
-            @if(Auth::user() && Auth::user()->id === $user->id)
-            <a href="{{ route('albums.create') }}"
-                class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
-                Create Album
-            </a>
-            @endif
-=======
         <div class="py-6 ">
 
-
->>>>>>> Stashed changes
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
                 <div class="bg-gray-800 overflow-hidden shadow-md sm:rounded-lg">
                     <div class="p-6 text-gray-100">
 
                         <!-- แสดงอัลบั้มที่ผู้ใช้สร้าง -->
-<<<<<<< Updated upstream
-                        <h3 class="font-semibold text-lg mb-4">Albums</h3>
-=======
+
                         <div class=" mb-4 flex justify-between items-center">
                             <h3 class="font-semibold text-xl">Your Albums</h3>
                                 <!-- ปุ่ม Create Album -->
@@ -378,7 +364,6 @@
  Create Album
                             </a>
                         </div>
->>>>>>> Stashed changes
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             @forelse($albums as $album)
                             <div id="album-card-{{ $album->id }}"

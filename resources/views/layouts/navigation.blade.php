@@ -47,15 +47,11 @@
                     </x-nav-link>
 
                     <div class="mt-3">
-<<<<<<< Updated upstream
-                        <input type="text" id="search" placeholder="Search images or users..."
-                            class="w-full p-2 border rounded">
-                        <div id="search-results" class="absolute bg-white border rounded mt-1 w-5xl"></div>
-=======
+
                         <input type="text" id="search" placeholder="Search images or users... " class="w-[300px] p-2 border rounded-xl">
 
                         <div id="search-results" class="absolute bg-white border rounded mt-2 w-[300px] hidden"></div>
->>>>>>> Stashed changes
+
                     </div>
 
                 </div>
