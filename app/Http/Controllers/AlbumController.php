@@ -40,7 +40,7 @@ class AlbumController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('profile.show', ['userId' => Auth::id()]); // Redirect to the profile of the logged-in user
+        return redirect()->route('profile.show', ['id' => Auth::id()]); // Redirect to the profile of the logged-in user
     }
 
     public function destroy($id)
@@ -57,7 +57,7 @@ class AlbumController extends Controller
     $album->delete();
 
     // Redirect to the albums index or another page
-    return redirect()->route('profile.show', ['userId' => Auth::id()]); 
+    return redirect()->route('profile.show', ['id' => Auth::id()]); 
 }
 
 public function show(Album $album)

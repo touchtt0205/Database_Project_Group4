@@ -149,7 +149,7 @@ class ImageController extends Controller
         // ลบข้อมูลรูปจากฐานข้อมูล
         $image->delete();
 
-        return redirect()->route('profile.show', ['userId' => Auth::id()]);
+        return redirect()->route('profile.show', ['id' => Auth::id()]);
     }
 
 
