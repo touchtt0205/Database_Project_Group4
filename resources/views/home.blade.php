@@ -8,54 +8,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        color: #333;
-        background-color: ;
-        /* Set the background color */
-    }
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: white;
+            /* Set the background color */
+        }
 
-    .image-container {
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-    }
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
 
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .image-container:hover .image-overlay {
-        opacity: 1;
-    }
+        .image-container:hover .image-overlay {
+            opacity: 1;
+        }
 
-    .image-placeholder {
-        display: block;
-        width: 100%;
-        height: auto;
-        background-image: url('https://via.placeholder.com/400x300?text=No+Image');
-        background-size: cover;
-        background-position: center;
-        border-radius: 0.5rem;
-    }
+        .image-placeholder {
+            display: block;
+            width: 100%;
+            height: auto;
+            background-image: url('https://via.placeholder.com/400x300?text=No+Image');
+            background-size: cover;
+            background-position: center;
+            border-radius: 0.5rem;
+        }
 
-    img {
-        display: block;
-        width: auto;
-        height: auto;
-    }
+        img {
+            display: block;
+            width: auto;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -149,26 +149,26 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
         <div class="font-bold flex justify-center mb-5 welcome-text">!!!! WELCOME TO PTYT !!!!</div>
         <style>
-        .welcome-text {
-            font-size: 5vw;
-            background: linear-gradient(90deg, #0d47a1, #1976d2, #42a5f5);
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
-            animation: slideIn 1s ease-out;
-        }
-
-        @keyframes slideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-50px);
+            .welcome-text {
+                font-size: 5vw;
+                background: linear-gradient(90deg, #0d47a1, #1976d2, #42a5f5);
+                -webkit-background-clip: text;
+                color: transparent;
+                text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+                animation: slideIn 1s ease-out;
             }
 
-            100% {
-                opacity: 1;
-                transform: translateY(0);
+            @keyframes slideIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-50px);
+                }
+
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
-        }
         </style>
 
         <hr>
