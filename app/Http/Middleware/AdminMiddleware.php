@@ -19,7 +19,7 @@ class AdminMiddleware
     {
         // ตรวจสอบว่าผู้ใช้ล็อกอินและเป็น admin หรือไม่
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect('/'); // หรือ redirect ไปยังหน้าอื่น
+            return redirect('/images'); // หรือ redirect ไปยังหน้าอื่น
         }
 
         return $next($request);

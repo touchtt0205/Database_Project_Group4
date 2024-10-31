@@ -15,7 +15,7 @@ class AdminCoinController extends Controller
 
     {
         if (!Auth::user()->isAdmin) {
-            return redirect('/dashboard'); // redirect หากไม่ใช่ admin
+            return redirect('/images'); // redirect หากไม่ใช่ admin
         }
         $slips = Slip::all();
         return view('admin.coins.index', compact('slips'));

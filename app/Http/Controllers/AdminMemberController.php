@@ -13,7 +13,7 @@ class AdminMemberController extends Controller
 
     {
         if (!Auth::user()->isAdmin) {
-            return redirect('/dashboard'); // redirect หากไม่ใช่ admin
+            return redirect('/images'); // redirect หากไม่ใช่ admin
         }
         $slips = MembershipSlip::all();
         return view('admin.membership.index', compact('slips'));
