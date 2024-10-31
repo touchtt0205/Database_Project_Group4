@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+.border-active {
+    border-bottom: 1.6px solid #4F46E5; /* หรือกำหนดสีที่คุณต้องการ */
+}

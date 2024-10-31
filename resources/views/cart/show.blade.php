@@ -1,37 +1,49 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+        <h2 class="font-normal tracking-wide text-[26px]  text-gray-200 leading-tight text-center mb-6">
             {{ __('My Cart') }}
         </h2>
+        <!-- Flash message -->
+@if(session('success'))
+    <div id="flashMessage" class="bg-green-500 text-white p-4 rounded mt-4">
+        {{ session('success') }}
+    </div>
+@endif
+@if(session('error'))
+    <div id="flashMessage" class="bg-red-500 text-white p-4 rounded mt-4">
+        {{ session('error') }}
+    </div>
+@endif
+
         <div class="py-1">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-[550px]">
+                <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class=" text-gray-100 font-normal tracking-wide">
                         @if($carts->isEmpty())
                         <p>Your cart is empty.</p>
                         @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
                             @php
                             $totalPrice = 0;
                             @endphp
 
                             @foreach($carts as $cart)
-                            <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                            <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
                                 <a href="{{ route('images.show', $cart->image->id) }}">
-                                    <img class="w-full h-48 object-cover"
+                                    <img class="w-full h-[300px] object-cover"
                                         src="{{ asset('storage/' . $cart->image->path) }}"
                                         alt="{{ $cart->image->title }}">
                                     <div class="px-6 py-4">
-                                        <div class="font-bold text-xl mb-2">{{ $cart->image->title }}</div>
-                                        <p class="text-gray-700 text-base">
+                                        <div class="font-bold text-xl text-gray-800">{{ $cart->image->title }}</div>
+                                        <p class="text-gray-500 text-base">
                                             {{ Str::limit($cart->image->description, 100) }}
                                         </p>
-                                        <p class="text-gray-900 dark:text-gray-200 mt-2">
+                                        <p class="text-red-500">
                                             Price: ${{ number_format($cart->image->price, 2) }}
                                         </p>
                                     </div>
                                 </a>
-                                <div class="px-6 pb-4">
+                                <div class="px-6 pb-4 float-right">
                                     <form action="{{ route('carts.destroy', $cart->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -52,8 +64,10 @@
                             @endforeach
                         </div>
 
+                        <hr></hr>
+
                         <!-- Display Total Price -->
-                        <div class="mt-6 text-lg">
+                        <div class="mt-6 font-normal tracking-wide">
                             @php
                             // ดึงระดับสมาชิกของผู้ใช้
                             $memberLevel = Auth::user()->member_level ?? null;
@@ -103,26 +117,14 @@
 
 
                         <!-- Checkout Button -->
-                        <div class="mt-4">
+                        <div class="mt-4 ">
                             <form action="{{ route('checkout') }}" method="GET">
                                 @csrf
                                 <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
                                     Checkout
                                 </button>
                             </form>
-                        </div>
-                        @endif
-
-                        <!-- Flash message -->
-                        @if(session('success'))
-                        <div class="bg-green-500 text-white p-4 rounded mt-4">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-                        @if(session('error'))
-                        <div class="bg-red-500 text-white p-4 rounded mt-4">
-                            {{ session('error') }}
                         </div>
                         @endif
 
@@ -132,5 +134,15 @@
         </div>
     </x-slot>
 
-
+    <script>
+    // กำหนดเวลาให้ Flash Message หายไปหลัง 3 วินาที (3000 milliseconds)
+    setTimeout(() => {
+        const flashMessage = document.getElementById('flashMessage');
+        if (flashMessage) {
+            flashMessage.style.transition = 'opacity 0.5s';
+            flashMessage.style.opacity = '0';
+            setTimeout(() => flashMessage.remove(), 500); // ลบออกจาก DOM หลังจากที่จางหายไป
+        }
+    }, 3000); // 3 วินาที
+</script>
 </x-app-layout>

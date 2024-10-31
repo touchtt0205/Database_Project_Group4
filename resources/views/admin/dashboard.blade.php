@@ -66,12 +66,12 @@
                             <h4 class="text-lg font-bold text-center">Overview</h4>
                             <div class="flex justify-center mt-4">
                                 <div class="bg-pink-100 p-6 rounded-lg shadow mx-2 text-center w-1/3">
-                                    <p class="font-bold">Total Users:</p>
-                                    <p class="text-xl">{{ $userCount }}</p>
+                                    <p class="font-bold text-teal-900">Total Users:</p>
+                                    <p class="text-xl text-teal-900">{{ $userCount }}</p>
                                 </div>
                                 <div class="bg-yellow-100 p-6 rounded-lg shadow mx-2 text-center w-1/3">
-                                    <p class="font-bold">Total Amount Spent:</p>
-                                    <p class="text-xl">${{ number_format($totalSpent, 2) }}</p>
+                                    <p class="font-bold text-violet-900">Total Amount Spent:</p>
+                                    <p class="text-xl text-violet-900">${{ number_format($totalSpent, 2) }}</p>
                                 </div>
                             </div>
 

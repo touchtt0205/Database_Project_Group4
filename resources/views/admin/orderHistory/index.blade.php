@@ -8,20 +8,20 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-bold mb-4">Order History</h3>
 
                     @if($orderHistories->isEmpty())
                     <p>No order history found.</p>
                     @else
-                    <table class="min-w-full bg-white">
+                    <table class="min-w-full ">
                         <thead>
                             <tr>
-                                <th class="py-2">User ID</th>
-                                <th class="py-2">Order ID</th>
+                                <th class="py-2 text-gray-200">User ID</th>
+                                <th class="py-2 text-gray-200">Order ID</th>
 
-                                <th class="py-2">Action</th>
+                                <th class="py-2 text-gray-200">Action</th>
                             </tr>
                         </thead>
                         <tbody>

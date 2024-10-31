@@ -1,58 +1,77 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+        <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight text-center">
             {{ __('Gallery') }}
         </h2>
         <div class="py-1">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <!-- Tag Filter -->
-                        @if(isset($tags) && !empty($tags))
-                        <h3 class="font-semibold text-lg">Filter by Tag:</h3>
-                        <div class="flex flex-wrap">
-                            @foreach ($tags as $tag)
-                            <a href="{{ route('images.filterByTag', $tag->name) }}"
-                                class="tag-filter py-2 px-4 rounded mr-2 mb-2 border-2 border-gray-400 bg-transparent text-gray-700 hover:bg-gray-200 transition duration-300 {{ isset($selectedTag) && $selectedTag === $tag->name ? 'active' : '' }}"
-                                data-tag="{{ $tag->name }}">
-                                {{ $tag->name }}
-                            </a>
-                            @endforeach
-                        </div>
-                        @endif
-                        <a href="{{ route('images.index') }}" class="text-gray-100 hover:text-gray-700">Reset</a>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
+                <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg min-h-[550px]">
+                    <div class="p-6 text-gray-100 ">
+                        <div class="flex justify-between">
+                            <div>
+                                <!-- Tag Filter -->
+                            @if(isset($tags) && !empty($tags))
+                            <h3 class="font-normal text-lg tracking-wide mb-3">Filter by Tag :</h3>
 
+                            <div class="flex flex-wrap mb-3 gap-2">
+
+                                @foreach ($tags as $tag)
+
+                                <a href="{{ route('images.filterByTag', $tag->name) }}"
+                                    class="tag-filter py-2 px-4 rounded border-2 border-gray-400 bg-transparent text-gray-700 hover:bg-gray-700 transition duration-300 {{ isset($selectedTag) && $selectedTag === $tag->name ? 'active' : '' }}"
+                                    data-tag="{{ $tag->name }}">
+                                    {{ $tag->name }}
+                                </a>
+                                @endforeach
+                            </div>
+                            @endif
+                            </div>
+
+
+                        </div>
+
+                        <div class="flex justify-between items-center mt-1 mb-3">
+                        <h3 class="font-normal tracking-wide text-lg">Available Images </h3>
 
 
 
                         <!-- Filter Form -->
-                        <form method="GET" action="{{ route('images.index') }}" class="mb-4">
-                            <label for="sort" class="mr-2">Sort by:</label>
-                            <select id="sort" name="sort" onchange="this.form.submit()">
-                                <option value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest
-                                    Uploaded
-                                </option>
-                                <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest
-                                    Uploaded
-                                </option>
-                                <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price:
-                                    Low
-                                    to High</option>
-                                <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>
-                                    Price:
-                                    High to Low</option>
-                            </select>
-                        </form>
+                        <div class="flex gap-3 items-center">
+                        <form method="GET" action="{{ route('images.index') }}" class="">
+                                <label for="sort" class="mr-2 mb-3 ">Sort by :</label>
+                                <select id="sort" name="sort" class=" text-sm sm:rounded-lg text-gray-600" onchange="this.form.submit() ">
+                                    <option class="sortHover" value="latest" {{ request('sort') === 'latest' ? 'selected' : '' }}>Latest
+                                        Uploaded
+                                    </option>
+                                    <option class="sortHover" value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest
+                                        Uploaded
+                                    </option>
+                                    <option class="sortHover" value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price:
+                                        Low
+                                        to High</option>
+                                    <option class="sortHover" value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>
+                                        Price:
+                                        High to Low</option>
+                                </select>
+                            </form>
+                            <a href="{{ route('images.index') }}" class=" border-2 border-red-500 hover:text-white hover:bg-red-700 item-center flex justify-center rounded text-gray-100  bg-red-500 px-4 py-[5px] gap-1">Reset Filter <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75 14.25 12m0 0 2.25 2.25M14.25 12l2.25-2.25M14.25 12 12 14.25m-2.58 4.92-6.374-6.375a1.125 1.125 0 0 1 0-1.59L9.42 4.83c.21-.211.497-.33.795-.33H19.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-9.284c-.298 0-.585-.119-.795-.33Z" />
+</svg>
+</a>
+                        </div>
 
-                        <h3 class="font-semibold text-lg">Available Images</h3>
+                        </div>
+                        <hr><hr>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
                             @foreach ($images as $image)
                             <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                <!-- รูป -->
                                 <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->title }}"
-                                    class="w-full h-auto object-cover mb-2">
+                                    class="w-full h-[300px] object-cover mb-2">
+                                <!-- ข้อมูลรูป -->
                                 <div class="p-4">
-                                    <h4 class="font-semibold text-md">{{ $image->title }}</h4>
-                                    <p class="text-gray-500">Price: ${{ $image->price }}</p>
+                                    <h4 class="font-semibold text-lg text-gray-800 ">{{ $image->title }}</h4>
+                                    <p class="text-gray-500">Price : $ {{ $image->price }}</p>
                                     <div class="mt-2 flex justify-between items-center">
                                         <!-- Eye Icon for View Details -->
                                         <a href="{{ route('images.show', $image->id) }}"
@@ -132,7 +151,7 @@
 
                         <!-- No Images Message -->
                         @if ($images->isEmpty())
-                        <p class="text-gray-500 font-semibold">{{ __('No images available.') }}</p>
+                        <p class="text-gray-500 font-normal">{{ __('No images available.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -140,10 +159,14 @@
         </div>
 
         <style>
+        #option.sortHover:hover{
+            background-color:red;
+        }
         .tag-filter {
             background-color: transparent;
             /* Transparent background */
-            border: 2px dashed gray;
+            border: 2px solid gray;
+            color:gray;
             /* Dashed gray border */
             transition: background-color 0.3s ease, border-color 0.3s ease;
             /* Smooth transition */
@@ -152,21 +175,22 @@
         .tag-filter:hover {
             background-color: rgba(0, 0, 0, 0.1);
             /* Slightly dark background on hover */
-            border-color: gray;
+            border-color: white;
+            color:white;
             /* Keep border color gray on hover */
         }
 
         .tag-filter.active {
-            background-color: gray;
+            background-color: white;
             /* Solid gray background when selected */
-            border: 2px solid gray;
-            /* Solid gray border when selected */
-            color: white;
+            border-color: white;
+            color: black;
             /* Text color white when selected */
         }
         </style>
 
         <script>
+
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const selectedTag = urlParams.get('tag'); // Get the tag from the URL
