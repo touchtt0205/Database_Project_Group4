@@ -5,7 +5,7 @@
         </h2>
         <div class="py-2">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-[#141A24] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach ($memberships as $membership)
@@ -34,7 +34,7 @@
                                         ${{ number_format($membership->price) }} ฿
                                     </p>
 
-                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    <p class="mb-3 font-normal text-white-700 white:text-white-400 text-center">
                                         Privileges: {{ $membership->benefits }}
                                     </p>
 

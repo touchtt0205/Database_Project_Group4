@@ -249,7 +249,7 @@
 
                 @case('Ultimate')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong> &nbsp;</p>
+                <p>Membership-Level: <strong class="text-white">{{ $user->member_level }}</strong> &nbsp;</p>
                 <!-- ไอคอน Ultimate -->
                 <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-6 h-6">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -503,26 +503,26 @@
             </div>
         </div>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Open the modal when clicking the open album modal button
-            document.querySelectorAll('.open-album-modal').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    const imageId = this.getAttribute('data-image-id');
-                    const albumForm = document.getElementById('album-form');
-                    // Update the action URL of the form with the selected image ID
-                    albumForm.action =
-                        `/albums/${imageId}/add`; // Change this to your actual route
+            document.addEventListener('DOMContentLoaded', function() {
+                // Open the modal when clicking the open album modal button
+                document.querySelectorAll('.open-album-modal').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const imageId = this.getAttribute('data-image-id');
+                        const albumForm = document.getElementById('album-form');
+                        // Update the action URL of the form with the selected image ID
+                        albumForm.action =
+                            `/albums/${imageId}/add`; // Change this to your actual route
 
-                    // Show the modal
-                    document.getElementById('album-modal').classList.remove('hidden');
+                        // Show the modal
+                        document.getElementById('album-modal').classList.remove('hidden');
+                    });
+                });
+
+                // Close the modal
+                document.getElementById('close-album-modal').addEventListener('click', function() {
+                    document.getElementById('album-modal').classList.add('hidden');
                 });
             });
-
-            // Close the modal
-            document.getElementById('close-album-modal').addEventListener('click', function() {
-                document.getElementById('album-modal').classList.add('hidden');
-            });
-        });
         </script>
     </x-slot>
 
