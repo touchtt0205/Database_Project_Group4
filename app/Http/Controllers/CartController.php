@@ -15,6 +15,7 @@ use App\Models\ImageOwnership;
 class CartController extends Controller
 
 {
+
     public function add(Request $request, $imageId)
     {
         // ค้นหารูปภาพตาม ID
@@ -49,7 +50,7 @@ class CartController extends Controller
             'image_id' => $image->id,
         ]);
 
-        return redirect()->route('cart.show')->with('success', 'Image added to cart.');
+        return redirect()->route('images.index')->with('success', 'Image added to cart.');
     }
 
 

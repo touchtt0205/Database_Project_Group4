@@ -16,7 +16,7 @@
                                 <div class="p-3 rounded-t-lg" style="background: radial-gradient(circle,
                                 @if($membership->level === 'Bronze') #fecf7d, #8c6239
                                 @elseif($membership->level === 'Silver') #e5eaf0, #a9a9a9
-                                @elseif($membership->level === 'Gold') #ffd700, #d4af37
+                                @elseif($membership->level === 'Gold') #fdfde2, #d4af37
                                 @elseif($membership->level === 'Platinum') #cffef6, #a3bae6
                                 @elseif($membership->level === 'Diamond') #cbb5cc , #ad7cdd
                                 @elseif($membership->level === 'Ultimate') #fac8f7, #97193e
@@ -100,7 +100,8 @@
 
         <style>
             .price-shadow {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* เงาสีดำบางๆ */
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+                /* เงาสีดำบางๆ */
             }
         </style>
 
