@@ -47,8 +47,7 @@
                     <div class="mt-3">
                         <input type="text" id="search" placeholder="Search images or users..."
                             class="w-full p-2 border rounded">
-
-
+                        <div id="search-results" class="absolute bg-white border rounded mt-1 w-5xl"></div>
                     </div>
                 </div>
             </div>
