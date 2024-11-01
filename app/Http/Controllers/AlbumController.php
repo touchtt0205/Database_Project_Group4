@@ -63,12 +63,12 @@ class AlbumController extends Controller
     }
 
     public function show(Album $album)
-    {
-        // Ensure the album is correctly resolved
-        // This should be fine if the policy is working
-        $images = $album->images; // Get the images associated with the album
-        return view('albums.show', compact('album', 'images')); // Pass the album and images to the view
-    }
+{
+    $images = $album->images;
+    $albumOwnerId = $album->user_id;
+    return view('albums.show', compact('album', 'images', 'albumOwnerId'));
+}
+
 
 
 
