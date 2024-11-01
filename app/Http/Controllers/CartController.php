@@ -95,17 +95,17 @@ class CartController extends Controller
         $discountRate = 0;
 
         if ($memberLevel === "Bronze") {
-            $discountRate = 0.10;
+            $discountRate = 0.05;
         } elseif ($memberLevel === "Silver") {
-            $discountRate = 0.20;
+            $discountRate = 0.14;
         } elseif ($memberLevel === "Gold") {
-            $discountRate = 0.30;
+            $discountRate = 0.20;
         } elseif ($memberLevel === "Platinum") {
-            $discountRate = 0.40;
+            $discountRate = 0.30;
         } elseif ($memberLevel === "Diamond") {
-            $discountRate = 0.50;
+            $discountRate = 0.40;
         } elseif ($memberLevel === "Ultimate") {
-            $discountRate = 0.60;
+            $discountRate = 0.55;
         }
 
         $totalPrice = 0;

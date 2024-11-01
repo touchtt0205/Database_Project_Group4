@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto">
+<div class="container mx-auto ">
     <h1 class="text-2xl font-bold mb-4">Add Photo to Album</h1>
 
     <form action="{{ route('album-images.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="mb-4">
+        <div class="mb-4 ">
             <label for="album" class="block text-sm font-medium text-gray-700">Select Album:</label>
             <select name="album_id" id="album"
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring focus:ring-green-200">

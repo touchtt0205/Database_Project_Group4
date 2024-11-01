@@ -477,8 +477,8 @@
 
                             <!-- Modal for selecting an album -->
                             <div id="album-modal"
-                                class=" hidden fixed inset-0 items-center justify-center bg-gray-800 bg-opacity-50">
-                                <div class="bg-white rounded-lg p-6">
+                                class=" hidden fixed flex inset-0 items-center justify-center bg-gray-800 bg-opacity-50">
+                                <div class="absolute bg-white rounded-lg p-6 max-w-[600px] min-w-[500px]" >
                                     <h3 class="font-semibold text-lg mb-4 text-gray-800 text-center">Select an Album
                                     </h3>
                                     <form id="album-form" method="POST">
