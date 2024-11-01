@@ -7,3 +7,25 @@
 .border-active {
     border-bottom: 1.6px solid #4F46E5; /* หรือกำหนดสีที่คุณต้องการ */
 }
+
+.welcome-text {
+    border: 1px solid red;
+    font-size: 5vw; /* Responsive font size */
+    background: linear-gradient(90deg, #0d47a1, #1976d2, #42a5f5); /* Dark to light blue */
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

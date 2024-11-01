@@ -10,19 +10,20 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            /* background-color:#1F2937; */
+            background-color:#1F2937;
             color: #333;
         }
+
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
     <nav x-data="{ open: false, dropdownOpen: false }"
-        class="bg-gray-800  text-white">
+        class="bg-gray-900  text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex">
+                <div class="flex justify-center">
                     <div class="shrink-0 flex items-center">
                         <img src="{{ asset('storage/images/NewLogoX.png') }}" style="filter:invert(100%)" alt="Logo" class="block h-9 w-auto">
                     </div>
@@ -100,16 +101,71 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
         <!-- Changed mt-6 to mt-4 for reduced spacing -->
 
-        <div class="font-bold flex justify-center mb-5 welcome-text">!!!! WELCOME TO PTYT !!!!</div>
+        <div class="flex gap-4 items-center justify-center">
+            <div class="flex  items-center justify-center">
+                <div class="font-normal flex justify-center mb-5 welcome-text ">W</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">E   </div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">L</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">C</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">O</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">M</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">E</div>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <div class="font-normal flex justify-center mb-5 welcome-text ">T</div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">O</div>
+            </div>
+
+            <div class="flex gap-1 items-center justify-center">
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >P</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >T</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >Y</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >T</div>
+            </div>
+        </div>
         <style>
             .welcome-text {
-                font-size: 5vw; /* Responsive font size */
-                background: linear-gradient(90deg, #0d47a1, #1976d2, #42a5f5); /* Dark to light blue */
+                font-size: 3vw; /* Responsive font size */
+                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Dark to light blue */
                 -webkit-background-clip: text;
                 color: transparent;
-                text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+                transition:0.3s;
                 animation: slideIn 1s ease-out;
             }
+            .welcome-text:hover{
+                scale:1.3;
+            }
+            .welcome-textPTYT {
+
+                font-size: 3vw; /* Responsive font size */
+                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Dark to light blue */
+                -webkit-background-clip: text;
+                color: transparent;
+                transition:0.3s;
+                animation: slideIn 1s ease-out;
+            }
+            .welcome-textPTYT:hover{
+                scale:1.3;
+            }
+            .bo {
+                border: none; /* Remove default border */
+                height: 1.5px; /* Set height of the line */
+                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Apply gradient */
+                border-radius: 2px; /* Optional: rounded edges */
+            }
+            .picshow{
+                height: 300px !important;
+            }
+            .popup{
+                border:3px solid white;
+                transition:0.3s;
+            }
+            .popup:hover{
+                scale:1.05;
+                transition:0.3s;
+            }
+
             @keyframes slideIn {
                 0% {
                     opacity: 0;
@@ -122,30 +178,34 @@
             }
         </style>
 
-        <hr></hr>
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-5">
-            <div class="p-6 text-gray-900 dark:text-gray-100">
+
+        <hr class="bo"></hr>
+
+        <div class=" mt-5 mb-12">
+            <div class="p-1 text-gray-100">
 
 
 
-                <h3 class="font-semibold text-lg mb-2">Available Images</h3> <!-- Added mb-2 for spacing -->
+                <h3 class="font-medium tracking-wide text-lg mb-4">Available Images</h3> <!-- Added mb-2 for spacing -->
+
                 @if ($images->isEmpty())
                 <p class="text-gray-500 items-center justify-center">Not Available Image</p>
                 @else
                 <div class="flex items-center justify-center ">
-                    <div class=" h-auto max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class=" max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($images as $image)
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                        <div class= "bg-white rounded-lg shadow-md overflow-hidden mb-4 popup">
+
                         <!-- Added mb-4 for spacing -->
                         @if ($image->path)
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->name }}" class="w-full h-[300px] object-cover mb-2">
+                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->name }}" class="picshow w-full h-[300px]  object-cover mb-2">
                         @else
-                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class="w-full h-[300px] object-cover mb-2">
+                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class=" picshow w-full h-[300px] object-cover mb-2">
                         @endif
                         <div class="p-4">
                             <h2 class="text-lg font-semibold text-gray-800">{{ $image->title }}</h2>
-                            <p class="text-gray-600 dark:text-gray-500 mt-2">{{ $image->description }}</p>
-                            <p class="text-red-500 font-bold mt-2">ราคา: {{ number_format($image->price, 2) }} บาท</p>
+                            <p class="text-gray-600 dark:text-gray-500 ">{{ $image->description }}</p>
+                            <p class="text-gray-400 font-normal mt-3">ราคา: {{ number_format($image->price, 2) }} บาท</p>
                         </div>
                     </div>
 
