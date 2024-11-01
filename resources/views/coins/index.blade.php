@@ -3,15 +3,16 @@
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight text-center">
             {{ __('BUY COINS') }}
         </h2>
+        <hr class="m-2">
+        </hr>
         <div class="py-5 min-h-[550px]">
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-[#141A24] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach ($cardsData as $card)
-                            <div
-                                class="max-w-sm bg-white dark:bg-gray-700 border border-gray-200 rounded-lg shadow-md relative">
+                            <div class="max-w-sm bg-[#aabedc]   rounded-lg shadow-md relative">
                                 <!-- Container to align logo, text, and button in a single row -->
                                 <div class="p-5 flex items-center justify-between">
                                     <!-- Logo on the left
@@ -176,7 +177,7 @@
                     <input type="file" name="slip_path" accept="image/*" required
                         class="mt-2 mb-4 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
 
-                        <button type="submit"
+                    <button type="submit"
                         class="w-full py-2 mb-3 text-md font-normal text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-md">
                         Upload Slip
                     </button>
@@ -210,4 +211,3 @@
     </x-slot>
 
 </x-app-layout>
-

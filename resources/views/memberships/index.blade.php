@@ -3,9 +3,11 @@
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight  text-center">
             {{ __('Buy Membership') }}
         </h2>
+        <hr class="m-2">
+        </hr>
         <div class="py-2">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-[#141A24] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach ($memberships as $membership)
@@ -16,7 +18,7 @@
                                 <div class="p-3 rounded-t-lg" style="background: radial-gradient(circle,
                                 @if($membership->level === 'Bronze') #fecf7d, #8c6239
                                 @elseif($membership->level === 'Silver') #e5eaf0, #a9a9a9
-                                @elseif($membership->level === 'Gold') #ffd700, #d4af37
+                                @elseif($membership->level === 'Gold') #fdfde2, #d4af37
                                 @elseif($membership->level === 'Platinum') #cffef6, #a3bae6
                                 @elseif($membership->level === 'Diamond') #cbb5cc , #ad7cdd
                                 @elseif($membership->level === 'Ultimate') #fac8f7, #97193e
@@ -34,7 +36,7 @@
                                         ${{ number_format($membership->price) }} ฿
                                     </p>
 
-                                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-center">
+                                    <p class="mb-3 font-normal text-white-700 white:text-white-400 text-center">
                                         Privileges: {{ $membership->benefits }}
                                     </p>
 
@@ -100,7 +102,8 @@
 
         <style>
             .price-shadow {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* เงาสีดำบางๆ */
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+                /* เงาสีดำบางๆ */
             }
         </style>
 

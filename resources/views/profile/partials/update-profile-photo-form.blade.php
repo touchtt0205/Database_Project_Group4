@@ -1,21 +1,21 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-[#d7d7d7] dark:text-gray-100">
             {{ __('Profile Photo') }}
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-[#d7d7d7] dark:text-gray-400">
             {{ __("Update your profile photo.") }}
         </p>
     </header>
 
     <form method="post" action="{{ route('profile.photo.update') }}" enctype="multipart/form-data"
-        class="mt-6 space-y-6">
+        class="mt-6 space-y-6 text-[#d7d7d7]">
         @csrf
         <div>
-            <x-input-label for="profile_photo" :value="__('Profile Photo')" />
-            <input type="file" name="profile_photo" id="profile_photo" class="mt-1 block w-full" />
-            <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
+            <x-input-label for="profile_photo" :value="__('Profile Photo')" class="text-[#d7d7d7]" />
+            <input type="file" name="profile_photo" id="profile_photo" class="mt-1 block w-full " />
+            <x-input-error class="mt-2 " :messages="$errors->get('profile_photo')" />
         </div>
 
         <div class="flex items-center gap-4">
@@ -29,7 +29,7 @@
     </form>
 
     <div class="mt-6">
-        <x-input-label for="current_photo" :value="__('Current Profile Photo')" />
+        <x-input-label for="current_photo" :value="__('Current Profile Photo')" class="text-[#d7d7d7]" />
         <div class="mt-1">
             @if(Auth::user()->profile_photo)
             <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Photo"

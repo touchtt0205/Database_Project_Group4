@@ -20,6 +20,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\SearchController;
 
+
 Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 
 

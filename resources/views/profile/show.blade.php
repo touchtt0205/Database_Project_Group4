@@ -23,7 +23,7 @@
                 @switch($user->member_level)
                 @case('Bronze')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong>&nbsp; </p>
+                <p>Membership-Level : <strong class="text-white">{{ $user->member_level }}</strong>&nbsp; </p>
                 <!-- ไอคอน Bronze -->
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300.439 300.439" xml:space="preserve"
                     fill="#000000" class="w-ุ6 h-6">
@@ -46,7 +46,7 @@
 
                 @case('Silver')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong> &nbsp;</p>
+                <p>Membership-Level : <strong class="text-white">{{ $user->member_level }}</strong> &nbsp;</p>
                 <!-- ไอคอน Silver -->
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300.439 300.439" xml:space="preserve"
                     fill="#000000" class="w-ุ6 h-6">
@@ -69,7 +69,7 @@
 
                 @case('Gold')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong>&nbsp; </p>
+                <p>Membership-Level : <strong class="text-white">{{ $user->member_level }}</strong>&nbsp; </p>
                 <!-- ไอคอน Gold -->
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
                     fill="#000000" class="w-6 h-6">
@@ -126,7 +126,7 @@
 
                 @case('Platinum')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong>&nbsp; </p>
+                <p>Membership-Level : <strong class="text-white">{{ $user->member_level }}</strong>&nbsp; </p>
                 <!-- ไอคอน Platinum -->
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
                     fill="#000000" class="w-6 h-6">
@@ -211,7 +211,7 @@
                 @break
 
                 @case('Diamond')
-                <p>Membership-Level: <strong>{{ $user->member_level }}</strong>&nbsp;</p>
+                <p>Membership-Level: <strong class="text-white">{{ $user->member_level }}</strong>&nbsp;</p>
                 <!-- ไอคอน Diamond -->
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 504.123 504.123" xml:space="preserve"
                     fill="#000000" class="w-6 h-6">
@@ -249,7 +249,7 @@
 
                 @case('Ultimate')
 
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong> &nbsp;</p>
+                <p>Membership-Level: <strong class="text-white">{{ $user->member_level }}</strong> &nbsp;</p>
                 <!-- ไอคอน Ultimate -->
                 <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="w-6 h-6">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -320,7 +320,7 @@
                 @break
 
                 @default
-                <p>Membership-Level : <strong>{{ $user->member_level }}</strong></p>
+                <p>Membership-Level : <strong class="text-white">{{ $user->member_level }}</strong></p>
                 @endswitch
             </div>
             @else
@@ -354,8 +354,9 @@
                         <!-- แสดงอัลบั้มที่ผู้ใช้สร้าง -->
 
                         <div class=" mb-4 flex justify-between items-center">
-                            <h3 class="font-semibold text-xl">Your Albums</h3>
+                            <h3 class="font-semibold text-xl">Albums</h3>
                             <!-- ปุ่ม Create Album -->
+                            @if(Auth::user() && Auth::user()->id === $user->id)
                             <a href="{{ route('albums.create') }}"
                                 class=" flex gap-2 items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring focus:ring-green-200 disabled:opacity-25 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -365,13 +366,14 @@
                                 </svg>
                                 Create Album
                             </a>
+                            @endif
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             @forelse($albums as $album)
                             <div id="album-card-{{ $album->id }}"
-                                class="bg-white rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
+                                class="bg-[#141A24] rounded-lg shadow-lg overflow-hidden relative group transition-transform transform hover:scale-105">
                                 <div class="p-6">
-                                    <h4 class="text-gray-700 font-semibold text-md mb-2">Album : {{ $album->title }}
+                                    <h4 class="text-[#d7d7d7] font-semibold text-md mb-2">Album : {{ $album->title }}
                                     </h4>
                                     <p class="text-gray-500 font-normal text-md mb-2">{{ $album->images->count() }}
                                         images</p> <!-- แสดงจำนวนรูปในอัลบั้ม -->
@@ -503,26 +505,26 @@
             </div>
         </div>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Open the modal when clicking the open album modal button
-            document.querySelectorAll('.open-album-modal').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    const imageId = this.getAttribute('data-image-id');
-                    const albumForm = document.getElementById('album-form');
-                    // Update the action URL of the form with the selected image ID
-                    albumForm.action =
-                        `/albums/${imageId}/add`; // Change this to your actual route
+            document.addEventListener('DOMContentLoaded', function() {
+                // Open the modal when clicking the open album modal button
+                document.querySelectorAll('.open-album-modal').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        const imageId = this.getAttribute('data-image-id');
+                        const albumForm = document.getElementById('album-form');
+                        // Update the action URL of the form with the selected image ID
+                        albumForm.action =
+                            `/albums/${imageId}/add`; // Change this to your actual route
 
-                    // Show the modal
-                    document.getElementById('album-modal').classList.remove('hidden');
+                        // Show the modal
+                        document.getElementById('album-modal').classList.remove('hidden');
+                    });
+                });
+
+                // Close the modal
+                document.getElementById('close-album-modal').addEventListener('click', function() {
+                    document.getElementById('album-modal').classList.add('hidden');
                 });
             });
-
-            // Close the modal
-            document.getElementById('close-album-modal').addEventListener('click', function() {
-                document.getElementById('album-modal').classList.add('hidden');
-            });
-        });
         </script>
     </x-slot>
 
