@@ -3,17 +3,19 @@
         <h2 class="font-normal tracking-wide text-[26px]  text-gray-200 leading-tight text-center mb-6">
             {{ __('My Cart') }}
         </h2>
+        <hr class="m-2">
+        </hr>
         <!-- Flash message -->
-@if(session('success'))
-    <div id="flashMessage" class="bg-green-500 text-white p-4 rounded mt-4">
-        {{ session('success') }}
-    </div>
-@endif
-@if(session('error'))
-    <div id="flashMessage" class="bg-red-500 text-white p-4 rounded mt-4">
-        {{ session('error') }}
-    </div>
-@endif
+        @if(session('success'))
+        <div id="flashMessage" class="bg-green-500 text-white p-4 rounded mt-4">
+            {{ session('success') }}
+        </div>
+        @endif
+        @if(session('error'))
+        <div id="flashMessage" class="bg-red-500 text-white p-4 rounded mt-4">
+            {{ session('error') }}
+        </div>
+        @endif
 
         <div class="py-1">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-[550px]">
@@ -64,7 +66,8 @@
                             @endforeach
                         </div>
 
-                        <hr></hr>
+                        <hr>
+                        </hr>
 
                         <!-- Display Total Price -->
                         <div class="mt-6 font-normal tracking-wide">
@@ -135,14 +138,14 @@
     </x-slot>
 
     <script>
-    // กำหนดเวลาให้ Flash Message หายไปหลัง 3 วินาที (3000 milliseconds)
-    setTimeout(() => {
-        const flashMessage = document.getElementById('flashMessage');
-        if (flashMessage) {
-            flashMessage.style.transition = 'opacity 0.5s';
-            flashMessage.style.opacity = '0';
-            setTimeout(() => flashMessage.remove(), 500); // ลบออกจาก DOM หลังจากที่จางหายไป
-        }
-    }, 3000); // 3 วินาที
-</script>
+        // กำหนดเวลาให้ Flash Message หายไปหลัง 3 วินาที (3000 milliseconds)
+        setTimeout(() => {
+            const flashMessage = document.getElementById('flashMessage');
+            if (flashMessage) {
+                flashMessage.style.transition = 'opacity 0.5s';
+                flashMessage.style.opacity = '0';
+                setTimeout(() => flashMessage.remove(), 500); // ลบออกจาก DOM หลังจากที่จางหายไป
+            }
+        }, 3000); // 3 วินาที
+    </script>
 </x-app-layout>

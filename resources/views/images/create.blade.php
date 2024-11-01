@@ -3,8 +3,7 @@
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight text-center mb-5">
             {{ __('Upload Image') }}
         </h2>
-        <hr>
-        </hr>
+        <hr />
 
         <div class="py-1">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -19,14 +18,21 @@
                                     <!-- Image Upload Input and Placeholder -->
                                     <div
                                         class="relative w-full h-full min-h-64 flex items-center justify-center border-2 border-dashed rounded-lg overflow-hidden cursor-pointer">
-                                        <input type="file" name="image" id="image"
+                                        <input type="file" name="image" id="image" accept="image/jpeg,image/png"
                                             class="absolute inset-0 opacity-0 cursor-pointer" required
                                             onchange="handleImageSelect(event)">
                                         <span id="placeholderText" class="text-gray-400">Choose Image</span>
                                         <img id="selectedImage" class="absolute inset-0 w-full h-full object-contain"
                                             style="display: none;" />
-
                                     </div>
+
+                                    <!-- Cancel Selection Button -->
+                                    <button type="button" id="cancelSelection"
+                                        class="mt-2 text-red-500 hover:text-red-700" style="display: none;"
+                                        onclick="cancelImageSelection()">
+                                        Cancel Selection
+                                    </button>
+
                                     @error('image')
                                     <span class="text-red-500">{{ $message }}</span>
                                     @enderror
@@ -116,11 +122,13 @@
                     const selectedImage = document.getElementById('selectedImage');
                     const placeholderText = document.getElementById('placeholderText');
                     const imageSource = document.getElementById('imageSource');
+                    const cancelSelectionButton = document.getElementById('cancelSelection');
 
                     // Display the image in place of "Choose Image" text
                     selectedImage.src = reader.result;
                     selectedImage.style.display = 'block';
                     placeholderText.style.display = 'none';
+                    cancelSelectionButton.style.display = 'block';
 
                     // Display the file name under the image
                     imageSource.textContent = input.files[0] ? 'Source: ' + input.files[0].name : '';
@@ -129,6 +137,26 @@
                 if (input.files && input.files[0]) {
                     reader.readAsDataURL(input.files[0]);
                 }
+            }
+
+            function cancelImageSelection() {
+                const imageInput = document.getElementById('image');
+                const selectedImage = document.getElementById('selectedImage');
+                const placeholderText = document.getElementById('placeholderText');
+                const imageSource = document.getElementById('imageSource');
+                const cancelSelectionButton = document.getElementById('cancelSelection');
+
+                // Reset file input
+                imageInput.value = "";
+
+                // Hide the preview image and show placeholder text
+                selectedImage.style.display = 'none';
+                selectedImage.src = '';
+                placeholderText.style.display = 'block';
+                cancelSelectionButton.style.display = 'none';
+
+                // Clear file name text
+                imageSource.textContent = '';
             }
 
             function togglePriceFields(event) {

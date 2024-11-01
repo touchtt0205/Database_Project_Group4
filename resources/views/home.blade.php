@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PTYT X</title>
+    <title>PTYT STORe</title>
+    <link rel="shortcut icon" href="{{ asset('storage/images/sc1.png') }}" type="image/x-icon">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>

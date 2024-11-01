@@ -51,6 +51,7 @@ class CartController extends Controller
         ]);
 
         return redirect()->route('images.index')->with('success', 'Image added to cart.');
+        // return response()->json(['status' => 'success', 'message' => 'Image added to cart.']);
     }
 
 

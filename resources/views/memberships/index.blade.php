@@ -3,6 +3,8 @@
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight  text-center">
             {{ __('Buy Membership') }}
         </h2>
+        <hr class="m-2">
+        </hr>
         <div class="py-2">
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-[#141A24] dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

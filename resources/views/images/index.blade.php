@@ -131,6 +131,7 @@
                                             </form>
                                             @endif
                                         </div>
+
                                         <div id="toast-container" class="fixed top-0 right-0 p-6 z-50">
                                             @if (session('success'))
                                             <script>
@@ -144,8 +145,6 @@
                                             </script>
                                             @endif
                                         </div>
-
-
 
                                         @if (Auth::check())
                                         @php
@@ -177,12 +176,12 @@
                                         <form action="{{ route('carts.add', $image->id) }}" method="POST"
                                             class="add-to-cart-form">
                                             @csrf
-                                            <button type="submit" class="add-to-cart text-gray-500 hover:text-white-500"
+                                            <button type="submit" class="add-to-cart text-gray-500 hover:text-blue-500"
                                                 data-owner="{{ Auth::user()->id === $image->user_id ? 'true' : 'false' }}"
                                                 data-ownership="{{ $ownershipExists ? 'true' : 'false' }}"
                                                 data-cart="{{ $cartExists ? 'true' : 'false' }}" title="Add to Cart">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none"
+                                                    class="h-6 w-6 text-[#d7d7d7] hover:text-gray-700" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         stroke-width="2"
@@ -267,19 +266,26 @@
         }
 
         .toast {
-            visibility: hidden;
-            min-width: 250px;
-            margin: 5px;
-            background-color: #FF0000;
-            /* สีแดงเริ่มต้นสำหรับการแจ้งเตือน */
-            color: #FFF;
-            text-align: center;
+            visibility: visible;
+            /* แสดงทันทีเมื่อมีการเรียกใช้ */
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            /* ใช้ transition เพื่อให้เกิดเอฟเฟกต์การจาง */
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
             border-radius: 5px;
-            padding: 16px;
-            position: relative;
-            z-index: 1;
-            transition: visibility 0.5s, opacity 0.5s linear;
+            display: inline-block;
+        }
+
+        .toast.hidden {
             opacity: 0;
+            /* ซ่อนเมื่อไม่ต้องการแสดง */
+            visibility: hidden;
         }
 
         .toast.show {
@@ -300,33 +306,33 @@
         </style>
 
         <script>
-        function hideToast(toastId) {
-            const toast = document.getElementById(toastId);
+        function showToast(message, type = 'success') {
+            // สร้างหรือเลือก toast container
+            let toast = document.querySelector('.toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'toast';
+                document.body.appendChild(toast);
+            }
+
+            // กำหนดข้อความและประเภทของแจ้งเตือน
+            toast.textContent = message;
+            toast.classList.remove('hidden');
+            toast.style.backgroundColor = type === 'success' ? '#4caf50' : '#f44336';
+
+            // ตั้งเวลาให้แจ้งเตือนซ่อนหลังจาก 3 วินาที
+            setTimeout(() => {
+                hideToast();
+            }, 3000);
+        }
+
+        function hideToast() {
+            const toast = document.querySelector('.toast');
             if (toast) {
-                setTimeout(() => {
-                    toast.style.display = 'none'; // ซ่อนการแจ้งเตือน
-                }, 3000); // ปรับเวลาได้ตามต้องการ (3000 ms = 3 วินาที)
+                toast.classList.add('hidden');
             }
         }
 
-        function showToast(message, type = 'success') {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-
-            // กำหนดสีพื้นหลังของ toast ตามประเภท
-            toast.className = `toast show ${type === 'error' ? 'error' : 'success'}`; // ใช้คลาส error หรือ success
-            toast.innerText = message;
-
-            toastContainer.appendChild(toast);
-
-            // ลบ toast หลังจาก 3 วินาที
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toastContainer.removeChild(toast);
-                }, 500); // รอการเปลี่ยนภาพ fade-out
-            }, 3000);
-        }
 
 
 
@@ -390,8 +396,8 @@
 
         });
 
-        hideToast('success-toast');
-        hideToast('error-toast');
+        // hideToast('success-toast');
+        // hideToast('error-toast');
         </script>
 
     </x-slot>

@@ -3,6 +3,8 @@
         <h2 class="font-normal tracking-wide text-[26px] text-gray-200 leading-tight text-center">
             {{ __('BUY COINS') }}
         </h2>
+        <hr class="m-2">
+        </hr>
         <div class="py-5 min-h-[550px]">
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
