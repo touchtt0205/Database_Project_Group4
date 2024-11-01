@@ -13,7 +13,6 @@
             background-color:#1F2937;
             color: #333;
         }
-
     </style>
 </head>
 
