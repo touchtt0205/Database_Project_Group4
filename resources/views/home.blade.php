@@ -68,12 +68,8 @@
 
 <body>
     <!-- Navbar -->
-<<<<<<< HEAD
     <nav x-data="{ open: false, dropdownOpen: false }"
         class="bg-gray-900  text-white">
-=======
-    <nav x-data="{ open: false, dropdownOpen: false }" class="bg-gray-800 text-white">
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex justify-center">
@@ -159,7 +155,6 @@
     </div>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-<<<<<<< HEAD
         <!-- Changed mt-6 to mt-4 for reduced spacing -->
 
         <div class="flex gap-4 items-center justify-center">
@@ -189,19 +184,11 @@
             .welcome-text {
                 font-size: 3vw; /* Responsive font size */
                 background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Dark to light blue */
-=======
-        <div class="font-bold flex justify-center mb-5 welcome-text">!!!! WELCOME TO PTYT !!!!</div>
-        <style>
-            .welcome-text {
-                font-size: 5vw;
-                background: linear-gradient(90deg, #0d47a1, #1976d2, #42a5f5);
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
                 -webkit-background-clip: text;
                 color: transparent;
                 transition:0.3s;
                 animation: slideIn 1s ease-out;
             }
-<<<<<<< HEAD
             .welcome-text:hover{
                 scale:1.3;
             }
@@ -234,8 +221,6 @@
                 scale:1.05;
                 transition:0.3s;
             }
-=======
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
 
             @keyframes slideIn {
                 0% {
@@ -250,7 +235,6 @@
             }
         </style>
 
-<<<<<<< HEAD
 
         <hr class="bo"></hr>
 
@@ -261,17 +245,10 @@
 
                 <h3 class="font-medium tracking-wide text-lg mb-4">Available Images</h3> <!-- Added mb-2 for spacing -->
 
-=======
-        <hr>
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-5">
-            <div class="p-6 text-gray-900 dark:text-gray-100">
-                <h3 class="font-semibold text-lg mb-2">Available Images</h3>
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
                 @if ($images->isEmpty())
                 <p class="text-gray-500 items-center justify-center">Not Available Image</p>
                 @else
                 <div class="flex items-center justify-center ">
-<<<<<<< HEAD
                     <div class=" max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($images as $image)
                         <div class= "bg-white rounded-lg shadow-md overflow-hidden mb-4 popup">
@@ -286,26 +263,6 @@
                             <h2 class="text-lg font-semibold text-gray-800">{{ $image->title }}</h2>
                             <p class="text-gray-600 dark:text-gray-500 ">{{ $image->description }}</p>
                             <p class="text-gray-400 font-normal mt-3">ราคา: {{ number_format($image->price, 2) }} บาท</p>
-=======
-                    <div class="h-auto max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        @foreach ($images as $image)
-                        <div class="image-container mb-4 flex item-center justify-center">
-                            <!-- Placeholder image when not hovering -->
-                            <div class="image-placeholder"></div>
-                            <!-- Actual image shown on hover -->
-                            @if ($image->path)
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->name }}" class="w-full">
-                            @else
-                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class="w-full">
-                            @endif
-                            <!-- Overlay with details -->
-                            <div class="image-overlay">
-                                <h2 class="text-lg font-semibold">{{ $image->title }}</h2>
-                                <p class="mt-2">{{ $image->description }}</p>
-                                <p class="text-red-500 font-bold mt-2">ราคา: {{ number_format($image->price, 2) }} บาท
-                                </p>
-                            </div>
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
                         </div>
                         @endforeach
                     </div>
