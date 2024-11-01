@@ -354,7 +354,7 @@
                         <!-- แสดงอัลบั้มที่ผู้ใช้สร้าง -->
 
                         <div class=" mb-4 flex justify-between items-center">
-                            <h3 class="font-semibold text-xl">Your Albums</h3>
+                            <h3 class="font-semibold text-xl">Albums</h3>
                             <!-- ปุ่ม Create Album -->
                             @if(Auth::user() && Auth::user()->id === $user->id)
                             <a href="{{ route('albums.create') }}"
