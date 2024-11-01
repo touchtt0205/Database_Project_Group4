@@ -4,63 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PTYT STORe</title>
-    <link rel="shortcut icon" href="{{ asset('storage/images/sc1.png') }}" type="image/x-icon">
-
+    <title>PTYT X</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-<<<<<<< HEAD
             background-color:#1F2937;
-=======
->>>>>>> 939993c91cab0886c9b96ef2cb2dfa6c241035bb
             color: #333;
-            background-color: white;
-            /* Set the background color */
-        }
-
-        .image-container {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-container:hover .image-overlay {
-            opacity: 1;
-        }
-
-        .image-placeholder {
-            display: block;
-            width: 100%;
-            height: auto;
-            background-image: url('https://via.placeholder.com/400x300?text=No+Image');
-            background-size: cover;
-            background-position: center;
-            border-radius: 0.5rem;
-        }
-
-        img {
-            display: block;
-            width: auto;
-            height: auto;
         }
 
     </style>
@@ -72,10 +23,9 @@
         class="bg-gray-900  text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex justify-center">
+                <div class="flex justify-between">
                     <div class="shrink-0 flex items-center">
-                        <img src="{{ asset('storage/images/LogoX.png') }}" style="filter:invert(100%)" alt="Logo"
-                            class="block h-9 w-auto">
+                        <img src="{{ asset('storage/images/NewLogoX.png') }}" style="filter:invert(100%)" alt="Logo" class="block h-9 w-auto">
                     </div>
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ml-5">
@@ -85,15 +35,16 @@
                             {{ __('Gallery') }}
                         </button>
                     </div>
+
                 </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <div class="flex items-center">
+                    <div class="flex items-center ">
                         @if (Auth::check())
                         <span class="text-gray-100">{{ Auth::user()->name }}</span>
                         @else
                         <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="text-gray-100 focus:outline-none">
+                            <button @click="open = !open" class="text-gray-100  focus:outline-none">
                                 guest
                                 <svg class="fill-current h-4 w-4 inline-block ml-1" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20">
@@ -104,13 +55,7 @@
                             </button>
 
                             <div x-show="open" @click.away="open = false"
-                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20"
-                                style="display: none;" x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="transform opacity-0 scale-95"
-                                x-transition:enter-end="transform opacity-100 scale-100"
-                                x-transition:leave="transition ease-in duration-75"
-                                x-transition:leave-start="transform opacity-100 scale-100"
-                                x-transition:leave-end="transform opacity-0 scale-95">
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
                                 <x-dropdown-link :href="route('login')" :active="request()->routeIs('login')">
                                     {{ __('Login') }}
                                 </x-dropdown-link>
@@ -123,7 +68,7 @@
                     </div>
 
                     <div class="-me-2 flex items-center sm:hidden">
-                        <button @click="open = !open"
+                        <button @click="open = ! open"
                             class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
@@ -137,10 +82,9 @@
                     </div>
                 </div>
             </div>
-        </div>
     </nav>
 
-    <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class=" hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1 ml-5">
             <x-responsive-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
                 {{ __('Gallery') }}
@@ -227,7 +171,6 @@
                     opacity: 0;
                     transform: translateY(-50px);
                 }
-
                 100% {
                     opacity: 1;
                     transform: translateY(0);
@@ -264,6 +207,8 @@
                             <p class="text-gray-600 dark:text-gray-500 ">{{ $image->description }}</p>
                             <p class="text-gray-400 font-normal mt-3">ราคา: {{ number_format($image->price, 2) }} บาท</p>
                         </div>
+                    </div>
+
                         @endforeach
                     </div>
                 </div>
