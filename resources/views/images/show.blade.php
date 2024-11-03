@@ -29,10 +29,13 @@
                             {{-- Check if the image is purchased or free --}}
                             @if (!$hasPurchased && $image->price > 0)
                             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <span class="text-white text-3xl font-bold opacity-50 z-20 watermark-text">PTYT PTYT
-                                    PTYT </span>
+                                <span class="text-white text-3xl font-bold opacity-50 z-20 watermark-text">
+                                    @for ($i = 0; $i < 7; $i++) PTYT PTYT PTYT PTYT PTYT PTYT PTYT <br>
+                                        @endfor
+                                </span>
                             </div>
                             @endif
+
                         </div>
 
 
@@ -95,8 +98,10 @@
                                         @csrf
                                         <button type="submit"
                                             class="font-normal flex gap-3 tracking-wide bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                                            Buy Image for ${{ $image->price }}
+                                            Buy Image for <span class="line-through">${{ $originalPrice }}</span> <span
+                                                class="font-bold">${{ number_format($discountedPrice, 2) }}</span>
                                         </button>
+
                                     </form>
                                     @else
                                     {{-- If the image is free --}}
@@ -200,8 +205,8 @@
                             <h4 class="text-lg font-semibold">Comments</h4>
                             @if ($image->comments->count() > 0)
                             @foreach ($image->comments as $comment)
-                            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded">
-                                <p>{{ $comment->content }}</p>
+                            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded ">
+                                <p class="text-gray-800">{{ $comment->content }}</p>
                                 <span class="text-sm text-gray-500">- {{ $comment->user->name }},
                                     {{ $comment->created_at->diffForHumans() }}</span>
                                 @if ($comment->user_id === auth()->id())

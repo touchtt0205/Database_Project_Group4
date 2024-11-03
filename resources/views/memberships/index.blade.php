@@ -36,7 +36,7 @@
                                         ${{ number_format($membership->price) }} ฿
                                     </p>
 
-                                    <p class="mb-3 font-normal text-white-700 white:text-white-400 text-center">
+                                    <p class="mb-3 font-normal text-gray-400 white:text-white-400 text-center">
                                         Privileges: {{ $membership->benefits }}
                                     </p>
 

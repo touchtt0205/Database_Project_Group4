@@ -22,8 +22,8 @@ class AdminOrderHistoryController extends Controller
 
     public function showUserOrderHistory($userId)
     {
-        // Retrieve order histories for the specific user
-        $orderHistories = OrderHistory::where('user_id', $userId)->get();
+        // Retrieve order histories for the specific user, including user details
+        $orderHistories = OrderHistory::with('user')->where('user_id', $userId)->get();
 
         return view('admin.orderHistory.userHistory', compact('orderHistories'));
     }

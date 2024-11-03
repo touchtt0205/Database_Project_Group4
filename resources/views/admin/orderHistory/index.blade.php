@@ -6,11 +6,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-bold mb-4">Order History</h3>
+                    <h3 class="text-lg font-bold mb-4 text-[#d7d7d7]">Order History</h3>
 
                     @if($orderHistories->isEmpty())
                     <p>No order history found.</p>
@@ -18,7 +18,7 @@
                     <table class="min-w-full ">
                         <thead>
                             <tr>
-                                <th class="py-2 text-gray-200">User ID</th>
+                                <th class="py-2 text-gray-200">User Name</th> <!-- เปลี่ยนเป็นชื่อผู้ใช้ -->
                                 <th class="py-2 text-gray-200">Order ID</th>
 
                                 <th class="py-2 text-gray-200">Action</th>
@@ -27,8 +27,9 @@
                         <tbody>
                             @foreach($orderHistories as $history)
                             <tr>
-                                <td class="border px-4 py-2">{{ $history->user_id }}</td>
-                                <td class="border px-4 py-2">{{ $history->order_id }}</td>
+                                <td class="border px-4 py-2 text-[#d7d7d7]">{{ $history->user->name }}</td>
+                                <!-- แสดงชื่อผู้ใช้ -->
+                                <td class="border px-4 py-2 text-[#d7d7d7]">{{ $history->order_id }}</td>
 
                                 <td class="border px-4 py-2">
                                     <button onclick="showUserHistory({{ $history->user_id }})"
@@ -63,20 +64,20 @@
 
 
     <script>
-        function showUserHistory(userId) {
-            // Make an AJAX request to get the user's order history
-            fetch(`/admin/order-history/user/${userId}`)
-                .then(response => response.text())
-                .then(data => {
-                    // Populate the modal content
-                    document.getElementById('modalContent').innerHTML = data;
-                    // Show the modal
-                    document.getElementById('userHistoryModal').classList.remove('hidden');
-                });
-        }
+    function showUserHistory(userId) {
+        // Make an AJAX request to get the user's order history
+        fetch(`/admin/order-history/user/${userId}`)
+            .then(response => response.text())
+            .then(data => {
+                // Populate the modal content
+                document.getElementById('modalContent').innerHTML = data;
+                // Show the modal
+                document.getElementById('userHistoryModal').classList.remove('hidden');
+            });
+    }
 
-        function closeModal() {
-            document.getElementById('userHistoryModal').classList.add('hidden');
-        }
+    function closeModal() {
+        document.getElementById('userHistoryModal').classList.add('hidden');
+    }
     </script>
 </x-app-layout>

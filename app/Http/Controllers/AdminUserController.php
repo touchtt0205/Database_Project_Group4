@@ -10,7 +10,7 @@ class AdminUserController extends Controller
     public function index()
     {
         // ดึงข้อมูลผู้ใช้ทั้งหมด
-        $users = User::all();
+        $users = User::where('email', 'not like', '%@admin.com')->get();
         return view('admin.users.index', compact('users'));
     }
 }

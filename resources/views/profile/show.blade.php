@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="text-center mb-6">
-            <h2 class="font-normal tracking-wide text-[26px] mb-6 text-gray-800 dark:text-gray-200 leading-tight">
+            <h2 class="font-normal tracking-wide text-[26px] mb-6 text-[#d7d7d7] dark:text-gray-200 leading-tight">
                 Profile of {{ $user->name }}
             </h2>
             @if($user->profile_photo)

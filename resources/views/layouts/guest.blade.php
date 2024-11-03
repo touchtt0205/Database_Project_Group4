@@ -20,14 +20,13 @@
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-900">
         <div>
             <a href="/">
-                <div class="text-center mb-3">
-                    <img src="{{ asset('storage/images/NewLogoX.png') }}" style="filter:invert(100%)" alt="Logo" class="h-16 mx-auto">
+                <div class="text-center mb-6">
+                    <img src="{{ asset('storage/images/LogoX.png') }}" alt="Logo" class="h-16 mx-auto">
                 </div>
             </a>
         </div>
 
-        <div
-            class="w-full sm:max-w-md mt-6 px-8 py-4 bg-gray-800 shadow-md overflow-hidden sm:rounded-xl">
+        <div class="w-full sm:max-w-md mt-6 px-8 py-4 bg-gray-800 shadow-md overflow-hidden sm:rounded-xl">
             {{ $slot }}
         </div>
     </div>

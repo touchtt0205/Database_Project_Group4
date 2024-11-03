@@ -8,23 +8,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color:#1F2937;
-            color: #333;
-        }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #1F2937;
+        color: #333;
+    }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav x-data="{ open: false, dropdownOpen: false }"
-        class="bg-gray-900  text-white">
+    <nav x-data="{ open: false, dropdownOpen: false }" class="bg-gray-900  text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex justify-between">
                     <div class="shrink-0 flex items-center">
-                        <img src="{{ asset('storage/images/NewLogoX.png') }}" style="filter:invert(100%)" alt="Logo" class="block h-9 w-auto">
+                        <img src="{{ asset('storage/images/LogoX.png') }}" style="filter:invert(100%)" alt="Logo"
+                            class="block h-9 w-auto">
                     </div>
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ml-5">
@@ -103,7 +103,7 @@
         <div class="flex gap-4 items-center justify-center">
             <div class="flex  items-center justify-center">
                 <div class="font-normal flex justify-center mb-5 welcome-text ">W</div>
-                <div class="font-normal flex justify-center mb-5 welcome-text ">E   </div>
+                <div class="font-normal flex justify-center mb-5 welcome-text ">E </div>
                 <div class="font-normal flex justify-center mb-5 welcome-text ">L</div>
                 <div class="font-normal flex justify-center mb-5 welcome-text ">C</div>
                 <div class="font-normal flex justify-center mb-5 welcome-text ">O</div>
@@ -117,68 +117,85 @@
             </div>
 
             <div class="flex gap-1 items-center justify-center">
-                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >P</div>
-                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >T</div>
-                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >Y</div>
-                <div class="font-normal flex justify-center mb-5 welcome-textPTYT " >T</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT ">P</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT ">T</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT ">Y</div>
+                <div class="font-normal flex justify-center mb-5 welcome-textPTYT ">T</div>
             </div>
         </div>
         <style>
-            .welcome-text {
-                font-size: 3vw; /* Responsive font size */
-                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Dark to light blue */
-                -webkit-background-clip: text;
-                color: transparent;
-                transition:0.3s;
-                animation: slideIn 1s ease-out;
-            }
-            .welcome-text:hover{
-                scale:1.3;
-            }
-            .welcome-textPTYT {
+        .welcome-text {
+            font-size: 3vw;
+            /* Responsive font size */
+            background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a);
+            /* Dark to light blue */
+            -webkit-background-clip: text;
+            color: transparent;
+            transition: 0.3s;
+            animation: slideIn 1s ease-out;
+        }
 
-                font-size: 3vw; /* Responsive font size */
-                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Dark to light blue */
-                -webkit-background-clip: text;
-                color: transparent;
-                transition:0.3s;
-                animation: slideIn 1s ease-out;
-            }
-            .welcome-textPTYT:hover{
-                scale:1.3;
-            }
-            .bo {
-                border: none; /* Remove default border */
-                height: 1.5px; /* Set height of the line */
-                background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a); /* Apply gradient */
-                border-radius: 2px; /* Optional: rounded edges */
-            }
-            .picshow{
-                height: 300px !important;
-            }
-            .popup{
-                border:3px solid white;
-                transition:0.3s;
-            }
-            .popup:hover{
-                scale:1.05;
-                transition:0.3s;
+        .welcome-text:hover {
+            scale: 1.3;
+        }
+
+        .welcome-textPTYT {
+
+            font-size: 3vw;
+            /* Responsive font size */
+            background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a);
+            /* Dark to light blue */
+            -webkit-background-clip: text;
+            color: transparent;
+            transition: 0.3s;
+            animation: slideIn 1s ease-out;
+        }
+
+        .welcome-textPTYT:hover {
+            scale: 1.3;
+        }
+
+        .bo {
+            border: none;
+            /* Remove default border */
+            height: 1.5px;
+            /* Set height of the line */
+            background: linear-gradient(90deg, #ffffff, #f2f2f2, #9a9a9a);
+            /* Apply gradient */
+            border-radius: 2px;
+            /* Optional: rounded edges */
+        }
+
+        .picshow {
+            height: 300px !important;
+        }
+
+        .popup {
+            border: 3px solid white;
+            transition: 0.3s;
+        }
+
+        .popup:hover {
+            scale: 1.05;
+            transition: 0.3s;
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
             }
 
-            @keyframes slideIn {
-                0% {
-                    opacity: 0;
-                    transform: translateY(-50px);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
         </style>
 
 
-        <hr class="bo"></hr>
+        <hr class="bo">
+        </hr>
 
         <div class=" mt-5 mb-12">
             <div class="p-1 text-gray-100">
@@ -193,20 +210,23 @@
                 <div class="flex items-center justify-center ">
                     <div class=" max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach ($images as $image)
-                        <div class= "bg-white rounded-lg shadow-md overflow-hidden mb-4 popup">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4 popup">
 
-                        <!-- Added mb-4 for spacing -->
-                        @if ($image->path)
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->name }}" class="picshow w-full h-[300px]  object-cover mb-2">
-                        @else
-                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class=" picshow w-full h-[300px] object-cover mb-2">
-                        @endif
-                        <div class="p-4">
-                            <h2 class="text-lg font-semibold text-gray-800">{{ $image->title }}</h2>
-                            <p class="text-gray-600 dark:text-gray-500 ">{{ $image->description }}</p>
-                            <p class="text-gray-400 font-normal mt-3">ราคา: {{ number_format($image->price, 2) }} บาท</p>
+                            <!-- Added mb-4 for spacing -->
+                            @if ($image->path)
+                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->name }}"
+                                class="picshow w-full h-[300px]  object-cover mb-2">
+                            @else
+                            <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image"
+                                class=" picshow w-full h-[300px] object-cover mb-2">
+                            @endif
+                            <div class="p-4">
+                                <h2 class="text-lg font-semibold text-gray-800">{{ $image->title }}</h2>
+                                <p class="text-gray-600 dark:text-gray-500 ">{{ $image->description }}</p>
+                                <p class="text-gray-400 font-normal mt-3">ราคา: {{ number_format($image->price, 2) }}
+                                    บาท</p>
+                            </div>
                         </div>
-                    </div>
 
                         @endforeach
                     </div>

@@ -162,17 +162,44 @@ class ImageController extends Controller
 
         // ตรวจสอบว่าผู้ใช้ซื้อภาพนี้แล้วหรือยัง
         $hasPurchased = false;
+        $discountedPrice = $image->price; // ราคาเริ่มต้น
+        $originalPrice = $image->price; // เก็บราคาเดิมเพื่อแสดงใน view
+
         if (Auth::check()) {
             $userId = Auth::id();
             // ตรวจสอบในตาราง image_ownerships ว่าผู้ใช้มีการซื้อภาพนี้แล้วหรือไม่
             $hasPurchased = ImageOwnership::where('user_id', $userId)
                 ->where('image_id', $id)
                 ->exists();
+
+            // คำนวณราคาหลังหักส่วนลด
+            $user = Auth::user();
+            $memberLevel = $user->member_level ?? null;
+            $discountRate = 0;
+
+            // กำหนดส่วนลดตามระดับสมาชิก
+            if ($memberLevel === "Bronze") {
+                $discountRate = 0.05;
+            } elseif ($memberLevel === "Silver") {
+                $discountRate = 0.14;
+            } elseif ($memberLevel === "Gold") {
+                $discountRate = 0.20;
+            } elseif ($memberLevel === "Platinum") {
+                $discountRate = 0.30;
+            } elseif ($memberLevel === "Diamond") {
+                $discountRate = 0.40;
+            } elseif ($memberLevel === "Ultimate") {
+                $discountRate = 0.55;
+            }
+
+            // คำนวณราคาที่ลดแล้ว
+            $discountedPrice = $image->price - ($image->price * $discountRate);
         }
 
-        // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased
-        return view('images.show', compact('image', 'hasPurchased'));
+        // ส่งข้อมูลไปที่ view พร้อมกับตัวแปร hasPurchased และราคาที่ลดแล้ว
+        return view('images.show', compact('image', 'hasPurchased', 'discountedPrice', 'originalPrice'));
     }
+
 
 
 
@@ -280,8 +307,30 @@ class ImageController extends Controller
         // ค้นหาผู้ใช้ที่เข้าสู่ระบบ
         $user = Auth::user();
 
+        // กำหนดระดับสมาชิกและส่วนลด
+        $memberLevel = $user->member_level ?? null;
+        $discountRate = 0;
+
+        // กำหนดอัตราส่วนลดตามระดับสมาชิก
+        if ($memberLevel === "Bronze") {
+            $discountRate = 0.05;
+        } elseif ($memberLevel === "Silver") {
+            $discountRate = 0.14;
+        } elseif ($memberLevel === "Gold") {
+            $discountRate = 0.20;
+        } elseif ($memberLevel === "Platinum") {
+            $discountRate = 0.30;
+        } elseif ($memberLevel === "Diamond") {
+            $discountRate = 0.40;
+        } elseif ($memberLevel === "Ultimate") {
+            $discountRate = 0.55;
+        }
+
+        // คำนวณราคาที่ลดแล้ว
+        $discountedPrice = $image->price - ($image->price * $discountRate);
+
         // ตรวจสอบว่าเงินของผู้ใช้เพียงพอหรือไม่
-        if ($user->coins < $image->price) {
+        if ($user->coins < $discountedPrice) {
             return redirect()->route('images.show', $id)->with('error', 'Insufficient balance to purchase this image.');
         }
 
@@ -300,27 +349,27 @@ class ImageController extends Controller
         }
 
         // หักเงินจากผู้ใช้
-        $user->coins -= $image->price;
+        $user->coins -= $discountedPrice;
         $user->save(); // บันทึกการเปลี่ยนแปลง
 
         // บันทึกการซื้อในตาราง orders
         $order = new Order();
         $order->user_id = $user->id;
-        $order->price = $image->price;
+        $order->price = $discountedPrice; // ใช้ราคาที่ลดแล้ว
         $order->quantity = 1;
         $order->status = 'completed';
         $order->created_at = now();
         $order->save();
 
         // เพิ่มเงินที่ได้จากการขายให้กับผู้ขาย
-        $image->user->coins += $image->price;
+        $image->user->coins += $discountedPrice; // ผู้ขายจะได้รับราคาที่ลดแล้ว
         $image->user->save();
 
         // Log the order history
         $orderHistory = new OrderHistory();
         $orderHistory->user_id = $user->id;
         $orderHistory->order_id = $order->id;
-        $orderHistory->price = $image->price;
+        $orderHistory->price = $discountedPrice; // บันทึกราคาที่ลดแล้ว
         $orderHistory->status = 'completed';
         $orderHistory->created_at = now();
         $orderHistory->save();
@@ -338,7 +387,12 @@ class ImageController extends Controller
             $image->max_sales -= 1;
             $image->save(); // บันทึกการเปลี่ยนแปลง
         }
+        session([
+            'success' => 'Image purchased successfully!',
+            'discountedPrice' => $discountedPrice,
+            'originalPrice' => $image->price,
+        ]);
 
-        return redirect()->route('images.show', $id)->with('success', 'Image purchased successfully!');
+        return redirect()->route('images.show', $id);
     }
 }

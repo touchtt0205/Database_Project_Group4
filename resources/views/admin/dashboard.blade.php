@@ -5,11 +5,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-gray-700 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-bold mb-4">Welcome to the Admin Dashboard</h3>
+                    <h3 class="text-lg font-bold mb-4 text-[#d7d7d7]">Welcome to the Admin Dashboard</h3>
 
                     {{-- Flexbox Layout --}}
                     <div class="flex flex-col sm:flex-row gap-4">
@@ -52,18 +52,12 @@
                                 View Order History
                             </a>
 
-                            <a href="#"
-                                class="flex items-center p-6 bg-red-500 text-white rounded-lg hover:bg-red-700 mb-4 transition duration-300">
-                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="..."></path>
-                                </svg>
-                                View Reports
-                            </a>
+
                         </div>
 
                         {{-- Main Content --}}
                         <div class="flex-grow">
-                            <h4 class="text-lg font-bold text-center">Overview</h4>
+                            <h4 class="text-lg font-bold text-center text-[#d7d7d7]">Overview</h4>
                             <div class="flex justify-center mt-4">
                                 <div class="bg-pink-100 p-6 rounded-lg shadow mx-2 text-center w-1/3">
                                     <p class="font-bold text-teal-900">Total Users:</p>
